@@ -1,20 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
-
-### `start:m`
-Run members app for development
-
-### `start:ts`
-Run time series viewer app for development
-
-### `start:up`
-Run upload app for development
-
-### `start:vt`
-Run vintages app for development
 
 ### `start:wb`
 Run workbook for development

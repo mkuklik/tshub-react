@@ -70,7 +70,10 @@ export const nodeIdToGid = (nodeId) => {
 export const GraphTabsetId = (i) => `${GRAPH_TABSET + i}`;
 export const DefaultTabsetId = GraphTabsetId(0);
 
-export const isNodeGraphTabset = (nodeId) => ((!isNil(nodeId)) ? nodeId.startsWith(GRAPH_TABSET) : false);
+export const isNodeGraphTabset = (nodeId) => {
+  if (!isNil(nodeId)) return nodeId.startsWith(GRAPH_TABSET);
+  return false;
+};
 
 export const GraphHorizontalRowId = (i) => `GRAPH_HORI_ROW${i}`;
 
@@ -84,7 +87,6 @@ export const GraphTabset = (i) => `${GRAPH_TABSET + i}`;
 
 export const generateGraphTabName = (gid) => `Graph ${gid.slice(gid.length - 5, gid.length)}...`;
 export const generateAnalyticsTabName = (ayid) => `Analytics ${ayid.slice(ayid.length - 5, ayid.length)}...`;
-
 
 export const modelAllowDrop = (dragNode, dropInfo) => {
   // check for allowing drop in model
