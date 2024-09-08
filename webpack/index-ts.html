@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no" name="viewport" />
+  <title>Test Index</title>
+
+  <!-- <link rel="stylesheet" type="text/css" href="dist/static/semantic.min.css" /> -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+
+</head>
+
+<body>
+  <div class="ui fixed inverted small menu">
+    <div class="ui container">
+      <a href="/" class="header item">
+        TSHub by ChronosDB
+      </a>
+    </div>
+  </div>
+
+  <div id="main_container" class="ui main container" style="margin-top: 60px;">
+
+    <div class="ui breadcrumb">
+      <div class="section">Spaces</div>
+      <i class="right angle icon divider"></i>
+      <div class="section">some space_name</div>
+      <i class="right angle icon divider"></i>
+      <div class="section">some collection_name</div>
+      <i class="right angle icon divider"></i>
+      <div class="section">some timeseries_name</div>
+    </div>
+<!-- 
+    <div data-component="RTimeSeriesViewer"
+        data-prop-chronos_address="https://tshub-dev.appspot.com/api/"
+        data-prop-jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb20uY2hyb25vc2RiIiwiaWF0IjoxNTg2ODA3MDMzLCJleHAiOjE1ODY4OTM0MzMsInN1YiI6IjVlNzg3ZGMxMzIwYzk0MzliNmVhZmIxNSJ9.NRIY5AGZsApWMn2np3pjEayKYkshJCoLl-3dPlpF6Pk"
+        data-prop-space_id=""
+        data-prop-coll_id="5e787f5f320c9439b6eafb22"
+        data-prop-coll_name="macro"
+        data-prop-space_name="richa2"
+        data-prop-ts_name="GNP"
+        data-prop-tsid="5e787fc8a6aa951a372ac759"
+        data-prop-freq="Q"
+    ></div> -->
+  
+    <div data-component="RTimeSeriesViewer"
+        data-prop-chronos_address="http://localhost:9090/api/"
+        data-prop-jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb20uY2hyb25vc2RiIiwiaWF0IjoxNTk3MTY0NzIxLCJleHAiOjE1OTcyNTExMjEsInN1YiI6IjVlNjk0NWE4MDBmMjdiOWI5YzBlOTk3MCJ9.tT6Rnfad9R3-WSOoOm4B27wCiQlscObUjyNjd9jIVzU"
+        data-prop-space_id=""
+        data-prop-coll_id="5e697fbd793545a10a01b3ad"
+        data-prop-coll_name="macro"
+        data-prop-space_name="fadil"
+        data-prop-ts_name="WGS30YR"
+        data-prop-tsid="5e697fbe793545a10a01b3c3"
+    ></div>
+  </div>
+
+  <!-- Dependencies -->
+  <script src="./node_modules/react/umd/react.development.js"></script>
+  <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
+
+  <script src="static/jquery-3.2.1.min.js"></script>
+  <script src="static/semantic.min.js"></script>
+  <script type="text/javascript" src="TimeSeriesViewer.bundle.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+
+.flexlayout__tabset-selected {
+  background-image: linear-gradient(#dfe8ee, #f1f5f8);
+  color: rgb(131, 54, 54);
+}
+
+.flexlayout__tab_button {
+  padding: 5px 8px 8px 3px;
+}
+.flexlayout__tab_button_trailing {
+  margin-top: 5px;
+}
