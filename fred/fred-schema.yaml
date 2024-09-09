@@ -13,6 +13,8 @@ paths:
     get:
       operationId: getCategory
       summary: Get a category.
+      tags:
+        - category
       parameters:
         - name: api_key
           description: 88e6be3b42147d9eb6726f79a6671453
@@ -44,6 +46,8 @@ paths:
     get:
       operationId: getCategoryChildren
       summary: Get the child categories for a specified parent category.
+      tags:
+        - category
       parameters:
         - name: api_key
           in: query
@@ -84,6 +88,8 @@ paths:
     get:
       operationId: getCategoryRelated
       summary: Get related categories for a specified category.
+      tags:
+        - category
       parameters:
         - name: api_key
           in: query
@@ -124,6 +130,8 @@ paths:
     get:
       operationId: getCategorySeries
       summary: Retrieve series within a specified category.
+      tags:
+        - category
       parameters:
         - name: api_key
           in: query
@@ -206,6 +214,8 @@ paths:
     get:
       operationId: getCategoryTags
       summary: Retrieve tags for a specific category.
+      tags:
+        - category
       parameters:
         - name: api_key
           in: query
@@ -270,6 +280,8 @@ paths:
     get:
       operationId: getCategoryRelatedTags
       summary: Retrieve related tags for a specific category.
+      tags:
+        - category
       parameters:
         - name: api_key
           in: query
@@ -340,6 +352,8 @@ paths:
     get:
       operationId: getReleases
       summary: Get all releases of economic data.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -410,6 +424,8 @@ paths:
     get:
       operationId: getReleasesDates
       summary: Retrieve release dates for all economic data.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -461,6 +477,8 @@ paths:
     get:
       operationId: getReleaseInfo
       summary: Get information for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -502,6 +520,8 @@ paths:
     get:
       operationId: getReleaseDates
       summary: Retrieve release dates for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -543,6 +563,8 @@ paths:
     get:
       operationId: getReleaseSeries
       summary: Get series for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -626,6 +648,8 @@ paths:
     get:
       operationId: getReleaseSources
       summary: Get sources for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -667,6 +691,8 @@ paths:
     get:
       operationId: getReleaseTags
       summary: Get tags for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -737,6 +763,8 @@ paths:
     get:
       operationId: getReleaseRelatedTags
       summary: Retrieve related tags for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -810,6 +838,8 @@ paths:
     get:
       operationId: getReleaseTables
       summary: Get data tables for a specific economic data release.
+      tags:
+        - release
       parameters:
         - name: api_key
           in: query
@@ -857,6 +887,8 @@ paths:
     get:
       operationId: GetSeries
       summary: ''
+      tags:
+        - series
       parameters:
         - name: 'Description:'
           in: query
@@ -904,6 +936,8 @@ paths:
     get:
       operationId: GetSeriesCategories
       summary: ''
+      tags:
+        - series
       parameters:
         - name: 'Description:'
           in: query
@@ -950,6 +984,8 @@ paths:
     get:
       operationId: GetSeriesObservations
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1060,6 +1096,8 @@ paths:
     get:
       operationId: GetSeriesRelease
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1106,6 +1144,8 @@ paths:
     get:
       operationId: GetSeriesSearch
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1198,6 +1238,8 @@ paths:
     get:
       operationId: GetSeriesSearchTags
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1280,6 +1322,8 @@ paths:
     get:
       operationId: GetSeriesSearchRelated_Tags
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1367,6 +1411,8 @@ paths:
     get:
       operationId: GetSeriesTags
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1423,6 +1469,8 @@ paths:
     get:
       operationId: GetSeriesUpdates
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1494,6 +1542,8 @@ paths:
     get:
       operationId: GetSeriesVintagedates
       summary: ''
+      tags:
+        - series
       parameters:
         - name: Description
           in: query
@@ -1551,6 +1601,8 @@ paths:
     get:
       operationId: GetSources
       summary: ''
+      tags:
+        - sources
       parameters:
         - name: Description
           in: query
@@ -1615,6 +1667,8 @@ paths:
     get:
       operationId: GetSource
       summary: ''
+      tags:
+        - sources
       parameters:
         - name: Description
           in: query
@@ -1661,6 +1715,8 @@ paths:
     get:
       operationId: GetSourceReleases
       summary: ''
+      tags:
+        - sources
       parameters:
         - name: The
           in: query
@@ -1735,6 +1791,8 @@ paths:
     get:
       operationId: GetTags
       summary: ''
+      tags:
+        - tags
       parameters:
         - name: Description
           in: query
@@ -1819,6 +1877,8 @@ paths:
     get:
       operationId: GetRelated_Tags
       summary: ''
+      tags:
+        - tags
       parameters:
         - name: Description
           in: query
@@ -1903,6 +1963,8 @@ paths:
     get:
       operationId: GetTagsSeries
       summary: ''
+      tags:
+        - tags
       parameters:
         - name: Description
           in: query

@@ -45,7 +45,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `yarn eject`
 
 ### generate FRED client
-`openapi-generator generate -g typescript-redux-query -i fred-schema.yaml -o ./x`
+```
+openapi-generator generate -g javascript -i fred-schema.yaml -o .
+```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
