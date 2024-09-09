@@ -11,6 +11,7 @@
     "dist": "cp -R ./dist/* ../chronosdb/webui/app/static/components/",
     "start": "webpack-dev-server --progress --config webpack.dev.js",
     "start:wb": "webpack-dev-server --hot --config webpack/webpack.wb.dev.js --env.index=index-workbook.html",
+    "build:fred": "babel src/fred_client",
     "test": "jest",
     "lint": "eslint src",
     "test:debug": "node --inspect node_modules/.bin/jest --watch --runInBand ",
@@ -94,6 +95,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@babel/cli": "^7.25.6",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
