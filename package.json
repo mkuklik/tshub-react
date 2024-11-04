@@ -29,6 +29,7 @@
     "@blueprintjs/core": "^3.24.0",
     "@blueprintjs/datetime": "^3.16.0",
     "@blueprintjs/select": "^3.12.1",
+    "@r-wasm/webr": "^0.2.0",
     "@sentry/react": "^5.19.2",
     "@tensorflow/tfjs": "^1.7.4",
     "@types/mathjs": "^6.0.5",

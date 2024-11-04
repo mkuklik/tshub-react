@@ -4,17 +4,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { FocusStyleManager } from '@blueprintjs/core';
-import GlobalFonts from '../fonts/fonts';
-
+import { WebR } from '@r-wasm/webr';
+// eslint-disable-next-line no-unused-vars, import/no-named-as-default
 import AppToaster from '../viewer/components/errors/AppToaster';
-// import axios from 'axios';
-
+import GlobalFonts from '../fonts/fonts';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
-
 import { initializeAction } from '../viewer/actions';
-
 import TopNavbar from './components/TopNavbar/TopNavbar';
+import WorkbookContainer from './components/Workbook/WorkbookContainer';
+import TopMenu from './components/TopMenu/TopMenu';
+import CreateSpaceOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateSpaceOverlay';
+import CreateCollectionOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateCollectionOverlay';
+import CreateTimeseriesOverlay from '../viewer/components/TimeseriesBrowser/TimeseriesTable/CreateTimeseriesOverlay';
+import TourMain from './tour';
+import LoginPortal from './components/User/LoginPortal';
 // import { createAnalyticsAction } from './analytics/actions';
 // import { AnalyticsKind } from './analytics/definitions/AnalyticsKind';
 // import {
@@ -24,7 +28,6 @@ import TopNavbar from './components/TopNavbar/TopNavbar';
 //   ModelApi,
 //   TestApi,
 // } from '../analytics_client';
-
 // import {
 //   ApiClient,
 //   RawSpaceApi,
@@ -35,13 +38,6 @@ import TopNavbar from './components/TopNavbar/TopNavbar';
 //   RawVintageApi,
 //   TimeSeriesApi,
 // } from '../client';
-import WorkbookContainer from './components/Workbook/WorkbookContainer';
-import TopMenu from './components/TopMenu/TopMenu';
-import CreateSpaceOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateSpaceOverlay';
-import CreateCollectionOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateCollectionOverlay';
-import CreateTimeseriesOverlay from '../viewer/components/TimeseriesBrowser/TimeseriesTable/CreateTimeseriesOverlay';
-import TourMain from './tour';
-import LoginPortal from './components/User/LoginPortal';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
@@ -117,6 +113,18 @@ class App extends React.Component {
     //   kind: AnalyticsKind.LM,
     //   ayid: '5e787f62320c9439b6eafb2c',
     // });
+    this.webR = null; // Add webR instance variable
+  }
+
+  async componentDidMount() {
+    // Initialize webR after the component mounts
+    this.webR = new WebR({
+      createLazyFilesystem: false,
+      baseUrl: 'https://webr.r-wasm.org/v0.1.1/',
+      repoUrl: 'https://repo.r-wasm.org/',
+    });
+    await this.webR.init();
+    console.log('webR is ready!');
   }
 
   render() {

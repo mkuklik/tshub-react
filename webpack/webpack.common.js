@@ -1,6 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -94,8 +94,23 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: 'public' },
-    ]),
+      {
+        from: 'node_modules/react/umd/react.development.js',
+      }, {
+        from: 'node_modules/react-dom/umd/react-dom.development.js',
+      },
+      {
+        from: 'node_modules/flexlayout-react/style/light.css',
+        to: 'node_modules/flexlayout-react/style/light.css',
+      },
+      {
+        from: 'src/workbook/light.css',
+        to: 'src/workbook/light.css',
+      },
+      {
+        from: 'node_modules/@r-wasm/webr/dist/*',
+        to: '[name].[ext]',
+      }]),
     // new CleanWebpackPlugin({
     //   cleanOnceBeforeBuildPatterns: ['**/*'],
     // }),
