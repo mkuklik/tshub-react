@@ -43,7 +43,7 @@ module.exports = (env) => merge.smartStrategy(
   devServer: {
     host: 'localhost',
     serveIndex: true,
-    // contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, '../dist'),
     // compress: true,
     // stats: 'minimal',
     port: 9005,
