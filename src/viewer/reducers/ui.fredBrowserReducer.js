@@ -18,7 +18,7 @@ import {
   // FRED_BROWSER_SET_CATEGOTY_LOADING,
   // FRED_BROWSER_SET_TIMESERIES_LOADING,
   FRED_BROWSER_TOGGLE_CONFIG_OVERLAY,
-  FRED_BROWSER_SELECT_CATEGORY,
+  FRED_BROWSER_SAVE_SELECT_CATEGORY,
   FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
   FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
 } from '../actions/ActionTypes';
@@ -71,7 +71,7 @@ const fredBrowserReducer = (state = fredBrowserInitialState, action) => {
         expandedCategories: r.omit([payload.categoryId], state.expandedCategories),
       };
 
-    case FRED_BROWSER_SELECT_CATEGORY: {
+    case FRED_BROWSER_SAVE_SELECT_CATEGORY: {
       const { categoryId } = payload;
       return {
         ...state,

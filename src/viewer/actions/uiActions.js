@@ -30,6 +30,7 @@ import {
   FRED_BROWSER_COLLAPSE_CATEGORY,
   FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
   FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
+  FRED_BROWSER_SAVE_SELECT_CATEGORY,
   FRED_BROWSER_SET_CATEGORY_LOADING,
   FRED_BROWSER_SET_TIMESERIES_LOADING,
   FRED_BROWSER_SET_SERIES_LOADING,
@@ -187,6 +188,11 @@ export const fredBrowserSaveExpandedCategoryAction = (categoryId) => ({
 
 export const fredBrowserSaveCollapsedCategoryAction = (categoryId) => ({
   type: FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserSaveSelectedCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_SAVE_SELECT_CATEGORY,
   payload: { categoryId },
 });
 
