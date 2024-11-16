@@ -5,6 +5,7 @@ import ui from './uiReducer';
 import spaces from '../../viewer/reducers/spacesReducer';
 import collections from '../../viewer/reducers/collectionsReducer';
 import annotations from '../../viewer/reducers/annotationsReducer';
+import fred from '../../viewer/reducers/fredReducer';
 import timeseries from '../../viewer/reducers/timeseriesReducer';
 import graphs from '../../viewer/reducers/graphsReducer';
 import series from '../../viewer/reducers/seriesReducer';
@@ -25,6 +26,7 @@ const combined = combineReducers({
   ui,
   api,
   spaces,
+  fred,
   collections,
   annotations,
   timeseries,

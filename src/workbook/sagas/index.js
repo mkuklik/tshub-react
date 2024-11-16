@@ -16,7 +16,7 @@ import watchWorkbookActions from './workbook/workbook';
 import watchUiSeriesListActions from './ui/ui.seriesList';
 import watchUploadActions from '../../uploader/sagas/upload/upload';
 import watchVintagesActions from '../../vintages/sagas/vintages/index';
-
+import watchFredActions from '../../viewer/sagas/fred';
 
 export default function* root() {
   yield all([
@@ -36,5 +36,6 @@ export default function* root() {
     fork(watchUploadActions),
     fork(watchVintagesActions),
     fork(watchUIActions),
+    fork(watchFredActions),
   ]);
 }

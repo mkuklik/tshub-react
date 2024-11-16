@@ -26,7 +26,10 @@ import {
 } from '../../viewer/actions/ActionTypes';
 import { saveApiParametersAction } from '../../viewer/actions/index';
 import WseriesApi from '../../analytics_client/api/WseriesApi';
-
+import {
+  ApiClient as FredApiClient,
+  CategoryApi as FredCategoryApi,
+} from '../../fred_client';
 
 export function* setParameters({
   spaceId, collId, tsid, jwt, wid, chronos_address, analytics_address,
@@ -70,7 +73,9 @@ export function* setParameters({
       .replace(/\/+$/, '')
       .replace(/:(\d){1,}\//gm, ':9091/');
   }
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
   if (process.env.NODE_ENV === 'production') {
     axios.defaults.baseURL = chronos_address.replace(/\/+$/, '').replace('/api', '');
   } else {
@@ -102,9 +107,15 @@ export function* setParameters({
     wseriesApi: new WseriesApi(analyticsClient),
   };
 
+  const fredClient = new FredApiClient();
+  // eslint-disable-next-line no-underscore-dangle
+  window._fred = {
+    client: fredClient,
+    categoryApi: new FredCategoryApi(fredClient),
+  };
+
   yield put(saveApiParametersAction(spaceId, collId, tsid, jwt, wid, chronos_address, analytics_address));
 }
-
 
 export default function* watchApiActions() {
   yield takeEvery(API_SET_PARAMETERS, setParameters);

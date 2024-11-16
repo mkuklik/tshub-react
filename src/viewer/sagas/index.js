@@ -12,7 +12,9 @@ import watchSeriesActions from './series';
 import watchApiActions from './api';
 import watchVintagesActions from '../../vintages/sagas/vintages';
 import watchUIActions from './ui';
+import watchFredActions from './fred';
 
+// NOT USED IN WORKBOOK !!!
 
 export default function* root() {
   yield all([
@@ -28,5 +30,6 @@ export default function* root() {
     fork(watchSeriesActions),
     fork(watchVintagesActions),
     fork(watchUIActions),
+    fork(watchFredActions),
   ]);
 }

@@ -16,6 +16,34 @@ const timeseriesBrowserCreateCollectioninSpaceIdSelector = r.path(['ui', 'timese
 const isCreateTimeseriesOverlayOpenSelector = r.path(['ui', 'timeseriesBrowser', 'isCreateTimeseriesOverlayOpen']);
 const timeseriesBrowserCreateTimeseriesInCollIdSelector = r.path(['ui', 'timeseriesBrowser', 'createTimeseriesInCollId']);
 const isDeleteSpaceCollectionOverlayOpenSelector = r.path(['ui', 'timeseriesBrowser', 'isDeleteSpaceCollectionOverlayOpen']);
+// FredBrowser
+const isFredBrowserConfigOverlayOpenSelector = r.path(['ui', 'fredBrowser', 'isFredBrowserConfigOverlayOpen']);
+// move to fred.js , not ui related
+const fredCategorySelector = (categoryId) => (state) => {
+  if (r.has(categoryId, state.fred.categories)) {
+    return state.fred.categories[categoryId];
+  }
+  return null;
+};
+// move to fred.js, not ui related
+const fredCategoryChildrenSelector = (parentCategoryId) => (state) => {
+  if (r.has(parentCategoryId, state.fred.categories)) {
+    return state.fred.categories[parentCategoryId].children.forEach((catId) => {
+      if (r.has(catId, state.fred.categories)) {
+        return {
+          id: catId,
+          ...state.fred.categories[catId],
+        };
+      }
+      return {
+        id: catId,
+        missing: true,
+      };
+    });
+  }
+  return null;
+};
+
 
 export {
   getTimeseriesBrowser,
@@ -31,4 +59,7 @@ export {
   isCreateTimeseriesOverlayOpenSelector,
   timeseriesBrowserCreateTimeseriesInCollIdSelector,
   isDeleteSpaceCollectionOverlayOpenSelector,
+  isFredBrowserConfigOverlayOpenSelector,
+  fredCategoryChildrenSelector,
+  fredCategorySelector,
 };

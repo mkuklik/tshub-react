@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import types from 'prop-types';
 import styled from 'styled-components';
@@ -103,7 +102,6 @@ class CreateTimeseriesOverlay extends React.Component {
     this.props.toggleCreateTimeseriesOverlay(undefined);
   }
 
-
   apiCreateTimeseries = ({
     name, dtype, freq, title, description,
   }) => (
@@ -131,7 +129,7 @@ class CreateTimeseriesOverlay extends React.Component {
           saveTimeseries(data);
         })
         .catch((error) => {
-          console.log('error', {...error});
+          console.log('error', { ...error });
           switch (path(['status'], error)) {
             case 400:
               this.setState({ errors: [(!isNil(path(['response', 'body', 'detail'], error))) ? path(['response', 'body', 'detail'], error) : error] });
@@ -149,7 +147,6 @@ class CreateTimeseriesOverlay extends React.Component {
     }
     // }
   }
-
 
   handleKeypress = (event) => {
     // onKeyPress={this.handleKeypress}
@@ -224,7 +221,6 @@ class CreateTimeseriesOverlay extends React.Component {
               />
             </Select>
           </FormGroup>
-
 
           <FormGroup
           // helperText="Helper text with details..."
@@ -331,7 +327,6 @@ CreateTimeseriesOverlay.propTypes = {
   saveTimeseries: types.func.isRequired,
   collId: types.string,
 };
-
 
 const mapStateToProps = (state, ownProps) => ({
   isOpen: isCreateTimeseriesOverlayOpenSelector(state),

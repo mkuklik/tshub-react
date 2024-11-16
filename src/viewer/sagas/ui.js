@@ -1,11 +1,14 @@
-import { takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, fork } from 'redux-saga/effects';
 import {
   TIMESERIES_BROWSER_ADD_SERIES,
 } from '../actions/ActionTypes';
 
 import addTimeseries from './ui.timeseriesBrowserAddTimeseries';
-
+import watchUIFredActions from './ui.fred';
 
 export default function* watchUIActions() {
-  yield takeEvery(TIMESERIES_BROWSER_ADD_SERIES, addTimeseries);
+  yield all([
+    takeEvery(TIMESERIES_BROWSER_ADD_SERIES, addTimeseries),
+    fork(watchUIFredActions),
+  ]);
 }

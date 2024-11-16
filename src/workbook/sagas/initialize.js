@@ -21,8 +21,9 @@ function* initialize({
   }));
   // yield setDefaultLayout();
   yield put(saveWidAction(wid));
-  yield call(fetchMetadata, { wid });
-  yield call(fetchFavorite);
+  // yield call(fetchMetadata, { wid });
+  // yield call(fetchFavorite);
+  
   // axios.defaults.baseURL = 'https://www.tshub.io';
   // axios.defaults.headers.common.Authorization = jwt;
 

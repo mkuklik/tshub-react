@@ -1,4 +1,3 @@
-
 import {
   put, call, takeEvery,
 } from 'redux-saga/effects';
@@ -28,10 +27,10 @@ function* initialize({
     collName,
   }));
 
-  yield put(fetchCollectionDetailsAction(collId));
+  // yield put(fetchCollectionDetailsAction(collId));
 
   // fetch timeseries details to display in overview
-  yield put(fetchTimeseriesAction(collId, tsid));
+  // yield put(fetchTimeseriesAction(collId, tsid));
 
   const gid = yield call(createGraph);
 
@@ -44,7 +43,6 @@ function* initialize({
     name: tsName,
   }));
 }
-
 
 export default function* watchInitializeActions() {
   yield takeEvery(INITIALIZE, initialize);

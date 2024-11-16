@@ -20,6 +20,7 @@ import {
   GRAPH,
   ANALYTICS_FLEXLAYOUT,
   TIMESERIES_BROWSER_FLEXLAYOUT,
+  FRED_BROWSER_FLEXLAYOUT,
   GRAPH_EXPORT_COMP,
   UPLOAD_COMP,
   SERIESINFO_COMP,
@@ -36,6 +37,7 @@ import {
 import { focusOnGraphAction } from '../../../viewer/actions/graphActions';
 import AnalyticsFlexLayout from './AnalyticsFlexLayout';
 import TimeseriesBrowserFlexLayout from './TimeseriesBrowserFlexLayout';
+import FredBrowserFlexLayout from './FredBrowserFlexLayout';
 import GraphViewer from '../../../viewer/components/graph/GraphViewer';
 import { GraphContainer } from '../../../viewer/components/graph/Graph.Component';
 import GraphOptions from '../GraphOptions/GraphOptions';
@@ -45,7 +47,6 @@ import ExportOptions from '../ExportOptions/ExportOptions';
 import UploadTab from '../UploadTab/UploadTab';
 import TableViewerTab from '../TableViewerTab';
 import SeriesInfoTab from '../SeriesInfoTab/SeriesInfoTab';
-
 
 const ToolbarNewGraphButton = (props) => (
   <Icon
@@ -80,6 +81,11 @@ class WorkbookFlexLayout extends React.PureComponent {
     if (component === TIMESERIES_BROWSER_FLEXLAYOUT) {
       return (
         <TimeseriesBrowserFlexLayout model={node.getConfig().model} />
+      );
+    }
+    if (component === FRED_BROWSER_FLEXLAYOUT) {
+      return (
+        <FredBrowserFlexLayout model={node.getConfig().model} />
       );
     }
     if (component === UPLOAD_COMP) {

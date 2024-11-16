@@ -3,6 +3,7 @@
 import {
   put, call, takeEvery, takeLatest,
 } from 'redux-saga/effects';
+import { isNil } from 'ramda';
 
 import {
   FETCH_TIMESERIES,
@@ -20,7 +21,6 @@ import {
   saveTimeseriesDeleteAction,
 } from '../actions/timeseriesActions';
 import { reportApiError, reportErrorAction } from '../actions/errorActions';
-import { isNil } from 'ramda';
 import { AppToaster } from '../components/errors/AppToaster';
 
 export function rawApiTimeseriesRawGet(collId, tsid) {
@@ -115,7 +115,6 @@ export function* fetchTimeseriesDetails({ payload }) {
   }
 }
 
-
 export function* fetchTimeseriesDetailsByName({ collName, spaceName, tsName }) {
   try {
     const timeseriesDetails = yield call(apiFetchTimeseriesDetails, spaceName, collName, tsName);
@@ -128,7 +127,6 @@ export function* fetchTimeseriesDetailsByName({ collName, spaceName, tsName }) {
     return [undefined, 'Error fetching timeseries details'];
   }
 }
-
 
 export function rawApiTimeseriesRawDelete(collId, tsid) {
   return new Promise((resolve, reject) => {
@@ -167,7 +165,6 @@ export function* deleteTimeseries({ collId, tsids }) {
     }
   }
 }
-
 
 export default function* watchTimeSeriesActions() {
   yield takeEvery(FETCH_TIMESERIES, fetchTimeseries);

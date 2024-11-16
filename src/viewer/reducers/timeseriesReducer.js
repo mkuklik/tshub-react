@@ -1,4 +1,6 @@
-import { isNil, filter, has, contains } from 'ramda';
+import {
+  isNil, filter, has, contains,
+} from 'ramda';
 import {
   SAVE_TIMESERIES,
   SAVE_TIMESERIES_LIST,

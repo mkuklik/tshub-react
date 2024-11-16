@@ -22,13 +22,16 @@
     "test:graphfunc:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-graph-functions.test.js",
     "test:basicfunc:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-basic-functions.test.js",
     "test:advfunc:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-adv-functions.test.js",
-    "test:utils:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-utils-functions.test.js"
+    "test:utils:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-utils-functions.test.js",
+    "test:fred": "node --inspect node_modules/.bin/jest --watch --runInBand fredReducer.test.js"
   },
   "dependencies": {
     "@ag-grid-community/all-modules": "^23.0.2",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@blueprintjs/core": "^3.24.0",
     "@blueprintjs/datetime": "^3.16.0",
     "@blueprintjs/select": "^3.12.1",
+    "@jest/globals": "^29.7.0",
     "@r-wasm/webr": "^0.2.0",
     "@sentry/react": "^5.19.2",
     "@tensorflow/tfjs": "^1.7.4",

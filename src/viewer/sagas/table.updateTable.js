@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { put, select } from 'redux-saga/effects';
 import {
-  path, isNil, map, filter,
+  isNil, map, filter,
 } from 'ramda';
 import {
   currentGraphSeriesTransformedSelector,
@@ -14,7 +14,6 @@ import { seriesDefListSelector } from '../selectors/series';
 import { collectionSummarySelector } from '../selectors/collections';
 import { fetchAnnotationsAction } from '../actions/annotationActions';
 import { uiAnnotationsisAnnotationsVisibleSelector, annotationsByCollIdSelector } from '../selectors/annotations';
-
 
 function* updateTable() {
   let columnDefs = [

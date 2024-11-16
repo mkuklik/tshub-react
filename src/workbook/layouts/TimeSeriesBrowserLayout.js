@@ -14,7 +14,6 @@ export const TSB_TOP_TAB = 'TSB_TOP_TAB';
 export const TSB_BOTTOM_TABSET = 'TSB_BOTTOM_TABSET';
 export const TSB_BOTTOM_TAB = 'TSB_BOTTOM_TAB';
 
-
 export const TimeseriesBrowserLayout = {
   global: {
     tabEnableRename: false,

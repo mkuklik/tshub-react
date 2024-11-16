@@ -6,7 +6,6 @@ import dumpSeriesStore from '../../../viewer/sagas/series.dumpSeriesStore';
 import dumpModel from './dumpModel';
 import dumpAnalyticsStore from '../../analytics/sagas/dumpAnalyticsStore';
 
-
 export function* putWorkbook(wid, payload) {
   try {
     const response = yield call(axios.put, `workbook/${wid}/api/data`, payload);
@@ -17,7 +16,6 @@ export function* putWorkbook(wid, payload) {
     return [undefined, error];
   }
 }
-
 
 export function* saveWorkbook() {
   const workbook = {};

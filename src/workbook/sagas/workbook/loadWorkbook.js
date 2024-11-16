@@ -8,7 +8,6 @@ import loadSeriesStore from '../../../viewer/sagas/series.loadSeriesStore';
 import loadModel from './loadModel';
 import loadAnalyticsStore from '../../analytics/sagas/loadAnalyticsStore';
 
-
 export function* fetchWorkbook(wid) {
   try {
     const response = yield call(axios.get, `/workbook/${wid}/api/data`);
@@ -21,10 +20,10 @@ export function* fetchWorkbook(wid) {
   }
 }
 
-
 export function* loadWorkbook() {
   const wid = yield select(workbookWidSelector);
-  const [response, err] = yield fetchWorkbook(wid);
+  // const [response, err] = yield fetchWorkbook(wid);
+  let response = null;
 
   if (isNil(response)) {
     yield setDefaultLayout();

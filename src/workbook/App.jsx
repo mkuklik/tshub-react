@@ -17,6 +17,7 @@ import TopMenu from './components/TopMenu/TopMenu';
 import CreateSpaceOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateSpaceOverlay';
 import CreateCollectionOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateCollectionOverlay';
 import CreateTimeseriesOverlay from '../viewer/components/TimeseriesBrowser/TimeseriesTable/CreateTimeseriesOverlay';
+import FredBrowserConfigOverlay from '../viewer/components/FredBrowser/CategoryBrowser/FredBrowserConfigOverlay';
 import TourMain from './tour';
 import LoginPortal from './components/User/LoginPortal';
 // import { createAnalyticsAction } from './analytics/actions';
@@ -139,6 +140,7 @@ class App extends React.Component {
         <CreateSpaceOverlay />
         <CreateCollectionOverlay />
         <CreateTimeseriesOverlay />
+        <FredBrowserConfigOverlay />
         <TourMain />
       </Container>
     );

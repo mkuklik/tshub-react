@@ -24,7 +24,6 @@ import { seriesDefListSelector } from '../../../viewer/selectors/series';
 import { SeriesType } from '../../../viewer/types/Series';
 import { SeriesDefinitionType } from '../../../viewer/types/Graph';
 
-
 const Container = styled.div`
   display: grid;
   height: 100%;
@@ -40,7 +39,6 @@ const StyledSeriesEditor = styled(SeriesEditor)`
   grid-area: 1/1;
   z-index: ${(props) => ((props.isFuncEditorOpen) ? 3 : 0)};
 `;
-
 
 class SeriesList extends React.PureComponent {
   constructor(props) {
@@ -107,17 +105,15 @@ SeriesList.propTypes = {
   allSeriesDef: types.objectOf(SeriesType).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    gid: currentGraphGidSelector(state),
-    graph: currentGraphSelector(state),
-    graphSeries: currentGraphSeriesDefSelector(state),
-    wsid: selectedSeriesSelector(state),
-    isFuncEditorOpen: isFuncEditorOpenSelector(state),
-    funcEditorErrors: funcEditorErrorsSelector(state),
-    allSeriesDef: seriesDefListSelector(state),
-  };
-};
+const mapStateToProps = (state) => ({
+  gid: currentGraphGidSelector(state),
+  graph: currentGraphSelector(state),
+  graphSeries: currentGraphSeriesDefSelector(state),
+  wsid: selectedSeriesSelector(state),
+  isFuncEditorOpen: isFuncEditorOpenSelector(state),
+  funcEditorErrors: funcEditorErrorsSelector(state),
+  allSeriesDef: seriesDefListSelector(state),
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   closeFuncEditor: closeFuncEditorAction,

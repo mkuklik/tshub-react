@@ -2,6 +2,9 @@
 import React from 'react';
 import {
   TIMESERIES_BROWSER_TAB,
+  TIMESERIES_BROWSER_FLEXLAYOUT,
+  FRED_BROWSER_TAB,
+  FRED_BROWSER_FLEXLAYOUT,
   SERIES_OPTIONS_TAB,
   GRAPH_OPTIONS_TAB,
   GRAPH_SERIES_LIST_BORDER_TAB,
@@ -15,7 +18,6 @@ import {
   TABLE_COMP,
   GRAPH_SERIES_LIST_COMP,
   ANALYTICS_FLEXLAYOUT,
-  TIMESERIES_BROWSER_FLEXLAYOUT,
   GRAPH_EXPORT_TAB,
   GRAPH_EXPORT_COMP,
   SERIESINFO_TAB,
@@ -23,7 +25,7 @@ import {
 } from './definitions';
 import { AnalyticsLayout } from './AnalyticsLayout';
 import { TimeseriesBrowserLayout } from './TimeSeriesBrowserLayout';
-
+import { FredBrowserLayout } from './FredBrowserLayout';
 
 export const MainLayout = {
   global: {
@@ -53,6 +55,16 @@ export const MainLayout = {
           enableClose: false,
           config: {
             model: TimeseriesBrowserLayout,
+          },
+        },
+        {
+          type: TAB,
+          id: FRED_BROWSER_TAB,
+          name: 'FRED Browser',
+          component: FRED_BROWSER_FLEXLAYOUT,
+          enableClose: false,
+          config: {
+            model: FredBrowserLayout,
           },
         },
         {

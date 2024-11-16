@@ -16,7 +16,12 @@ import {
   API_SET_PARAMETERS,
 } from '../actions/ActionTypes';
 import { saveApiParametersAction } from '../actions/index';
+import {
+  ApiClient as FredApiClient,
+  CategoryApi as FredCategoryApi,
+} from '../../fred_client';
 
+// !!!!! NOT USED IN WORKBOOK !!!!
 
 export function* setParameters({
   spaceId, collId, tsid, jwt, wid, chronos_address,
@@ -37,7 +42,14 @@ export function* setParameters({
     timeSeriesApi: new TimeSeriesApi(client),
   };
 
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+  const fredClient = new FredApiClient();
+  // eslint-disable-next-line no-underscore-dangle
+  window._fred = {
+    client: fredClient,
+    categoryApi: new FredCategoryApi(fredClient),
+  };
+
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'production') {
     Axios.defaults.baseURL = chronos_address.replace(/\/+$/, '').replace('/api', '');
   } else {
@@ -50,7 +62,6 @@ export function* setParameters({
 
   yield put(saveApiParametersAction(spaceId, collId, tsid, jwt, wid, chronos_address));
 }
-
 
 export default function* watchApiActions() {
   yield takeEvery(API_SET_PARAMETERS, setParameters);

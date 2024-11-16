@@ -24,6 +24,15 @@ import {
   ANNOTATIONS_SET_DELETE_TARGET,
   ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY,
   TIMESERIES_BROWSER_ADD_SERIES,
+  FRED_BROWSER_TOGGLE_CONFIG_OVERLAY,
+  FRED_BROWSER_SELECT_CATEGORY,
+  FRED_BROWSER_EXPAND_CATEGORY,
+  FRED_BROWSER_COLLAPSE_CATEGORY,
+  FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
+  FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
+  FRED_BROWSER_SET_CATEGORY_LOADING,
+  FRED_BROWSER_SET_TIMESERIES_LOADING,
+  FRED_BROWSER_SET_SERIES_LOADING,
 } from './ActionTypes';
 
 export const timeseriesBrowserSetSpaceListLoading = (data) => ({
@@ -106,7 +115,6 @@ export const annotationsSetAnnotationListVisibilityAction = (visible) => ({
   payload: visible,
 });
 
-
 export const annotationsSetAddTargetAction = (target) => ({
   type: ANNOTATIONS_SET_ADD_TARGET,
   payload: target,
@@ -116,7 +124,6 @@ export const annotationsSetDeleteTargetAction = (target) => ({
   type: ANNOTATIONS_SET_DELETE_TARGET,
   payload: target,
 });
-
 
 export const selectTimeseriesAction = (data) => ({
   type: TIMESERIES_VIEWER_SELECT_TIMESERIES,
@@ -145,4 +152,50 @@ export const timeseriesBrowserAddSeriesAction = (timeseries, collection) => ({
   type: TIMESERIES_BROWSER_ADD_SERIES,
   timeseries,
   collection,
+});
+
+// FRED Browser
+
+export const fredBrowserToggleConfigOverlayAction = () => ({
+  type: FRED_BROWSER_TOGGLE_CONFIG_OVERLAY,
+});
+
+export const fredBrowserSelectCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_SELECT_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserSetCategoryLoadingAction = (categoryId) => ({
+  type: FRED_BROWSER_SET_CATEGORY_LOADING,
+  payload: categoryId,
+});
+
+export const fredBrowserExpandCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_EXPAND_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserCollapseCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_COLLAPSE_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserSaveExpandedCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserSaveCollapsedCategoryAction = (categoryId) => ({
+  type: FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
+  payload: { categoryId },
+});
+
+export const fredBrowserSerCategoryLoadingAction = (categoryId) => ({
+  type: FRED_BROWSER_SET_CATEGORY_LOADING,
+  payload: { categoryId },
+});
+
+export const fredBrowserSetSeriesLoadingAction = (categoryId) => ({
+  type: FRED_BROWSER_SET_SERIES_LOADING,
+  payload: { categoryId },
 });
