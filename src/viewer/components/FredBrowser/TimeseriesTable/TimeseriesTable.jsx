@@ -97,7 +97,7 @@ const TimeseriesTableBase = ({
             <span> - {collection.name}</span>
           )}
         </Header.Title>
-
+        <Header.ActionButtons>
           {onShowInformation && (
             <Popover position={Position.BOTTOM}>
               <AnchorButton
