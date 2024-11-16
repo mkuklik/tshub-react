@@ -15,6 +15,7 @@ import { fetchFredCategory } from './fred';
 import {
   FRED_BROWSER_COLLAPSE_CATEGORY,
   FRED_BROWSER_EXPAND_CATEGORY,
+  FRED_BROWSER_SELECT_CATEGORY,
 } from '../actions/ActionTypes';
 
 function* expandCategory(data) {
@@ -42,7 +43,22 @@ function* collapseCategory(message) {
   yield put(fredBrowserSaveCollapsedCategoryAction(categoryId));
 }
 
+function* selectCategory(message) {
+  const { categoryId } = message.payload;
+  if (isNil(categoryId)) {
+    yield put(reportErrorAction('Internal Error: selectCategory: categoryId is not specified'));
+  }
+  // const category = yield select(fredCategorySelector(categoryId));
+  // if (has('fetched', category) && !category.fetched) {
+  //   yield* fetchFredCategory({ categoryId });
+  //   const updatedData = yield select((state) => state.fred.categories); // Wait for state update
+  //   console.log('updatedData', updatedData);
+  // }
+  yield put(fredBrowserSaveExpandedCategoryAction(categoryId));
+}
+
 export default function* watchUIFredActions() {
   yield takeEvery(FRED_BROWSER_EXPAND_CATEGORY, expandCategory);
   yield takeEvery(FRED_BROWSER_COLLAPSE_CATEGORY, collapseCategory);
+  yield takeEvery(FRED_BROWSER_SELECT_CATEGORY, selectCategory);
 }

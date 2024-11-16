@@ -98,38 +98,6 @@ const TimeseriesTableBase = ({
           )}
         </Header.Title>
 
-        <Header.ActionButtons>
-          <Tooltip content="Create a new timeseries">
-            <AnchorButton
-              minimal
-              icon="plus"
-              disabled={isNil(collection)}
-              onClick={handleCreateTimeseries}
-            />
-          </Tooltip>
-          <Tooltip content="Upload timeseries">
-            <AnchorButton
-              minimal
-              icon="upload"
-              disabled={isNil(collection)}
-              onClick={handleCollectionUploadClick}
-            />
-          </Tooltip>
-          <Tooltip content="Delete selected timeseries">
-            <AnchorButton
-              minimal
-              icon="trash"
-              disabled={selectedRows.length === 0}
-              onClick={() => setDeleteTimeseriesVisibility(true)}
-            />
-          </Tooltip>
-          <TimeseriesConfirmDelete
-            selectedTimeseries={selectedRows}
-            handleConfirm={handleDeleteTimeseriesDialogConfirm}
-            handleClose={handleDeleteTimeseriesDialogClose}
-            visible={deleteTimeseriesVisibility}
-          />
-
           {onShowInformation && (
             <Popover position={Position.BOTTOM}>
               <AnchorButton

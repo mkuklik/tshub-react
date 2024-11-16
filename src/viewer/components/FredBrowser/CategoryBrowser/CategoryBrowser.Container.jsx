@@ -193,7 +193,7 @@ CategoryBrowserContainerBase.propTypes = {
   //
   categories: types.object, // TODO
   series: types.object, // TODO
-  selectedCategoryId: types.string,
+  selectedCategoryId: types.number,
   expandedCategories: types.objectOf(types.object),
   isFredBrowserConfigOverlayOpen: types.bool,
   isCategoryListLoading: types.bool,
