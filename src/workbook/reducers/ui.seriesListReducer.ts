@@ -3,9 +3,6 @@ import {
   SERIESLIST_FUNC_EDITOR_SAVE_CLOSE,
   SERIESLIST_FUNC_EDITOR_SAVE_ERRORS,
   UI_SAVE_RESTORE_REDUCER,
-} from '../action/ActionTypes';
-
-import {
   IOpenFuncEditorAction,
   ISaveErrorsFuncEditorAction,
   ICloseFuncEditorAction,

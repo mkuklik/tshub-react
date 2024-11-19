@@ -7,9 +7,6 @@ import {
   WORKBOOK_SAVE_METADATA,
   WORKBOOK_SAVE_FAVORITE,
   WORKBOOK_SAVE_WID,
-} from '../action/ActionTypes';
-
-import {
   ISaveModelAction,
   ISaveAnalyticsModelAction,
   ISaveTimeseriesBrowserModelAction,

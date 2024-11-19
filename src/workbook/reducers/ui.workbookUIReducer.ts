@@ -1,13 +1,11 @@
 import {
   WORKBOOK_SAVE_WORKBOOK_UI_PROPS,
-  UI_SAVE_RESTORE_REDUCER,
   UI_SAVE_TOUR_IS_TOUR_OPEN,
-} from '../action/ActionTypes';
-import {
   ISaveWorkbookUIPropsAction,
   IToggleTourOpenAction,
 } from '../action/workbookActions';
 import {
+  UI_SAVE_RESTORE_REDUCER,
   IRestoreUIReducerAction,
 } from '../action/uiActions';
 

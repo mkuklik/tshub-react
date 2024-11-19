@@ -1,9 +1,6 @@
 import {
   SERIESINFO_SAVE_ACTIVE_SERIES,
   UI_SAVE_RESTORE_REDUCER,
-} from '../action/ActionTypes';
-
-import {
   ISeriesInfoSaveActiveSeriesAction,
   IRestoreUIReducerAction,
 } from '../action/uiActions';
