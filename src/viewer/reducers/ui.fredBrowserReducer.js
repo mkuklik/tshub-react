@@ -21,8 +21,9 @@ import {
   FRED_BROWSER_SAVE_SELECT_CATEGORY,
   FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
   FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
-} from '../actions/ActionTypes';
-import { UI_SAVE_RESTORE_REDUCER } from '../../workbook/action/ActionTypes';
+} from '../actions/uiActions';
+
+import { UI_SAVE_RESTORE_REDUCER } from '../../workbook/action/uiActions';
 
 const fredBrowserInitialState = {
   // loadingSpaces: {},

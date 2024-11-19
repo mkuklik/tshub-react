@@ -16,7 +16,7 @@ import {
   FRED_BROWSER_COLLAPSE_CATEGORY,
   FRED_BROWSER_EXPAND_CATEGORY,
   FRED_BROWSER_SELECT_CATEGORY,
-} from '../actions/ActionTypes';
+} from '../actions/uiActions';
 
 function* expandCategory(data) {
   const { categoryId } = data.payload;

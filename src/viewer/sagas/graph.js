@@ -29,7 +29,7 @@ import {
   GRAPH_EXPORT_LOCAL,
   GRAPH_FOCUS,
   GRAPH_DELETE_OBJECT,
-} from '../actions/ActionTypes';
+} from '../actions/graphActions';
 
 import createGraph from './graph.createGraph';
 import addManyRefSeries from './graph.addManyRefSeries';

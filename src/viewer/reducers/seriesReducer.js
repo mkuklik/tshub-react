@@ -5,7 +5,7 @@ import {
   SERIES_SAVE_DELETE_SERIES,
   SERIES_SAVE_UPDATE,
   SERIES_SAVE_RESTORE_SERIES,
-} from '../actions/ActionTypes';
+} from '../actions/seriesActions';
 
 const initialState = {
   definition: {}, // wsid -> {}

@@ -6,7 +6,7 @@ import {
   SERIES_UPDATE,
   SERIES_RESOLVE,
   SERIES_DELETE,
-} from '../actions/ActionTypes';
+} from '../actions/seriesActions';
 
 import { createExprSeries, createDataSeries, createRefSeries } from './series.create';
 // import update from './series.update';

@@ -1,12 +1,21 @@
-import {
-  FETCH_SPACES,
-  DELETE_SPACE,
-  SAVE_SPACES,
-  SAVE_SPACE,
-  FETCH_SPACE_DETAILS,
-  SAVE_SPACE_DETAILS,
-  SAVE_SPACE_REMOVE,
-} from './ActionTypes';
+// import {
+//   FETCH_SPACES,
+//   DELETE_SPACE,
+//   SAVE_SPACES,
+//   SAVE_SPACE,
+//   FETCH_SPACE_DETAILS,
+//   SAVE_SPACE_DETAILS,
+//   SAVE_SPACE_REMOVE,
+// } from './ActionTypes';
+
+// Spaces
+export const FETCH_SPACES = 'FETCH_SPACES';
+export const DELETE_SPACE = 'DELETE_SPACE';
+export const SAVE_SPACES = 'SAVE_SPACES';
+export const SAVE_SPACE = 'SAVE_SPACE';
+export const FETCH_SPACE_DETAILS = 'FETCH_SPACE_DETAILS';
+export const SAVE_SPACE_DETAILS = 'SAVE_SPACE_DETAILS';
+export const SAVE_SPACE_REMOVE = 'SAVE_SPACE_REMOVE';
 
 export interface IFetchSpacesAction {
   type: typeof FETCH_SPACES;

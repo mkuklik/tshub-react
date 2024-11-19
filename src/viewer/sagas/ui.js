@@ -1,7 +1,7 @@
 import { all, takeEvery, fork } from 'redux-saga/effects';
 import {
   TIMESERIES_BROWSER_ADD_SERIES,
-} from '../actions/ActionTypes';
+} from '../actions/uiActions';
 
 import addTimeseries from './ui.timeseriesBrowserAddTimeseries';
 import watchUIFredActions from './ui.fred';

@@ -1,6 +1,6 @@
 import {
   NAMESPACE_UPDATE,
-} from '../actions/ActionTypes';
+} from '../actions/namespaceActions';
 
 export const keyBuilder = (spaceName, collName, tsName) => {
   let key = '';
@@ -16,18 +16,18 @@ export const keyBuilder = (spaceName, collName, tsName) => {
   return key;
 };
 
-
 const initialState = {
   space: {}, // spaceName -> collName -> tsName
 };
-
 
 const namespaceReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case NAMESPACE_UPDATE:
-      const { spaceName, collName, tsName, tsid, collId, spaceId } = payload;
+      const {
+        spaceName, collName, tsName, tsid, collId, spaceId,
+      } = payload;
       const key = keyBuilder(spaceName, collName, tsName);
 
       return {

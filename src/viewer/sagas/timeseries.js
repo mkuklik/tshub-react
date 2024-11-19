@@ -10,7 +10,7 @@ import {
   FETCH_TIMESERIES_LIST,
   FETCH_TIMESERIES_DETAILS,
   TIMESERIES_DELETE_SERIES,
-} from '../actions/ActionTypes';
+} from '../actions/timeseriesActions';
 
 import { timeseriesBrowserSetTimeseriesListLoading } from '../actions/uiActions';
 

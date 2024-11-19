@@ -6,7 +6,7 @@ import {
   SAVE_TIMESERIES_LIST,
   SAVE_TIMESERIES_DETAILS,
   SAVE_TIMESERIES_DELETE,
-} from '../actions/ActionTypes';
+} from '../actions/timeseriesActions';
 
 const initialState = {
   timeseriesListByColl: {}, // collId -> Array to timeseries object

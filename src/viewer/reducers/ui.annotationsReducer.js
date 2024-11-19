@@ -9,8 +9,11 @@ import {
   ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY,
   ANNOTATIONS_SET_ADD_TARGET,
   ANNOTATIONS_SET_DELETE_TARGET,
+} from '../actions/uiActions';
+
+import {
   SAVE_ANNOTATION_ERRORS,
-} from '../actions/ActionTypes';
+} from '../actions/annotationActions';
 
 const annotationsInitialState = {
   isAnnotationsVisible: true,

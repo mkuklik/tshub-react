@@ -1,9 +1,8 @@
 import {
   TABLE_SAVE,
-} from '../actions/ActionTypes';
+} from '../actions/tableActions';
 
 /*
-
 
 tries: number of time table generation was triggered by the TableViewer component but failed. It is reset on every table save.
   this is to prevent infinite loop of retries to regenerate table when data is mising on rendering

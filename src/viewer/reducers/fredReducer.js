@@ -5,7 +5,7 @@ import {
   SAVE_FRED_CATEGORY,
   SAVE_FRED_TIMESERIES_LIST,
   SAVE_FRED_CONFIG,
-} from '../actions/ActionTypes';
+} from '../actions/fredActions';
 
 const initialState = {
   // config: { apiKey: null },

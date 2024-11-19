@@ -14,7 +14,7 @@ import {
   TOGGLE_CREATE_COLLECTION_OVERLAY,
   TOGGLE_CREATE_TIMESERIES_OVERLAY,
   TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY,
-} from '../actions/ActionTypes';
+} from '../actions/uiActions';
 import { UI_SAVE_RESTORE_REDUCER } from '../../workbook/action/ActionTypes';
 
 const timeseriesBrowserInitialState = {

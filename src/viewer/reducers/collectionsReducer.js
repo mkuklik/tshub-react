@@ -9,7 +9,7 @@ import {
   SAVE_COLLECTION_DETAILS,
   SAVE_COLLECTION,
   SAVE_COLLECTION_REMOVE,
-} from '../actions/ActionTypes';
+} from '../actions/collectionsActions';
 
 const initialState = {
   collections: {}, // spaceId -> [ Collection Objects ]

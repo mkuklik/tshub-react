@@ -1,4 +1,4 @@
-import { NAMESPACE_UPDATE } from './ActionTypes';
+export const NAMESPACE_UPDATE = 'NAMESPACE_UPDATE';
 
 export interface IUpdateNamespaceAction {
   type: typeof NAMESPACE_UPDATE;

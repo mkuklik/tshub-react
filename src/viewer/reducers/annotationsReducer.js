@@ -10,7 +10,7 @@ import {
   SET_DELETE_DIALOG_STATUS,
   SAVE_STATUS_OF_UPDATING_ANNOTATION,
   SAVE_STATUS_OF_DELETE_ANNOTATION_TARGET,
-} from '../actions/ActionTypes';
+} from '../actions/annotationActions';
 
 const initialState = {
   annotations: {},

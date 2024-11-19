@@ -1,6 +1,6 @@
 import {
   DEFAULTS_SET,
-} from '../actions/ActionTypes';
+} from '../actions/defaultsActions';
 
 const initialState = {
   collName: undefined,

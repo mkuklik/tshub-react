@@ -25,7 +25,7 @@ import {
   GRAPH_SAVE_EXPORT_OPTIONS,
   GRAPH_SAVE_CURRENT_GID,
   GRAPH_SAVE_DELETE_OBJECT,
-} from '../actions/ActionTypes';
+} from '../actions/graphActions';
 
 import {
   defaultGraph,
@@ -95,7 +95,6 @@ const graphs = (state = initialState, action) => {
         },
       };
     }
-
 
     case GRAPH_SAVE_CURRENT_GID: {
       const { gid } = action.payload;

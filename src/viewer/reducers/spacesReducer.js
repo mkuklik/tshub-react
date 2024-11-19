@@ -6,7 +6,7 @@ import {
   SAVE_SPACE_DETAILS,
   SAVE_SPACE,
   SAVE_SPACE_REMOVE,
-} from '../actions/ActionTypes';
+} from '../actions/spacesActions';
 
 const initialState = {
   spaces: [],

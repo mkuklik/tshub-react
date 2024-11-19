@@ -1,9 +1,7 @@
-import {
-  TABLE_SAVE,
-  TABLE_UPDATE,
-  TABLE_DOWNLOAD,
-} from './ActionTypes';
-
+// Table
+export const TABLE_UPDATE = 'TABLE_UPDATE';
+export const TABLE_SAVE = 'TABLE_SAVE';
+export const TABLE_DOWNLOAD = 'TABLE_DOWNLOAD';
 
 export interface ISaveTableAction {
   type: typeof TABLE_SAVE;
@@ -15,7 +13,9 @@ export interface ISaveTableAction {
   };
 }
 
-export const saveTableAction = ({ columnDefs, rowData, freq, collections }: {
+export const saveTableAction = ({
+  columnDefs, rowData, freq, collections,
+}: {
   columnDefs?: any, rowData?: any, freq?: any, collections?: any
 } = {}): ISaveTableAction => ({
   type: TABLE_SAVE,

@@ -1,6 +1,6 @@
 import {
   SAVE_OBSERVATIONS,
-} from '../actions/ActionTypes';
+} from '../actions/timeseriesActions';
 
 const initialState = {
   // { [tsid]: { [vis]: {...} }

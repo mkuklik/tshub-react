@@ -2,7 +2,7 @@ import { takeEvery } from 'redux-saga/effects';
 import {
   TABLE_UPDATE,
   TABLE_DOWNLOAD,
-} from '../actions/ActionTypes';
+} from '../actions/tableActions';
 
 import updateTable from './table.updateTable';
 import downloadTable from './table.downloadTable';

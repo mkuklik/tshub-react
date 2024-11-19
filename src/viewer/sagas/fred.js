@@ -12,14 +12,12 @@ import {
   // FETCH_TIMESERIES_LIST,
   // FETCH_TIMESERIES_DETAILS,
   // TIMESERIES_DELETE_SERIES,
-} from '../actions/ActionTypes';
 
-import {
   saveFredCategoryAction,
   saveFredTimeseriesListAction,
 } from '../actions/fredActions';
 
-import { fredBrowserSerCategoryLoadingAction } from '../actions/uiActions';
+import { fredBrowserSetCategoryLoadingAction } from '../actions/uiActions';
 
 // import {
 //   saveTimeSeriesAction,
@@ -198,7 +196,7 @@ export function* fetchCategorySeries({ categoryId }) {
   try {
     const timeseriesList = yield call(FredApiGetCategorySeries, apiKey, categoryId);
     yield put(saveFredTimeseriesListAction({ categoryId, ...timeseriesList })); // TODO, convert it to internal format here or in FredApiGetCategorySeries
-    yield put(fredBrowserSerCategoryLoadingAction(false));
+    yield put(fredBrowserSetCategoryLoadingAction(false));
   } catch (error) {
     yield put(reportApiError({ error }));
     yield put(reportErrorAction({ message: `Error fetching space list, ${error}` }));

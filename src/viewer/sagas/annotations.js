@@ -11,9 +11,7 @@ import {
   ADD_ANNOTATION_TARGET,
   UPDATE_ANNOTATION_TEXT,
   DELETE_ANNOTATION_TARGET_ACTION,
-} from '../actions/ActionTypes';
 
-import {
   saveAnnotationsAction,
   createAnnotationSuccessAction,
   deleteAnnotationSuccessAction,
@@ -180,7 +178,6 @@ export function* deleteAnnotation({ payload }) {
     yield put(deleteAnnotationSuccessAction({ collId, aid }));
   } catch (error) {
     yield put(reportErrorAction({ message: `Error deleting annotations, ${error}` }));
-
   } finally {
     yield put(annotationsDeleteAnnotationRequestSetPending(false));
   }

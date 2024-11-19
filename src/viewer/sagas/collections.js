@@ -9,19 +9,17 @@ import {
   FETCH_COLLECTIONS,
   REFETCH_COLLECTIONS,
   FETCH_COLLECTION_DETAILS,
-} from '../actions/ActionTypes';
 
-import {
-  timeseriesBrowserExpandSpace,
-  timeseriesBrowserSetSpaceLoading,
-} from '../actions/uiActions';
-
-import {
   saveCollectionsAction,
   saveCollectionDetailsAction,
   setFailedCollectionsAction,
   saveRemoveCollectionAction,
 } from '../actions/collectionsActions';
+
+import {
+  timeseriesBrowserExpandSpace,
+  timeseriesBrowserSetSpaceLoading,
+} from '../actions/uiActions';
 
 import {
   getTimeseriesBrowserExpandedSpaces,
@@ -47,7 +45,6 @@ const apiFetchCollectionDetails = (collId) => (
     ));
   })
 );
-
 
 const apiDeleteCollection = (collId) => (
   new Promise((resolve, reject) => {
@@ -99,7 +96,6 @@ export function* fetchCollectionDetails({ collId }) {
   }
 }
 
-
 export function* deleteCollection({ collId }) {
   try {
     yield call(apiDeleteCollection, collId);
@@ -109,7 +105,6 @@ export function* deleteCollection({ collId }) {
     yield put(reportErrorAction({ message: `Error deleting collection, ${error}` }));
   }
 }
-
 
 export default function* watchCollectionActions() {
   yield takeEvery(FETCH_COLLECTIONS, fetchCollections);

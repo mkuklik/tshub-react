@@ -1,4 +1,6 @@
-import { DEFAULTS_SET, DEFAULTS_CLEAR } from './ActionTypes';
+// DEFAULTS
+export const DEFAULTS_SET = 'DEFAULTS_SET';
+export const DEFAULTS_CLEAR = 'DEFAULTS_CLEAR';
 
 export interface SetDefaultAction {
   type: typeof DEFAULTS_SET;
@@ -25,7 +27,6 @@ export function clearDefaultAction(key: string): ClearDefaultAction {
 }
 
 // import { DEFAULTS_SET, DEFAULTS_CLEAR } from './ActionTypes';
-
 
 // export function setDefaultAction(keyvalues) {
 //   return {

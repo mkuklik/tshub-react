@@ -3,7 +3,7 @@ import {
   put, call, takeEvery, takeLatest,
 } from 'redux-saga/effects';
 
-import { DELETE_SPACE, FETCH_SPACES, FETCH_SPACE_DETAILS } from '../actions/ActionTypes';
+import { DELETE_SPACE, FETCH_SPACES, FETCH_SPACE_DETAILS } from '../actions/spacesActions';
 
 import {
   saveSpacesAction,
