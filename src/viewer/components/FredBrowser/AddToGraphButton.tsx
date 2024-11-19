@@ -1,22 +1,26 @@
 import * as React from 'react';
-import types from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isNil } from 'ramda';
-import { TimeseriesListType } from '../../types/Timeseries';
+import { TimeseriesListType } from '../../types/TTimeseries';
 import { addSelectedTimeseriesToGraphAction } from '../../actions/graphActions';
 
 import { StyledAddToGraphButton } from './FredBrowser.Components';
 
+interface AddToGraphButtonBaseProps {
+  currentGraphID: string | null;
+  selectedTimeseries: TimeseriesListType;
+  addSelectedTimeseriesToGraph: (payload: { gid: string; timeseriesList: TimeseriesListType }) => void;
+}
 
 // TODO: create container component
-const AddToGraphButtonBase = ({
+const AddToGraphButtonBase: React.FC<AddToGraphButtonBaseProps> = ({
   currentGraphID,
   selectedTimeseries,
   addSelectedTimeseriesToGraph,
 }) => {
   const handleAddToGraph = React.useCallback(() => {
-    addSelectedTimeseriesToGraph({ gid: currentGraphID, timeseriesList: selectedTimeseries });
+    addSelectedTimeseriesToGraph({ gid: currentGraphID!, timeseriesList: selectedTimeseries });
   }, [addSelectedTimeseriesToGraph, selectedTimeseries, currentGraphID]);
 
   const disabled = (selectedTimeseries.length === 0) || isNil(currentGraphID);
@@ -30,24 +34,33 @@ const AddToGraphButtonBase = ({
   );
 };
 
-AddToGraphButtonBase.propTypes = {
-  selectedTimeseries: TimeseriesListType.isRequired,
-  addSelectedTimeseriesToGraph: types.func.isRequired,
-};
+// AddToGraphButtonBase.propTypes = {
+//   selectedTimeseries: TimeseriesListType.isRequired,
+//   addSelectedTimeseriesToGraph: types.func.isRequired,
+//   currentGraphID: types.string,
+// };
 
-const mapStateToProps = ({ ui, graphs }) => ({
+interface StateProps {
+  selectedTimeseries: TimeseriesListType;
+  currentGraphID: string | null;
+}
+
+interface DispatchProps {
+  addSelectedTimeseriesToGraph: typeof addSelectedTimeseriesToGraphAction;
+}
+
+const mapStateToProps = ({ ui, graphs }: any): StateProps => ({
   selectedTimeseries: ui.timeseriesBrowser.selectedTimeseries,
   currentGraphID: graphs.currentGraphId,
 });
 
-const mapDispatchToProps = {
+const mapDispatchToProps: DispatchProps = {
   addSelectedTimeseriesToGraph: addSelectedTimeseriesToGraphAction,
 };
 
-const ConnectedAddToGraphButton = connect(
+const ConnectedAddToGraphButton = connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(AddToGraphButtonBase);
 
-// eslint-disable-next-line import/prefer-default-export
 export { ConnectedAddToGraphButton as AddToGraphButton };

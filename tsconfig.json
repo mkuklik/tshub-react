@@ -15,11 +15,15 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": true,
     "jsx": "react",
     "transpileOnly": true,
     "typeCheck": false,
+    "files": [
+      "src/**/*.ts"
+    ],
   },
   "include": [
     "src"

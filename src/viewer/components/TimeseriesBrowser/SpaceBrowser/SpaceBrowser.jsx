@@ -31,7 +31,6 @@ import {
   RetryFetchCollectionsButton,
 } from './SpaceBrowser.Components';
 
-
 const createChildNodes = (
   collections,
   selectedCollectionID,
@@ -156,7 +155,6 @@ const SpaceBrowserBase = ({
     }
     toggleDeleteSpaceCollectionOverlay();
   }, [deleteSpace, deleteCollection, selectedNode, toggleDeleteSpaceCollectionOverlay]);
-
 
   const tree = React.useMemo(() => (
     spaces.map(({ spaceId, name }) => {

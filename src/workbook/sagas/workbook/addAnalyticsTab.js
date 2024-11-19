@@ -13,7 +13,6 @@ import {
   analyticsModelSelector,
 } from '../../selectors/workbookSelectors';
 
-
 // addNewTab = (tabsetId, ayid) => {
 //     const tabComponent = {
 //       type: TAB,

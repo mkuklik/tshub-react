@@ -21,7 +21,7 @@ const TimeseriesTable = styled(TimeseriesTableBase)`
   ${PanelStyles}
 `;
 
-const FredBrowser = () => (
+const FredBrowser: React.FC = () => (
   <>
     <CategoryBrowser />
     <TimeseriesTable />

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Tag as TagBase } from '@blueprintjs/core';
 
-import * as SpaceTypes from '../../../../types/Spaces';
+import * as SpaceTypes from '../../../../types/TSpaces';
 import { InformationField } from '../../Common/InformationField';
 
 const Tag = styled(TagBase)`

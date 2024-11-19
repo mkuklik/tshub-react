@@ -6,6 +6,7 @@ import seriesListReducer from './ui.seriesListReducer';
 import seriesInfoReducer from './ui.seriesInfoReducer';
 import workbookUIReducer from './ui.workbookUIReducer';
 
+export type UIState = ReturnType<typeof reducer>;
 
 const reducer = combineReducers({
   annotations: annotationsReducer,

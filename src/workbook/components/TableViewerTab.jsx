@@ -20,7 +20,6 @@ import { AnnotationDeleteTargetDialog } from '../../viewer/components/TableViewe
 import TableContainer from '../../viewer/components/TableViewer/Table.Container';
 import TableAnnotations from './TableAnnotations';
 
-
 const Container = styled.div`
   display: grid;
   height: 100%;
@@ -37,7 +36,6 @@ const StyledTableAnnotations = styled(TableAnnotations)`
   z-index: ${(props) => ((props.isAnnotationListVisible) ? 2 : 0)};
   background: white;
 `;
-
 
 class TableViewerTab extends React.PureComponent {
   constructor(props) {

@@ -13,7 +13,6 @@ import { annotationsSetAnnotationListVisibilityAction, annotationsToggleAnnotati
 import { uiAnnotationIsAnnotationsEditModeEnabledSelector } from '../../viewer/selectors/annotations';
 import { StyledNavbar, StyledNavbarGroup } from './SeriesList/common';
 
-
 const Container = styled.div`
   height: 100%;
   width: 100%;
@@ -26,7 +25,6 @@ const StyledAnnotationList = styled(AnnotationList)`
   width: ${(props) => (props.width)}px;
   overflow: scroll;
 `;
-
 
 class TableAnnotations extends React.PureComponent {
   render() {
@@ -57,7 +55,6 @@ class TableAnnotations extends React.PureComponent {
     );
   }
 }
-
 
 TableAnnotations.propTypes = {
   className: types.string,

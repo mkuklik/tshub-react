@@ -12,7 +12,6 @@ import { loadWorkbook } from './workbook/loadWorkbook';
 import { flexLayoutModelSelector } from '../selectors/workbookSelectors';
 import { ANALYTICS_BORDER_TAB } from '../layouts/definitions';
 
-
 function* initialize({
   wid, jwt, chronos_address, analytics_address,
 }) {
@@ -23,7 +22,7 @@ function* initialize({
   yield put(saveWidAction(wid));
   // yield call(fetchMetadata, { wid });
   // yield call(fetchFavorite);
-  
+
   // axios.defaults.baseURL = 'https://www.tshub.io';
   // axios.defaults.headers.common.Authorization = jwt;
 
