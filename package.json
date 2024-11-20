@@ -23,7 +23,8 @@
     "test:basicfunc:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-basic-functions.test.js",
     "test:advfunc:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-adv-functions.test.js",
     "test:utils:debug": "node --inspect node_modules/.bin/jest --watch --runInBand timeseries-utils-functions.test.js",
-    "test:fred": "node --inspect node_modules/.bin/jest --watch --runInBand fredReducer.test.js"
+    "test:fred": "node --inspect node_modules/.bin/jest --watch --runInBand fredReducer.test.js",
+    "test:collReducer": "node --inspect node_modules/.bin/jest --watch --runInBand collectionsReducer.test.ts"
   },
   "dependencies": {
     "@ag-grid-community/all-modules": "^23.0.2",
@@ -109,7 +110,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/classnames": "^2.2.10",
-    "@types/jest": "^24.0.0",
+    "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "babel-jest": "^25.2.6",
@@ -123,11 +124,11 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "html-webpack-plugin": "^4.0.4",
-    "jest": "^25.2.6",
+    "jest": "^29.7.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "prettier": "^2.0.2",
-    "ts-jest": "^25.3.0",
+    "ts-jest": "^29.2.5",
     "ts-loader": "^6.2.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.42.1",
