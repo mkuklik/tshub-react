@@ -92,7 +92,7 @@ module.exports = {
 
   // A preset that is used as a base for Jest's configuration
   // preset: undefined,
-  preset: 'ts-jest',
+  // preset: 'ts-jest',
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -169,6 +169,9 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,
+  // transform: {
+  //   '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest', // or your custom transformer
+  // },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [

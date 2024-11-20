@@ -1,4 +1,4 @@
-import reducer, {
+import {
   SAVE_COLLECTIONS,
   TIMESERIES_VIEWER_SELECT_COLLECTION,
   TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS,
@@ -11,7 +11,9 @@ import reducer, {
   saveCollectionDetailsAction,
   saveCollectionAction,
   saveRemoveCollectionAction,
-} from '../actions/collectionsActions'; 
+} from '../actions/collectionsActions';
+
+import reducer, { CollectionsAction } from './collectionsReducer';
 
 describe('Collections Reducer', () => {
   const initialState = {
@@ -24,7 +26,7 @@ describe('Collections Reducer', () => {
   };
 
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+    expect(reducer(undefined, {} as CollectionsAction)).toEqual(initialState);
   });
 
   it('should handle SAVE_COLLECTIONS', () => {
@@ -101,7 +103,7 @@ describe('Collections Reducer', () => {
       },
     };
 
-    const action = saveRemoveCollectionAction('coll1'); 
+    const action = saveRemoveCollectionAction('coll1');
 
     const expectedState = {
       ...existingState,
@@ -117,7 +119,6 @@ describe('Collections Reducer', () => {
 
     expect(reducer(existingState, action)).toEqual(expectedState);
   });
-
 
   it('should handle SAVE_COLLECTION_DETAILS', () => {
     const action = saveCollectionDetailsAction({

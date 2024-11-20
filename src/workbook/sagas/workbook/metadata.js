@@ -1,4 +1,3 @@
-
 import {
   call, put, select,
 } from 'redux-saga/effects';
@@ -9,7 +8,6 @@ import {
 } from '../../action/workbookActions';
 import { reportErrorAction } from '../../../viewer/actions/errorActions';
 import { workbookTitleSelector, workbookWidSelector } from '../../selectors/workbookSelectors';
-
 
 function* getMetadata(wid) {
   try {
@@ -23,7 +21,6 @@ function* getMetadata(wid) {
     return [undefined, error];
   }
 }
-
 
 function* putMetadata(wid, payload) {
   try {
@@ -49,11 +46,10 @@ export function* fetchMetadata({ wid } = {}) {
   yield put(saveWorkbookUIPropsAction(pick(['title', 'description'], payload.data)));
 }
 
-
 export function* updateMetadata({ title, description } = {}) {
-  const payload = { title, description };
+  // const payload = { title, description };
   const wid = yield select(workbookWidSelector);
-  const [payload, error] = yield call(putMetadata, wid, payload);
+  const [payload, error] = yield call(putMetadata, wid, { title, description });
   if (!isNil(error)) {
     // report errors
     yield put(reportErrorAction({ message: '' }));

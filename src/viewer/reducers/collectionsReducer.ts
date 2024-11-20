@@ -46,7 +46,7 @@ const initialState: CollectionsState = {
   timeseriesViewerSelectedCollectionID: undefined,
 };
 
-type CollectionsAction =
+export type CollectionsAction =
   | FetchCollectionsAction
   | RefetchCollectionsAction
   | DeleteCollectionAction

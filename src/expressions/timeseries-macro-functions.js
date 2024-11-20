@@ -56,7 +56,7 @@ A typical value for lambda when used for quarterly data is 1600.
 */
 
   if (ts instanceof TS) {
-    let out;
+    // let out;
     const params = new HPFilterParameters();
     params.input = WSeries.constructFromObject(ts);
     params.lambda = lambda || 1600;

@@ -2,9 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Spinner as SpinnerBase } from '@blueprintjs/core';
 
-const Container = styled.div`
-  position: relative;
-`;
+// const Container = styled.div`
+//   position: relative;
+// `;
 
 const Spinner = styled(SpinnerBase)`
   position: absolute;
