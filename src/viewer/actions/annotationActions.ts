@@ -1,7 +1,7 @@
 // Annotations
 export const FETCH_ANNOTATIONS = 'FETCH_ANNOTATIONS';
 export const SAVE_ANNOTATIONS = 'SAVE_ANNOTATIONS';
-export const SAVE_SINGLE_ANNOTATION = 'SAVE_SINGLE_ANNOTATION';
+// export const SAVE_SINGLE_ANNOTATION = 'SAVE_SINGLE_ANNOTATION';
 export const CREATE_ANNOTATION = 'CREATE_ANNOTATION';
 export const CREATE_ANNOTATION_SUCCESS = 'CREATE_ANNOTATION_SUCCESS';
 export const DELETE_ANNOTATION = 'DELETE_ANNOTATION';
@@ -36,15 +36,15 @@ export const saveAnnotationsAction = (data: any): SaveAnnotationsAction => ({
   payload: data,
 });
 
-export interface SaveSingleAnnotationAction {
-  type: typeof SAVE_SINGLE_ANNOTATION;
-  payload: any; // Replace 'any' with the actual type of your annotation object
-}
+// export interface SaveSingleAnnotationAction {
+//   type: typeof SAVE_SINGLE_ANNOTATION;
+//   payload: any; // Replace 'any' with the actual type of your annotation object
+// }
 
-export const saveSingleAnnotationAction = (annotation: any): SaveSingleAnnotationAction => ({
-  type: SAVE_SINGLE_ANNOTATION,
-  payload: annotation,
-});
+// export const saveSingleAnnotationAction = (annotation: any): SaveSingleAnnotationAction => ({
+//   type: SAVE_SINGLE_ANNOTATION,
+//   payload: annotation,
+// });
 
 export interface CreateAnnotationAction {
   type: typeof CREATE_ANNOTATION;

@@ -42,7 +42,6 @@ export function trim(ts) {
   return new TS(data, ts.freq, ts.fparams, ts.dtype, ts.dparams, ts.units, ts.options);
 }
 
-
 export function drop(ts) {
   /* drop all NaN  */
   if (!(ts instanceof TS)) throw Error('end: not a timeseries');
@@ -106,7 +105,6 @@ export function window(ts, start, end) {
   return new TS(data, ts.freq, ts.fparams, ts.dtype, ts.dparams, ts.units, ts.options);
   // ts.data.filter(x => _start <= x[0] && x[0] <= _end)
 }
-
 
 export function merge(l, r, join) { // TODO
   /*
@@ -197,7 +195,7 @@ export function parseToDate(str, freq) {
     throw Error(`unsupported frequency, ${freq}`);
   }
   let output;
-  for (var fmt of fmts) {
+  for (const fmt of fmts) {
     const tmp = moment.utc(str, fmt, true);
     if (tmp.isValid()) {
       output = tmp;
@@ -251,12 +249,10 @@ export function parseToDate(str, freq) {
 //   /* length of series */
 // }
 
-
 // // Output the data
 // timeseries.prototype.output = function () {
 //   return this.data;
 // }
-
 
 // // Save the data
 // timeseries.prototype.save = function (name, options) {
@@ -271,7 +267,6 @@ export function parseToDate(str, freq) {
 //   });
 //   return this;
 // }
-
 
 // // Basic utilities: Array fill, data cloning...
 // // Returns an array filled with the specified value.
@@ -343,7 +338,6 @@ export function parseToDate(str, freq) {
 //   return Math.sqrt(sum / n);
 // }
 
-
 // // Offet the data
 // timeseries.prototype.offset = function (value, data, ret) {
 //   if (!data) {
@@ -370,7 +364,6 @@ export function parseToDate(str, freq) {
 //     return this.buffer;
 //   }
 // }
-
 
 // // Moving Average
 // timeseries.prototype.ma = function (options) {
@@ -453,7 +446,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // DSL, iTrend
 // timeseries.prototype.dsp_itrend = function (options) {
 //   // By Ehler
@@ -494,7 +486,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // Pixelize - Domain reduction
 // timeseries.prototype.pixelize = function (options) {
 //   options = _.extend({
@@ -513,7 +504,6 @@ export function parseToDate(str, freq) {
 //   this.data = this.buffer;
 //   return this;
 // }
-
 
 // // Iterative Noise Removal
 // timeseries.prototype.smoother = function (options) {
@@ -540,7 +530,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // Extract the noise out of the data
 // timeseries.prototype.noiseData = function () {
 //   var i;
@@ -560,7 +549,6 @@ export function parseToDate(str, freq) {
 //   this.data = this.buffer;
 //   return this;
 // }
-
 
 // // Oscillator function
 // timeseries.prototype.osc = function () {
@@ -588,7 +576,6 @@ export function parseToDate(str, freq) {
 //   this.data = this.buffer;
 //   return this;
 // }
-
 
 // // Find the supports and resistances. Wrong algorithm.
 // timeseries.prototype.supports = function (options) {
@@ -637,7 +624,6 @@ export function parseToDate(str, freq) {
 //   });
 // }
 
-
 // // Standardize the data
 // timeseries.prototype.standardize = function (options) {
 //   options = _.extend({}, options);
@@ -653,7 +639,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // Slice the data
 // timeseries.prototype.slice = function (from, to) {
 //   if (!from) {
@@ -668,7 +653,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // Find the cycle in the data
 // timeseries.prototype.cycle = function (options) {
 //   options = _.extend({
@@ -679,7 +663,6 @@ export function parseToDate(str, freq) {
 
 //   // Smooth the data
 //   this.smoother(options);
-
 
 //   // Copy the data
 //   var buffer = [];
@@ -765,7 +748,6 @@ export function parseToDate(str, freq) {
 //   return this;
 // }
 
-
 // // Get the outliers from the dataset
 // timeseries.prototype.outliers = function (options) {
 //   // Original code by Professor Hossein Arsham - http://home.ubalt.edu/ntsbarsh/Business-stat/otherapplets/Outlier.htm
@@ -774,7 +756,6 @@ export function parseToDate(str, freq) {
 //   options = _.extend({
 //     threshold: 2.5
 //   }, options);
-
 
 //   // Create a copy of the data;
 //   this.buffer = this.data.slice(0);
@@ -796,7 +777,6 @@ export function parseToDate(str, freq) {
 
 //   return outliers;
 // }
-
 
 // /* EXPERIMENTAL - AutoRegression Analysis */
 
@@ -909,7 +889,6 @@ export function parseToDate(str, freq) {
 //     data: this.data
 //   }, options);
 
-
 //   var i;
 //   var j;
 //   var l = options.data.length;
@@ -951,7 +930,6 @@ export function parseToDate(str, freq) {
 //   }
 
 //   MSE /= n;
-
 
 //   //this.data = buffer;
 
@@ -1000,7 +978,6 @@ export function parseToDate(str, freq) {
 
 //   return this;
 // }
-
 
 // // Autoregression method: MaxEntropy
 // timeseries.prototype.ARMaxEntropy = function (options) {
@@ -1077,7 +1054,6 @@ export function parseToDate(str, freq) {
 //   }
 
 // }
-
 
 // // Autoregression method: Least Square
 // timeseries.prototype.ARLeastSquare = function (options) {
@@ -1284,7 +1260,6 @@ export function parseToDate(str, freq) {
 //   // Is it http://en.wikipedia.org/wiki/Wald%E2%80%93Wolfowitz_runs_test ?
 //   output.runs = R;
 
-
 //   //compute the expected mean and variance of R
 //   var EM = 1 + (2 * N1 * N2) / (N1 + N2);           //Mean "Mu"
 //   var SD1 = [2 * N1 * N2 * (2 * N1 * N2 - N1 - N2)];
@@ -1370,7 +1345,6 @@ export function parseToDate(str, freq) {
 //   return this.regression_analysis().durbinWatson;
 // }
 
-
 // // Data adapters
 // var adapter = {
 
@@ -1394,7 +1368,6 @@ export function parseToDate(str, freq) {
 //   options = _.extend({
 //   }, options);
 
-
 //   var i;
 //   var j;
 //   var output = [];
@@ -1412,7 +1385,6 @@ export function parseToDate(str, freq) {
 //     quality: 1,
 //     inertia: 0
 //   }, options);
-
 
 //   var i;
 //   var j;
@@ -1467,7 +1439,6 @@ export function parseToDate(str, freq) {
 //   }
 //   return output;
 // };
-
 
 // exports.main = timeseries;
 // exports.adapter = adapter;

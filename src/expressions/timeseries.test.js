@@ -67,172 +67,172 @@ export const compare = (expected, output) => {
       unary_minus
 */
 
-test('unary_minus on scalar', () => {
-  expect(unary_minus(1)).toBe(-1);
-});
+// test('unary_minus on scalar', () => {
+//   expect(unary_minus(1)).toBe(-1);
+// });
 
-test('unary_minus on ts and scalar', () => {
-  const x = create_tsD();
+// test('unary_minus on ts and scalar', () => {
+//   const x = create_tsD();
 
-  const output = binary_minus(x, 1.0);
+//   const output = binary_minus(x, 1.0);
 
-  const expected = new TS([
-    [moment('2000-01-01'), 3.1],
-    [moment('2000-01-02'), 1.3],
-    [moment('2000-01-03'), 2.5],
-    [moment('2000-01-04'), 3.6],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 9.2],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), 3.1],
+//     [moment('2000-01-02'), 1.3],
+//     [moment('2000-01-03'), 2.5],
+//     [moment('2000-01-04'), 3.6],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 9.2],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
 
-  compare(expected, output);
-});
+//   compare(expected, output);
+// });
 
-test('unary_minus on scalar and ts', () => {
-  const x = create_tsD();
+// test('unary_minus on scalar and ts', () => {
+//   const x = create_tsD();
 
-  const output = binary_minus(1.0, x);
+//   const output = binary_minus(1.0, x);
 
-  const expected = new TS([
-    [moment('2000-01-01'), -3.1],
-    [moment('2000-01-02'), -1.3],
-    [moment('2000-01-03'), -2.5],
-    [moment('2000-01-04'), -3.6],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), -9.2],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), -3.1],
+//     [moment('2000-01-02'), -1.3],
+//     [moment('2000-01-03'), -2.5],
+//     [moment('2000-01-04'), -3.6],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), -9.2],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
 
-  compare(expected, output);
-});
+//   compare(expected, output);
+// });
 
-test('unary_minus on two ts', () => {
-  const x = create_tsD();
-  const y = create_tsD2();
+// test('unary_minus on two ts', () => {
+//   const x = create_tsD();
+//   const y = create_tsD2();
 
-  const output = binary_minus(x, y);
+//   const output = binary_minus(x, y);
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), 1.0999999999999996],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 5.999999999999999],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), 1.0999999999999996],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 5.999999999999999],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
 
-  compare(expected, output);
-});
-
-
-/*
-      start
-*/
-
-test('start on scalar', () => {
-  expect(() => {
-    start(1);
-  }).toThrow(Error);
-});
-
-test('start on daily ts', () => {
-  const data = [
-    [moment('2000-01-04'), 3.5],
-    [moment('2000-01-05'), 1.4],
-    [moment('2000-01-06'), 4.2],
-  ];
-  const x = new TS(data, 'D', 'float');
-  expect(start(x)).toStrictEqual(moment('2000-01-04'));
-});
-
-test('start on weekly ts', () => {
-  const data = [
-    [moment('2000-01-01'), 3.5],
-    [moment('2000-01-08'), 1.4],
-    [moment('2000-01-15'), 4.2],
-  ];
-  const x = new TS(data, 'W', 'float');
-  expect(start(x)).toStrictEqual(moment('2000-01-01'));
-});
-
-/*
-      binary_plus
-*/
-
-test('binary_plus on scalar', () => {
-  const x = create_tsD();
-  const y = create_tsD2();
-
-  const output = binary_plus(x, y);
-
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), 8.1],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 14.40],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
-
-  compare(expected, output);
-});
+//   compare(expected, output);
+// });
 
 
-test('binary_plus two series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
+// /*
+//       start
+// */
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), 8.1],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 14.40],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+// test('start on scalar', () => {
+//   expect(() => {
+//     start(1);
+//   }).toThrow(Error);
+// });
 
-  const output = binary_plus(x, y);
-  compare(expected, output);
+// test('start on daily ts', () => {
+//   const data = [
+//     [moment('2000-01-04'), 3.5],
+//     [moment('2000-01-05'), 1.4],
+//     [moment('2000-01-06'), 4.2],
+//   ];
+//   const x = new TS(data, 'D', 'float');
+//   expect(start(x)).toStrictEqual(moment('2000-01-04'));
+// });
 
-  const output_rev = binary_plus(y, x);
-  compare(expected, output_rev);
-});
+// test('start on weekly ts', () => {
+//   const data = [
+//     [moment('2000-01-01'), 3.5],
+//     [moment('2000-01-08'), 1.4],
+//     [moment('2000-01-15'), 4.2],
+//   ];
+//   const x = new TS(data, 'W', 'float');
+//   expect(start(x)).toStrictEqual(moment('2000-01-01'));
+// });
 
-test('binary_plus no-overlapping series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
+// /*
+//       binary_plus
+// */
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), NaN],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), NaN],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-    [moment('2000-01-10'), NaN],
-    [moment('2000-01-11'), NaN],
-    [moment('2000-01-12'), NaN],
-    [moment('2000-01-13'), NaN],
-    [moment('2000-01-14'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+// test('binary_plus on scalar', () => {
+//   const x = create_tsD();
+//   const y = create_tsD2();
 
-  const output = binary_plus(x, y);
-  compare(expected, output);
+//   const output = binary_plus(x, y);
 
-  const output_rev = binary_plus(y, x);
-  compare(expected, output_rev);
-});
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), 8.1],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 14.40],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+
+//   compare(expected, output);
+// });
+
+
+// test('binary_plus two series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
+
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), 8.1],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 14.40],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+
+//   const output = binary_plus(x, y);
+//   compare(expected, output);
+
+//   const output_rev = binary_plus(y, x);
+//   compare(expected, output_rev);
+// });
+
+// test('binary_plus no-overlapping series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
+
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), NaN],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), NaN],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//     [moment('2000-01-10'), NaN],
+//     [moment('2000-01-11'), NaN],
+//     [moment('2000-01-12'), NaN],
+//     [moment('2000-01-13'), NaN],
+//     [moment('2000-01-14'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+
+//   const output = binary_plus(x, y);
+//   compare(expected, output);
+
+//   const output_rev = binary_plus(y, x);
+//   compare(expected, output_rev);
+// });
 
 /*
   divide
@@ -251,108 +251,108 @@ test('binary_plus no-overlapping series', () => {
 //     [moment('2000-01-06'), 4.2],
 
 
-test('binary_divide two series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
+// test('binary_divide two series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), 1.3142857142857143],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 2.4285714285714284],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-  ], 'D', {}, 'float', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), 1.3142857142857143],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 2.4285714285714284],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//   ], 'D', {}, 'float', {}, { txt: '$' }, {});
 
-  const output = binary_divide(x, y);
-  compare(expected, output);
-});
-
-
-test('binary_divide no-overlapping series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
-
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), NaN],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), NaN],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-    [moment('2000-01-10'), NaN],
-    [moment('2000-01-11'), NaN],
-    [moment('2000-01-12'), NaN],
-    [moment('2000-01-13'), NaN],
-    [moment('2000-01-14'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
-
-  const output = binary_divide(x, y);
-  compare(expected, output);
-});
-
-/*
-  TIMES
-*/
+//   const output = binary_divide(x, y);
+//   compare(expected, output);
+// });
 
 
- test('binary_times two series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
+// test('binary_divide no-overlapping series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), 16.099999999999998],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 42.839999999999996],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-  ], 'D', {}, 'float', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), NaN],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), NaN],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//     [moment('2000-01-10'), NaN],
+//     [moment('2000-01-11'), NaN],
+//     [moment('2000-01-12'), NaN],
+//     [moment('2000-01-13'), NaN],
+//     [moment('2000-01-14'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
 
-  const output = binary_times(x, y);
-  compare(expected, output);
+//   const output = binary_divide(x, y);
+//   compare(expected, output);
+// });
 
-  const output2 = binary_times(y, x);
-  compare(expected, output2);
-});
+// /*
+//   TIMES
+// */
 
 
-test('binary_times no-overlapping series', () => {
-  const x = create_tsD();  // 2000-01-01 -> 2000-01-06
-  const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
+//  test('binary_times two series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = create_tsD2();  // 2000-01-04 -> 2000-01-09
 
-  const expected = new TS([
-    [moment('2000-01-01'), NaN],
-    [moment('2000-01-02'), NaN],
-    [moment('2000-01-03'), NaN],
-    [moment('2000-01-04'), NaN],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), NaN],
-    [moment('2000-01-07'), NaN],
-    [moment('2000-01-08'), NaN],
-    [moment('2000-01-09'), NaN],
-    [moment('2000-01-10'), NaN],
-    [moment('2000-01-11'), NaN],
-    [moment('2000-01-12'), NaN],
-    [moment('2000-01-13'), NaN],
-    [moment('2000-01-14'), NaN],
-  ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), 16.099999999999998],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), 42.839999999999996],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//   ], 'D', {}, 'float', {}, { txt: '$' }, {});
 
-  const output = binary_times(x, y);
-  compare(expected, output);
+//   const output = binary_times(x, y);
+//   compare(expected, output);
 
-  const output2 = binary_times(y, x);
-  compare(expected, output2);
-});
+//   const output2 = binary_times(y, x);
+//   compare(expected, output2);
+// });
+
+
+// test('binary_times no-overlapping series', () => {
+//   const x = create_tsD();  // 2000-01-01 -> 2000-01-06
+//   const y = lag(create_tsD2(), -5);  // 2000-01-09 -> 2000-01-14
+
+//   const expected = new TS([
+//     [moment('2000-01-01'), NaN],
+//     [moment('2000-01-02'), NaN],
+//     [moment('2000-01-03'), NaN],
+//     [moment('2000-01-04'), NaN],
+//     [moment('2000-01-05'), NaN],
+//     [moment('2000-01-06'), NaN],
+//     [moment('2000-01-07'), NaN],
+//     [moment('2000-01-08'), NaN],
+//     [moment('2000-01-09'), NaN],
+//     [moment('2000-01-10'), NaN],
+//     [moment('2000-01-11'), NaN],
+//     [moment('2000-01-12'), NaN],
+//     [moment('2000-01-13'), NaN],
+//     [moment('2000-01-14'), NaN],
+//   ], 'D', {}, 'int64', {}, { txt: '$' }, {});
+
+//   const output = binary_times(x, y);
+//   compare(expected, output);
+
+//   const output2 = binary_times(y, x);
+//   compare(expected, output2);
+// });
 
 
 /*

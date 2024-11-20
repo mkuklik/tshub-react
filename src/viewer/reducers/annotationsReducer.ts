@@ -2,7 +2,7 @@ import * as r from 'ramda';
 
 import {
   SAVE_ANNOTATIONS,
-  SAVE_SINGLE_ANNOTATION,
+  // SAVE_SINGLE_ANNOTATION,
   CREATE_ANNOTATION_SUCCESS,
   DELETE_ANNOTATION_SUCCESS,
   ADD_ANNOTATION_TARGET_SUCCESS,
@@ -133,29 +133,29 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
         },
       };
 
-    case SAVE_SINGLE_ANNOTATION: {
-      let collAnnot = r.prop(payload.collId, state.annotations)
-        ? state.annotations[payload.collId] : [];
+    // case SAVE_SINGLE_ANNOTATION: {
+    //   let collAnnot = r.prop(payload.collId, state.annotations)
+    //     ? state.annotations[payload.collId] : [];
 
-      const i = r.indexOf(payload, collAnnot);
-      if (i < 0) {
-        collAnnot = r.concat(collAnnot, [payload]);
-      } else {
-        collAnnot = r.update(i, payload, collAnnot);
-      }
+    //   const i = r.indexOf(payload, collAnnot);
+    //   if (i < 0) {
+    //     collAnnot = r.concat(collAnnot, [payload]);
+    //   } else {
+    //     collAnnot = r.update(i, payload, collAnnot);
+    //   }
 
-      return {
-        ...state,
-        annotations: {
-          ...state.annotations,
-          [payload.collId]: collAnnot,
-        },
-        indexToTargetsByCollId: {
-          ...state.indexToTargetsByCollId,
-          [payload.collId]: annotationsToTargets(collAnnot),
-        },
-      };
-    }
+    //   return {
+    //     ...state,
+    //     annotations: {
+    //       ...state.annotations,
+    //       [payload.collId]: collAnnot,
+    //     },
+    //     indexToTargetsByCollId: {
+    //       ...state.indexToTargetsByCollId,
+    //       [payload.collId]: annotationsToTargets(collAnnot),
+    //     },
+    //   };
+    // }
     case CREATE_ANNOTATION_SUCCESS: {
       const collAnnot = r.prop(payload.collId, state.annotations)
         ? state.annotations[payload.collId] : [];
