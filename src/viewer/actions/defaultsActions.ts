@@ -1,13 +1,16 @@
 // DEFAULTS
-export const DEFAULTS_SET = 'DEFAULTS_SET';
-export const DEFAULTS_CLEAR = 'DEFAULTS_CLEAR';
+export const DEFAULTS_SET = "DEFAULTS_SET";
+export const DEFAULTS_CLEAR = "DEFAULTS_CLEAR";
 
 export interface SetDefaultAction {
   type: typeof DEFAULTS_SET;
   payload: { [key: string]: any }; // Replace 'any' with the actual type of your values
 }
 
-export function setDefaultAction(keyvalues: { [key: string]: any }): SetDefaultAction { // Replace 'any' with the actual type of your values
+export function setDefaultAction(keyvalues: {
+  [key: string]: any;
+}): SetDefaultAction {
+  // Replace 'any' with the actual type of your values
   return {
     type: DEFAULTS_SET,
     payload: keyvalues,

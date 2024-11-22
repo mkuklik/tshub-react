@@ -1,6 +1,6 @@
 // Table
 export const TABLE_UPDATE = 'TABLE_UPDATE';
-export const TABLE_SAVE = 'TABLE_SAVE';
+export const TABLE_SAVE = 'TABLE_SAVE' as const;
 export const TABLE_DOWNLOAD = 'TABLE_DOWNLOAD';
 
 export interface ISaveTableAction {

@@ -1,4 +1,4 @@
-import * as r from 'ramda';
+import * as r from "ramda";
 
 import {
   SAVE_ANNOTATIONS,
@@ -10,10 +10,9 @@ import {
   SET_DELETE_DIALOG_STATUS,
   SAVE_STATUS_OF_UPDATING_ANNOTATION,
   SAVE_STATUS_OF_DELETE_ANNOTATION_TARGET,
-
   FetchAnnotationsAction,
   SaveAnnotationsAction,
-  SaveSingleAnnotationAction,
+  // SaveSingleAnnotationAction,
   CreateAnnotationAction,
   SaveAnnotationErrorsAction,
   CreateAnnotationSuccessAction,
@@ -27,15 +26,15 @@ import {
   UpdateAnnotationTextAction,
   UpdateAnnotationSuccessAction,
   SaveStatusOfUpdatingAnnotationAction,
-} from '../actions/annotationActions';
+} from "../actions/annotationActions";
 
-interface AnnotationTarget {
+export interface AnnotationTarget {
   index: number;
   freq: number;
   [key: string]: any;
 }
 
-interface Annotation {
+export interface Annotation {
   aid: string;
   targets: AnnotationTarget[];
   text?: string;
@@ -43,26 +42,33 @@ interface Annotation {
   [key: string]: any;
 }
 
-interface State {
+export interface IAnnotationsState {
   annotations: { [collId: string]: Annotation[] };
-  indexToTargetsByCollId: { [collId: string]: { [index: number]: AnnotationTarget[] } };
+  indexToTargetsByCollId: {
+    [collId: string]: { [index: number]: AnnotationTarget[] };
+  };
   annotationDeleteRequestStatus: string;
   annotationTargetRequestStatus: string;
   statusOfUpdatingAnnotaion: string;
 }
 
-const initialState: State = {
+const initialState: IAnnotationsState = {
   annotations: {},
   indexToTargetsByCollId: {},
-  annotationDeleteRequestStatus: '',
-  annotationTargetRequestStatus: '',
-  statusOfUpdatingAnnotaion: '',
+  annotationDeleteRequestStatus: "",
+  annotationTargetRequestStatus: "",
+  statusOfUpdatingAnnotaion: "",
 };
 
-export const alter = (checked: AnnotationTarget[], key: string, items: Annotation[]): Annotation[] => r.map(
-  r.when(r.propEq('aid', key), r.assoc('targets', checked)),
-  items,
-) as Annotation[];
+export const alter = (
+  checked: AnnotationTarget[],
+  key: string,
+  items: Annotation[]
+): Annotation[] =>
+  r.map(
+    r.when(r.propEq("aid", key), r.assoc("targets", checked)),
+    items
+  ) as Annotation[];
 
 // const alter = (checked: AnnotationTarget[], key: string, items: Annotation[]): Annotation[] => r.map(
 //   (item) => r.when(
@@ -73,27 +79,42 @@ export const alter = (checked: AnnotationTarget[], key: string, items: Annotatio
 //   items,
 // );
 
-export const updateTextAnnotation = (checked: string, key: string, items: Annotation[]): Annotation[] => r.map(
-  r.when(r.propEq('aid', key), r.assoc('text', checked)),
-  items,
-) as Annotation[];
+export const updateTextAnnotation = (
+  checked: string,
+  key: string,
+  items: Annotation[]
+): Annotation[] =>
+  r.map(
+    r.when(r.propEq("aid", key), r.assoc("text", checked)),
+    items
+  ) as Annotation[];
 
-export const updateSymbolAnnotation = (checked: string, key: string, items: Annotation[]): Annotation[] => r.map(
-  r.when(r.propEq('aid', key), r.assoc('symbol', checked)),
-  items,
-) as Annotation[];
+export const updateSymbolAnnotation = (
+  checked: string,
+  key: string,
+  items: Annotation[]
+): Annotation[] =>
+  r.map(
+    r.when(r.propEq("aid", key), r.assoc("symbol", checked)),
+    items
+  ) as Annotation[];
 
-export const annotationsToTargets = (annotationList: Annotation[]): { [index: number]: AnnotationTarget[] } => {
-  const targets: AnnotationTarget[] = r.flatten(annotationList.map((annotation) => (
-    annotation
-      .targets
-      .filter((target) => !r.isNil(target.index) && !r.isNil(target.freq))
-      .map((target) => ({
-        ...target,
-        annotation,
-      }))
-  )));
-  const out = r.groupBy<AnnotationTarget>((target) => String(target.index))(targets);
+export const annotationsToTargets = (
+  annotationList: Annotation[]
+): { [index: number]: AnnotationTarget[] } => {
+  const targets: AnnotationTarget[] = r.flatten(
+    annotationList.map((annotation) =>
+      annotation.targets
+        .filter((target) => !r.isNil(target.index) && !r.isNil(target.freq))
+        .map((target) => ({
+          ...target,
+          annotation,
+        }))
+    )
+  );
+  const out = r.groupBy<AnnotationTarget>((target) => String(target.index))(
+    targets
+  );
   // const out = r.groupBy(r.prop('index'))(targets);
   return out;
 };
@@ -101,7 +122,7 @@ export const annotationsToTargets = (annotationList: Annotation[]): { [index: nu
 type AnnotationAction =
   | FetchAnnotationsAction
   | SaveAnnotationsAction
-  | SaveSingleAnnotationAction
+  // | SaveSingleAnnotationAction
   | CreateAnnotationAction
   | SaveAnnotationErrorsAction
   | CreateAnnotationSuccessAction
@@ -116,7 +137,10 @@ type AnnotationAction =
   | UpdateAnnotationSuccessAction
   | SaveStatusOfUpdatingAnnotationAction;
 
-const reducer = (state: State = initialState, action: AnnotationAction): State => {
+const reducer = (
+  state: IAnnotationsState = initialState,
+  action: AnnotationAction
+): IAnnotationsState => {
   const { type, payload } = action;
 
   switch (type) {
@@ -158,7 +182,8 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
     // }
     case CREATE_ANNOTATION_SUCCESS: {
       const collAnnot = r.prop(payload.collId, state.annotations)
-        ? state.annotations[payload.collId] : [];
+        ? state.annotations[payload.collId]
+        : [];
       return {
         ...state,
         annotations: {
@@ -173,14 +198,14 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
 
       const annotations = r.assocPath(
         [collId],
-        r.reject(r.propEq('aid', aid), state.annotations[collId]),
-        state.annotations,
+        r.reject(r.propEq("aid", aid), state.annotations[collId]),
+        state.annotations
       );
 
       return {
         ...state,
         annotations,
-        annotationDeleteRequestStatus: 'success',
+        annotationDeleteRequestStatus: "success",
       };
     }
 
@@ -193,8 +218,11 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
     case ADD_ANNOTATION_TARGET_SUCCESS: {
       const { target, collId, aid } = payload;
       const annotation = state.annotations[collId];
-      const index = r.findIndex(r.propEq('aid', aid))(annotation);
-      const updatedTargets = [...state.annotations[collId][index].targets, target];
+      const index = r.findIndex(r.propEq("aid", aid))(annotation);
+      const updatedTargets = [
+        ...state.annotations[collId][index].targets,
+        target,
+      ];
       const updatedAnnotaiton = alter(updatedTargets, aid, annotation);
 
       return {
@@ -207,7 +235,7 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
           ...state.indexToTargetsByCollId,
           [payload.collId]: annotationsToTargets(updatedAnnotaiton),
         },
-        annotationTargetRequestStatus: 'success',
+        annotationTargetRequestStatus: "success",
       };
     }
 
@@ -217,8 +245,18 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
       const keys = Object.keys(toBeUpdateValue);
 
       let updatedAnnotation: Annotation[] = [];
-      if (keys[0] === 'text') updatedAnnotation = updateTextAnnotation(toBeUpdateValue.text, aid, annotation);
-      if (keys[0] === 'symbol') updatedAnnotation = updateSymbolAnnotation(toBeUpdateValue.symbol, aid, annotation);
+      if (keys[0] === "text")
+        updatedAnnotation = updateTextAnnotation(
+          toBeUpdateValue.text,
+          aid,
+          annotation
+        );
+      if (keys[0] === "symbol")
+        updatedAnnotation = updateSymbolAnnotation(
+          toBeUpdateValue.symbol,
+          aid,
+          annotation
+        );
 
       return {
         ...state,
@@ -237,10 +275,12 @@ const reducer = (state: State = initialState, action: AnnotationAction): State =
     case SAVE_STATUS_OF_DELETE_ANNOTATION_TARGET: {
       const { target, collId, aid } = payload;
       const annotation = state.annotations[collId];
-      const index = r.findIndex(r.propEq('aid', aid))(annotation);
+      const index = r.findIndex(r.propEq("aid", aid))(annotation);
 
       const copyTargets = [...state.annotations[collId][index].targets];
-      const getIndex = r.findIndex(r.propEq('index', target.index))(copyTargets);
+      const getIndex = r.findIndex(r.propEq("index", target.index))(
+        copyTargets
+      );
       copyTargets.splice(getIndex, 1);
       const updatedAnnotaiton = alter(copyTargets, aid, annotation);
       return {

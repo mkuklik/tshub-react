@@ -8,7 +8,7 @@ import {
   UPLOAD_REFRESH_LIST,
   UPLOAD_AUTO_REFRESH_LIST,
   UPLOAD_AUTO_REFRESH_OBJECT,
-} from '../../actions/ActionTypes';
+} from '../../actions/uploadActions';
 import fetchUploadList from './fetchUploadList';
 import fetchUploadObject from './fetchUploadObject';
 import createUpload from './createUpload';

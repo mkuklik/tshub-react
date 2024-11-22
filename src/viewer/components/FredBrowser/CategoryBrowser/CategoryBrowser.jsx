@@ -103,6 +103,7 @@ const CategoryBrowserBase = ({
   );
 
   const handleNodeClick = React.useCallback((node) => {
+    console.log("onSelectCategory(node.categoryId); = ", node.categoryId);
     onSelectCategory(node.categoryId);
     // setSelectedNode(node);
   }, [onSelectCategory]);

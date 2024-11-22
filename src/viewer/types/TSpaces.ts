@@ -1,14 +1,14 @@
-import moment from 'moment';
+import moment from "moment";
 
-interface SpaceType {
+interface ISpace {
   spaceId: string;
   name: string;
   tags?: string[];
 }
 
-// type SpaceListType = SpaceType[];
+type ISpaceList = ISpace[];
 
-interface SpaceDetailsType {
+interface ISpaceDetails {
   spaceId: string; // Note: Typo corrected from 'isRequried' to 'isRequired'
   name: string;
   title?: string;
@@ -19,8 +19,4 @@ interface SpaceDetailsType {
   realEnd: moment.Moment;
 }
 
-// export {
-//   SpaceType,
-//   SpaceListType,
-//   SpaceDetailsType,
-// };
+export { ISpace, ISpaceList, ISpaceDetails };

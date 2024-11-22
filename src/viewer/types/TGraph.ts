@@ -4,12 +4,12 @@ import {
   ToHigherFrequencyMethod,
   MissingValueMethod,
   GraphFrequencyMethod,
-} from '../sagas/graph.constants';
-import { SeriesKind } from '../sagas/series.constants';
-import { FreqType, DTypeType } from './Tcommon';
+} from "../sagas/graph.constants";
+import { SeriesKind } from "../sagas/series.constants";
+import { IFreq, IDType } from "./Tcommon";
 
 export type KindType = keyof typeof SeriesKind;
-export type LineType = 'line' | 'column' | 'area';
+export type LineType = "line" | "column" | "area";
 export type GraphFrequencyMethodType = keyof typeof GraphFrequencyMethod;
 export type PartialPeriodsMethodType = keyof typeof PartialPeriodsMethod;
 export type ToLowerFrequencyMethodType = keyof typeof ToLowerFrequencyMethod;
@@ -34,18 +34,18 @@ interface ISeriesDefinitionType {
   type?: LineType;
   visible?: boolean;
   dashStyle?:
-    | 'Solid'
-    | 'ShortDash'
-    | 'ShortDot'
-    | 'ShortDashDot'
-    | 'ShortDashDotDot'
-    | 'Dot'
-    | 'Dash'
-    | 'LongDash'
-    | 'DashDot'
-    | 'LongDashDot'
-    | 'LongDashDotDot';
-  linecap: 'butt' | 'round' | 'square';
+    | "Solid"
+    | "ShortDash"
+    | "ShortDot"
+    | "ShortDashDot"
+    | "ShortDashDotDot"
+    | "Dot"
+    | "Dash"
+    | "LongDash"
+    | "DashDot"
+    | "LongDashDot"
+    | "LongDashDotDot";
+  linecap: "butt" | "round" | "square";
   lineWidth: number;
   color?: string;
   xAxis?: number;
@@ -53,7 +53,7 @@ interface ISeriesDefinitionType {
   opacity?: number;
   marker?: {
     enabled?: boolean;
-    symbol?: 'circle' | 'square' | 'diamond' | 'triangle' | 'triangle-down';
+    symbol?: "circle" | "square" | "diamond" | "triangle" | "triangle-down";
     fillColor?: string;
     height?: number;
     lineColor?: string; // Assuming lineColor is a string
@@ -73,24 +73,24 @@ interface ISeriesDefinitionType {
 }
 
 export const SeriesPropNames: (keyof ISeriesDefinitionType)[] = [
-  'type',
-  'visible',
-  'dashStyle',
-  'linecap',
-  'lineWidth',
-  'color',
-  'xAxis',
-  'yAxis',
-  'opacity',
-  'marker',
-  'showInLegend',
-  'legendIndex',
-  'threshold',
-  'negativeColor',
-  'partialPeriodsMethod',
-  'toLowerFrequencyMethod',
-  'toHigherFrequencyMethod',
-  'missingValueMethod',
+  "type",
+  "visible",
+  "dashStyle",
+  "linecap",
+  "lineWidth",
+  "color",
+  "xAxis",
+  "yAxis",
+  "opacity",
+  "marker",
+  "showInLegend",
+  "legendIndex",
+  "threshold",
+  "negativeColor",
+  "partialPeriodsMethod",
+  "toLowerFrequencyMethod",
+  "toHigherFrequencyMethod",
+  "missingValueMethod",
 ];
 
 interface IStyleType {
@@ -130,7 +130,7 @@ type IYAxisArrayType = IYAxisType[];
 
 interface IGraphDefinitionType {
   theme?: string;
-  freq?: FreqType;
+  freq?: IFreq;
   realtime?: Date;
 
   rangeStart?: Date;
@@ -155,22 +155,22 @@ interface IGraphDefinitionType {
 }
 
 export const GraphPropNames: (keyof IGraphDefinitionType)[] = [
-  'theme',
-  'freq',
-  'realtime',
-  'rangeStart',
-  'rangeEnd',
-  'graphFrequencyMethod',
-  'partialPeriodsMethod',
-  'toLowerFrequencyMethod',
-  'toHigherFrequencyMethod',
-  'missingValueMethod',
-  'navigation',
-  'title',
-  'subtitle',
-  'chart',
-  'legend',
-  'yAxis',
+  "theme",
+  "freq",
+  "realtime",
+  "rangeStart",
+  "rangeEnd",
+  "graphFrequencyMethod",
+  "partialPeriodsMethod",
+  "toLowerFrequencyMethod",
+  "toHigherFrequencyMethod",
+  "missingValueMethod",
+  "navigation",
+  "title",
+  "subtitle",
+  "chart",
+  "legend",
+  "yAxis",
 ];
 
 interface IRefType {
@@ -197,9 +197,9 @@ interface IResolvedSeriesType {
   realtime: IRealtimeType;
   ast: object; // ast from parser
   refs: IRefType; // _ref<i> -> Reference
-  freq?: FreqType;
+  freq?: IFreq;
   fparams: object;
-  dtype: DTypeType;
+  dtype: IDType;
   units: object;
   data: any[][]; // Or be more specific if you know the data structure
   status?: string;
@@ -222,12 +222,15 @@ interface IGraphUIType {
   navigator?: boolean;
 }
 
-export const GraphUIPropNames: (keyof IGraphUIType)[] = ['selected', 'navigator'];
+export const GraphUIPropNames: (keyof IGraphUIType)[] = [
+  "selected",
+  "navigator",
+];
 
 interface IGraphType {
   definition: IGraphDefinitionType;
   ui?: IGraphUIType;
-  determinedFreq?: FreqType;
+  determinedFreq?: IFreq;
   transformedSeries?: ITransformedSeriesType;
   output?: IOutputType;
   errors?: IErrorType[];

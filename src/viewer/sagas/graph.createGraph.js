@@ -1,12 +1,9 @@
-import {
-  put,
-} from 'redux-saga/effects';
-import ObjectID from 'bson-objectid';
-import { isNil } from 'ramda';
-import {
-  saveNewGraphAction, updateGraphAction,
-} from '../actions/graphActions';
-import { GraphProcessingStage } from './graph.constants';
+import { put } from "redux-saga/effects";
+import ObjectID from "bson-objectid";
+import { isNil } from "ramda";
+import { saveNewGraphAction, updateGraphAction } from "../actions/graphActions";
+import { GraphProcessingStage } from "./graph.constants";
+import { GRAPH_CREATE } from "../actions/graphActions";
 
 function* createGraph(action = {}, doUpdate) {
   const { freq, title, subtitle, legend } = action;
@@ -23,3 +20,7 @@ function* createGraph(action = {}, doUpdate) {
 }
 
 export default createGraph;
+
+export function* watchcreateGraphAction() {
+  yield takeEvery(GRAPH_CREATE, expandCategory);
+}

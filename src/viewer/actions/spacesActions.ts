@@ -1,21 +1,13 @@
-// import {
-//   FETCH_SPACES,
-//   DELETE_SPACE,
-//   SAVE_SPACES,
-//   SAVE_SPACE,
-//   FETCH_SPACE_DETAILS,
-//   SAVE_SPACE_DETAILS,
-//   SAVE_SPACE_REMOVE,
-// } from './ActionTypes';
+import { ISpace } from "../types/TSpaces";
 
 // Spaces
-export const FETCH_SPACES = 'FETCH_SPACES';
-export const DELETE_SPACE = 'DELETE_SPACE';
-export const SAVE_SPACES = 'SAVE_SPACES';
-export const SAVE_SPACE = 'SAVE_SPACE';
-export const FETCH_SPACE_DETAILS = 'FETCH_SPACE_DETAILS';
-export const SAVE_SPACE_DETAILS = 'SAVE_SPACE_DETAILS';
-export const SAVE_SPACE_REMOVE = 'SAVE_SPACE_REMOVE';
+export const FETCH_SPACES = "FETCH_SPACES";
+export const DELETE_SPACE = "DELETE_SPACE";
+export const SAVE_SPACES = "SAVE_SPACES";
+export const SAVE_SPACE = "SAVE_SPACE";
+export const FETCH_SPACE_DETAILS = "FETCH_SPACE_DETAILS";
+export const SAVE_SPACE_DETAILS = "SAVE_SPACE_DETAILS";
+export const SAVE_SPACE_REMOVE = "SAVE_SPACE_REMOVE";
 
 export interface IFetchSpacesAction {
   type: typeof FETCH_SPACES;
@@ -39,7 +31,7 @@ export const deleteSpaceAction = (spaceId: string): IDeleteSpaceAction => ({
 
 export interface ISaveSpacesAction {
   type: typeof SAVE_SPACES;
-  payload: any;
+  payload: ISpace[];
 }
 
 export const saveSpacesAction = (data: any): ISaveSpacesAction => ({
@@ -49,7 +41,7 @@ export const saveSpacesAction = (data: any): ISaveSpacesAction => ({
 
 export interface ISaveSpaceAction {
   type: typeof SAVE_SPACE;
-  payload: any;
+  payload: ISpace;
 }
 
 export const saveSpaceAction = (data: any): ISaveSpaceAction => ({
@@ -62,14 +54,16 @@ export interface IFetchSpaceDetailsAction {
   payload: any;
 }
 
-export const fetchSpaceDetailsAction = (data: any): IFetchSpaceDetailsAction => ({
+export const fetchSpaceDetailsAction = (
+  data: any
+): IFetchSpaceDetailsAction => ({
   type: FETCH_SPACE_DETAILS,
   payload: data,
 });
 
 export interface ISaveSpaceDetailsAction {
   type: typeof SAVE_SPACE_DETAILS;
-  payload: any;
+  payload: ISpace;
 }
 
 export const saveSpaceDetailsAction = (data: any): ISaveSpaceDetailsAction => ({
@@ -82,7 +76,9 @@ export interface ISaveSpaceRemoveAction {
   payload: { spaceId: string };
 }
 
-export const saveSpaceRemoveAction = (spaceId: string): ISaveSpaceRemoveAction => ({
+export const saveSpaceRemoveAction = (
+  spaceId: string
+): ISaveSpaceRemoveAction => ({
   type: SAVE_SPACE_REMOVE,
   payload: {
     spaceId,

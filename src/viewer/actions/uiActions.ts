@@ -35,51 +35,82 @@
 // } from './ActionTypes';
 
 // UI
-export const TIMESERIES_BROWSER_SET_SPACES_LOADING = 'TIMESERIES_BROWSER_SET_SPACES_LOADING';
-export const TIMESERIES_BROWSER_SET_TIMESERIES_LOADING = 'TIMESERIES_BROWSER_SET_TIMESERIES_LOADING';
-export const TIMESERIES_BROWSER_SELECT_SPACE = 'TIMESERIES_BROWSER_SELECT_SPACE';
-export const TIMESERIES_BROWSER_SELECT_COLLECTION = 'TIMESERIES_BROWSER_SELECT_COLLECTION';
-export const TIMESERIES_BROWSER_EXPAND_SPACE = 'TIMESERIES_BROWSER_EXPAND_SPACE';
-export const TIMESERIES_BROWSER_COLLAPSE_SPACE = 'TIMESERIES_BROWSER_COLLAPSE_SPACE';
-export const TIMESERIES_BROWSER_SET_SPACE_LOADING = 'TIMESERIES_BROWSER_SET_SPACE_LOADING';
-export const TIMESERIES_VIEWER_SELECT_TIMESERIES = 'TIMESERIES_VIEWER_SELECT_TIMESERIES';
-export const TIMESERIES_VIEWER_SELECT_COLLECTION = 'TIMESERIES_VIEWER_SELECT_COLLECTION';
-export const TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS = 'TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS';
-export const TIMESERIES_BROWSER_SET_OVER_NODE_ID = 'TIMESERIES_BROWSER_SET_OVER_NODE_ID';
-export const TIMESERIES_BROWSER_ADD_SERIES = 'TIMESERIES_BROWSER_ADD_SERIES';
-export const TOGGLE_CREATE_SPACE_OVERLAY = 'TOGGLE_CREATE_SPACE_OVERLAY';
-export const TOGGLE_CREATE_COLLECTION_OVERLAY = 'TOGGLE_CREATE_COLLECTION_OVERLAY';
-export const TOGGLE_CREATE_TIMESERIES_OVERLAY = 'TOGGLE_CREATE_TIMESERIES_OVERLAY';
-export const TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY = 'TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY';
-export const ANNOTATIONS_TOGGLE_ANNOTATIONS_VISIBLE = 'ANNOTATIONS_TOGGLE_ANNOTATIONS_VISIBLE';
-export const ANNOTATIONS_TOGGLE_ANNOTATIONS_EDIT_MODE = 'ANNOTATIONS_TOGGLE_ANNOTATIONS_EDIT_MODE';
-export const ANNOTATIONS_SET_ANNOTATION_REQUEST_PENDING = 'ANNOTATIONS_SET_ANNOTATION_REQUEST_PENDING';
-export const ANNOTATIONS_ANNOTATION_DELETE_REQUEST_SET_PENDING = 'ANNOTATIONS_ANNOTATION_DELETE_REQUEST_SET_PENDING';
-export const ANNOTATIONS_SET_CREATE_DIALOG_VISIBILITY = 'ANNOTATIONS_SET_CREATE_DIALOG_VISIBILITY';
-export const ANNOTATIONS_SET_ADD_TARGET_DIALOG_VISIBILITY = 'ANNOTATIONS_SET_ADD_TARGET_DIALOG_VISIBILITY';
-export const ANNOTATIONS_SET_DELETE_DIALOG_VISIBILITY = 'ANNOTATIONS_SET_DELETE_DIALOG_VISIBILITY';
-export const ANNOTATIONS_SET_ADD_TARGET = 'ANNOTATIONS_SET_ADD_TARGET';
-export const ANNOTATIONS_SET_DELETE_TARGET = 'ANNOTATIONS_SET_DELETE_TARGET';
-export const ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY = 'ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY';
-export const FRED_BROWSER_SET_CATEGOTY_LOADING = 'FRED_BROWSER_SET_CATEGOTY_LOADING';
-export const FRED_BROWSER_TOGGLE_CONFIG_OVERLAY = 'FRED_BROWSER_TOGGLE_CONFIG_OVERLAY';
-export const FRED_BROWSER_SELECT_CATEGORY = 'FRED_BROWSER_SELECT_CATEGORY';
-export const FRED_BROWSER_SET_CATEGORY_LOADING = 'FRED_BROWSER_SET_CATEGORY_LOADING';
-export const FRED_BROWSER_SET_SERIES_LOADING = 'FRED_BROWSER_SET_SERIES_LOADING';
+export const TIMESERIES_BROWSER_SET_SPACES_LOADING =
+  "TIMESERIES_BROWSER_SET_SPACES_LOADING";
+export const TIMESERIES_BROWSER_SET_TIMESERIES_LOADING =
+  "TIMESERIES_BROWSER_SET_TIMESERIES_LOADING";
+export const TIMESERIES_BROWSER_SELECT_SPACE =
+  "TIMESERIES_BROWSER_SELECT_SPACE";
+export const TIMESERIES_BROWSER_SELECT_COLLECTION =
+  "TIMESERIES_BROWSER_SELECT_COLLECTION";
+export const TIMESERIES_BROWSER_EXPAND_SPACE =
+  "TIMESERIES_BROWSER_EXPAND_SPACE";
+export const TIMESERIES_BROWSER_COLLAPSE_SPACE =
+  "TIMESERIES_BROWSER_COLLAPSE_SPACE";
+export const TIMESERIES_BROWSER_SET_SPACE_LOADING =
+  "TIMESERIES_BROWSER_SET_SPACE_LOADING";
+export const TIMESERIES_VIEWER_SELECT_TIMESERIES =
+  "TIMESERIES_VIEWER_SELECT_TIMESERIES";
+export const TIMESERIES_VIEWER_SELECT_COLLECTION =
+  "TIMESERIES_VIEWER_SELECT_COLLECTION";
+export const TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS =
+  "TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS";
+export const TIMESERIES_BROWSER_SET_OVER_NODE_ID =
+  "TIMESERIES_BROWSER_SET_OVER_NODE_ID";
+export const TIMESERIES_BROWSER_ADD_SERIES = "TIMESERIES_BROWSER_ADD_SERIES";
+export const TOGGLE_CREATE_SPACE_OVERLAY = "TOGGLE_CREATE_SPACE_OVERLAY";
+export const TOGGLE_CREATE_COLLECTION_OVERLAY =
+  "TOGGLE_CREATE_COLLECTION_OVERLAY";
+export const TOGGLE_CREATE_TIMESERIES_OVERLAY =
+  "TOGGLE_CREATE_TIMESERIES_OVERLAY";
+export const TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY =
+  "TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY";
+export const ANNOTATIONS_TOGGLE_ANNOTATIONS_VISIBLE =
+  "ANNOTATIONS_TOGGLE_ANNOTATIONS_VISIBLE";
+export const ANNOTATIONS_TOGGLE_ANNOTATIONS_EDIT_MODE =
+  "ANNOTATIONS_TOGGLE_ANNOTATIONS_EDIT_MODE";
+export const ANNOTATIONS_SET_ANNOTATION_REQUEST_PENDING =
+  "ANNOTATIONS_SET_ANNOTATION_REQUEST_PENDING";
+export const ANNOTATIONS_ANNOTATION_DELETE_REQUEST_SET_PENDING =
+  "ANNOTATIONS_ANNOTATION_DELETE_REQUEST_SET_PENDING";
+export const ANNOTATIONS_SET_CREATE_DIALOG_VISIBILITY =
+  "ANNOTATIONS_SET_CREATE_DIALOG_VISIBILITY";
+export const ANNOTATIONS_SET_ADD_TARGET_DIALOG_VISIBILITY =
+  "ANNOTATIONS_SET_ADD_TARGET_DIALOG_VISIBILITY";
+export const ANNOTATIONS_SET_DELETE_DIALOG_VISIBILITY =
+  "ANNOTATIONS_SET_DELETE_DIALOG_VISIBILITY";
+export const ANNOTATIONS_SET_ADD_TARGET = "ANNOTATIONS_SET_ADD_TARGET";
+export const ANNOTATIONS_SET_DELETE_TARGET = "ANNOTATIONS_SET_DELETE_TARGET";
+export const ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY =
+  "ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY";
+export const FRED_BROWSER_SET_CATEGOTY_LOADING =
+  "FRED_BROWSER_SET_CATEGOTY_LOADING";
+export const FRED_BROWSER_TOGGLE_CONFIG_OVERLAY =
+  "FRED_BROWSER_TOGGLE_CONFIG_OVERLAY";
+export const FRED_BROWSER_SELECT_CATEGORY = "FRED_BROWSER_SELECT_CATEGORY";
+export const FRED_BROWSER_SET_CATEGORY_LOADING =
+  "FRED_BROWSER_SET_CATEGORY_LOADING";
+export const FRED_BROWSER_SET_SERIES_LOADING =
+  "FRED_BROWSER_SET_SERIES_LOADING";
 // ui triggered sagas
-export const FRED_BROWSER_EXPAND_CATEGORY = 'FRED_BROWSER_EXPAND_CATEGORY';
-export const FRED_BROWSER_COLLAPSE_CATEGORY = 'FRED_BROWSER_COLLAPSE_CATEGORY';
+export const FRED_BROWSER_EXPAND_CATEGORY = "FRED_BROWSER_EXPAND_CATEGORY";
+export const FRED_BROWSER_COLLAPSE_CATEGORY = "FRED_BROWSER_COLLAPSE_CATEGORY";
 // listen to by reducer
-export const FRED_BROWSER_SAVE_EXPANDED_CATEGORY = 'FRED_BROWSER_SAVE_EXPANDED_CATEGORY';
-export const FRED_BROWSER_SAVE_COLLAPSED_CATEGORY = 'FRED_BROWSER_SAVE_COLLAPSED_CATEGORY';
-export const FRED_BROWSER_SAVE_SELECT_CATEGORY = 'FRED_BROWSER_SAVE_SELECT_CATEGORY';
+export const FRED_BROWSER_SAVE_EXPANDED_CATEGORY =
+  "FRED_BROWSER_SAVE_EXPANDED_CATEGORY";
+export const FRED_BROWSER_SAVE_COLLAPSED_CATEGORY =
+  "FRED_BROWSER_SAVE_COLLAPSED_CATEGORY";
+export const FRED_BROWSER_SAVE_SELECT_CATEGORY =
+  "FRED_BROWSER_SAVE_SELECT_CATEGORY";
 
 export interface ITimeseriesBrowserSetSpaceListLoadingAction {
   type: typeof TIMESERIES_BROWSER_SET_SPACES_LOADING;
   payload: boolean;
 }
 
-export const timeseriesBrowserSetSpaceListLoading = (data: boolean): ITimeseriesBrowserSetSpaceListLoadingAction => ({
+export const timeseriesBrowserSetSpaceListLoading = (
+  data: boolean
+): ITimeseriesBrowserSetSpaceListLoadingAction => ({
   type: TIMESERIES_BROWSER_SET_SPACES_LOADING,
   payload: data,
 });
@@ -89,7 +120,9 @@ export interface ITimeseriesBrowserSetTimeseriesListLoadingAction {
   payload: boolean;
 }
 
-export const timeseriesBrowserSetTimeseriesListLoading = (data: boolean): ITimeseriesBrowserSetTimeseriesListLoadingAction => ({
+export const timeseriesBrowserSetTimeseriesListLoading = (
+  data: boolean
+): ITimeseriesBrowserSetTimeseriesListLoadingAction => ({
   type: TIMESERIES_BROWSER_SET_TIMESERIES_LOADING,
   payload: data,
 });
@@ -99,7 +132,9 @@ export interface ITimeseriesBrowserSelectSpaceAction {
   payload: string;
 }
 
-export const timeseriesBrowserSelectSpace = (data: string): ITimeseriesBrowserSelectSpaceAction => ({
+export const timeseriesBrowserSelectSpace = (
+  data: string
+): ITimeseriesBrowserSelectSpaceAction => ({
   type: TIMESERIES_BROWSER_SELECT_SPACE,
   payload: data,
 });
@@ -109,7 +144,9 @@ export interface ITimeseriesBrowserSelectCollectionAction {
   payload: string;
 }
 
-export const timeseriesBrowserSelectCollection = (data: string): ITimeseriesBrowserSelectCollectionAction => ({
+export const timeseriesBrowserSelectCollection = (
+  data: string
+): ITimeseriesBrowserSelectCollectionAction => ({
   type: TIMESERIES_BROWSER_SELECT_COLLECTION,
   payload: data,
 });
@@ -119,7 +156,9 @@ export interface ITimeseriesBrowserExpandSpaceAction {
   payload: string;
 }
 
-export const timeseriesBrowserExpandSpace = (data: string): ITimeseriesBrowserExpandSpaceAction => ({
+export const timeseriesBrowserExpandSpace = (
+  data: string
+): ITimeseriesBrowserExpandSpaceAction => ({
   type: TIMESERIES_BROWSER_EXPAND_SPACE,
   payload: data,
 });
@@ -129,7 +168,9 @@ export interface ITimeseriesBrowserCollapseSpaceAction {
   payload: string;
 }
 
-export const timeseriesBrowserCollapseSpace = (data: string): ITimeseriesBrowserCollapseSpaceAction => ({
+export const timeseriesBrowserCollapseSpace = (
+  data: string
+): ITimeseriesBrowserCollapseSpaceAction => ({
   type: TIMESERIES_BROWSER_COLLAPSE_SPACE,
   payload: data,
 });
@@ -139,7 +180,10 @@ export interface ITimeseriesBrowserSetSpaceLoadingAction {
   payload: { spaceId: string; loading: boolean };
 }
 
-export const timeseriesBrowserSetSpaceLoading = (data: { spaceId: string; loading: boolean }): ITimeseriesBrowserSetSpaceLoadingAction => ({
+export const timeseriesBrowserSetSpaceLoading = (data: {
+  spaceId: string;
+  loading: boolean;
+}): ITimeseriesBrowserSetSpaceLoadingAction => ({
   type: TIMESERIES_BROWSER_SET_SPACE_LOADING,
   payload: data,
 });
@@ -149,7 +193,9 @@ export interface ITimeseriesBrowserSetOverNodeIDAction {
   payload: string | null;
 }
 
-export const timeseriesBrowserSetOverNodeIDAction = (data: string | null): ITimeseriesBrowserSetOverNodeIDAction => ({
+export const timeseriesBrowserSetOverNodeIDAction = (
+  data: string | null
+): ITimeseriesBrowserSetOverNodeIDAction => ({
   type: TIMESERIES_BROWSER_SET_OVER_NODE_ID,
   payload: data,
 });
@@ -159,7 +205,9 @@ export interface IAnnotationsToggleAnnotationsVisibleAction {
   payload: boolean;
 }
 
-export const annotationsToggleAnnotationsVisible = (data: boolean): IAnnotationsToggleAnnotationsVisibleAction => ({
+export const annotationsToggleAnnotationsVisible = (
+  data: boolean
+): IAnnotationsToggleAnnotationsVisibleAction => ({
   type: ANNOTATIONS_TOGGLE_ANNOTATIONS_VISIBLE,
   payload: data,
 });
@@ -169,7 +217,9 @@ export interface IAnnotationsToggleAnnotationsEditModeAction {
   payload: boolean;
 }
 
-export const annotationsToggleAnnotationsEditMode = (data: boolean): IAnnotationsToggleAnnotationsEditModeAction => ({
+export const annotationsToggleAnnotationsEditMode = (
+  data: boolean
+): IAnnotationsToggleAnnotationsEditModeAction => ({
   type: ANNOTATIONS_TOGGLE_ANNOTATIONS_EDIT_MODE,
   payload: data,
 });
@@ -179,7 +229,9 @@ export interface IAnnotationsSetAnnotationRequestPendingAction {
   payload: boolean;
 }
 
-export const annotationsSetAnnotationRequestPending = (data: boolean): IAnnotationsSetAnnotationRequestPendingAction => ({
+export const annotationsSetAnnotationRequestPending = (
+  data: boolean
+): IAnnotationsSetAnnotationRequestPendingAction => ({
   type: ANNOTATIONS_SET_ANNOTATION_REQUEST_PENDING,
   payload: data,
 });
@@ -189,7 +241,9 @@ export interface IAnnotationsDeleteAnnotationRequestSetPendingAction {
   payload: boolean;
 }
 
-export const annotationsDeleteAnnotationRequestSetPending = (data: boolean): IAnnotationsDeleteAnnotationRequestSetPendingAction => ({
+export const annotationsDeleteAnnotationRequestSetPending = (
+  data: boolean
+): IAnnotationsDeleteAnnotationRequestSetPendingAction => ({
   type: ANNOTATIONS_ANNOTATION_DELETE_REQUEST_SET_PENDING,
   payload: data,
 });
@@ -199,7 +253,9 @@ export interface IAnnotationsSetCreateDialogVisibilityAction {
   payload: boolean;
 }
 
-export const annotationsSetCreateDialogVisibilityAction = (visible: boolean): IAnnotationsSetCreateDialogVisibilityAction => ({
+export const annotationsSetCreateDialogVisibilityAction = (
+  visible: boolean
+): IAnnotationsSetCreateDialogVisibilityAction => ({
   type: ANNOTATIONS_SET_CREATE_DIALOG_VISIBILITY,
   payload: visible,
 });
@@ -209,7 +265,9 @@ export interface IAnnotationsSetAddTargetDialogVisibilityAction {
   payload: boolean;
 }
 
-export const annotationsSetAddTargetDialogVisibilityAction = (visible: boolean): IAnnotationsSetAddTargetDialogVisibilityAction => ({
+export const annotationsSetAddTargetDialogVisibilityAction = (
+  visible: boolean
+): IAnnotationsSetAddTargetDialogVisibilityAction => ({
   type: ANNOTATIONS_SET_ADD_TARGET_DIALOG_VISIBILITY,
   payload: visible,
 });
@@ -219,7 +277,9 @@ export interface IAnnotationsSetDeleteDialogVisibilityAction {
   payload: boolean;
 }
 
-export const annotationsSetDeleteDialogVisibilityAction = (visible: boolean): IAnnotationsSetDeleteDialogVisibilityAction => ({
+export const annotationsSetDeleteDialogVisibilityAction = (
+  visible: boolean
+): IAnnotationsSetDeleteDialogVisibilityAction => ({
   type: ANNOTATIONS_SET_DELETE_DIALOG_VISIBILITY,
   payload: visible,
 });
@@ -229,7 +289,9 @@ export interface IAnnotationsSetAnnotationListVisibilityAction {
   payload: boolean;
 }
 
-export const annotationsSetAnnotationListVisibilityAction = (visible: boolean): IAnnotationsSetAnnotationListVisibilityAction => ({
+export const annotationsSetAnnotationListVisibilityAction = (
+  visible: boolean
+): IAnnotationsSetAnnotationListVisibilityAction => ({
   type: ANNOTATIONS_SET_ANNOTATION_LIST_VISIBILITY,
   payload: visible,
 });
@@ -239,7 +301,9 @@ export interface IAnnotationsSetAddTargetAction {
   payload: string;
 }
 
-export const annotationsSetAddTargetAction = (target: string): IAnnotationsSetAddTargetAction => ({
+export const annotationsSetAddTargetAction = (
+  target: string
+): IAnnotationsSetAddTargetAction => ({
   type: ANNOTATIONS_SET_ADD_TARGET,
   payload: target,
 });
@@ -249,7 +313,9 @@ export interface IAnnotationsSetDeleteTargetAction {
   payload: string;
 }
 
-export const annotationsSetDeleteTargetAction = (target: string): IAnnotationsSetDeleteTargetAction => ({
+export const annotationsSetDeleteTargetAction = (
+  target: string
+): IAnnotationsSetDeleteTargetAction => ({
   type: ANNOTATIONS_SET_DELETE_TARGET,
   payload: target,
 });
@@ -259,7 +325,9 @@ export interface ISelectTimeseriesAction {
   payload: string;
 }
 
-export const selectTimeseriesAction = (data: string): ISelectTimeseriesAction => ({
+export const selectTimeseriesAction = (
+  data: string
+): ISelectTimeseriesAction => ({
   type: TIMESERIES_VIEWER_SELECT_TIMESERIES,
   payload: data,
 });
@@ -268,24 +336,28 @@ export interface IToggleCreateSpaceOverlayAction {
   type: typeof TOGGLE_CREATE_SPACE_OVERLAY;
 }
 
-export const toggleCreateSpaceOverlayAction = (): IToggleCreateSpaceOverlayAction => ({
-  type: TOGGLE_CREATE_SPACE_OVERLAY,
-});
+export const toggleCreateSpaceOverlayAction =
+  (): IToggleCreateSpaceOverlayAction => ({
+    type: TOGGLE_CREATE_SPACE_OVERLAY,
+  });
 
 export interface IToggleDeleteSpaceCollectionOverlayAction {
   type: typeof TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY;
 }
 
-export const toggleDeleteSpaceCollectionOverlayAction = (): IToggleDeleteSpaceCollectionOverlayAction => ({
-  type: TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY,
-});
+export const toggleDeleteSpaceCollectionOverlayAction =
+  (): IToggleDeleteSpaceCollectionOverlayAction => ({
+    type: TOGGLE_DELETE_SPACE_COLLECTION_OVERLAY,
+  });
 
 export interface IToggleCreateCollectionOverlayAction {
   type: typeof TOGGLE_CREATE_COLLECTION_OVERLAY;
   payload: { spaceId: string };
 }
 
-export const toggleCreateCollectionOverlayAction = (spaceId: string): IToggleCreateCollectionOverlayAction => ({
+export const toggleCreateCollectionOverlayAction = (
+  spaceId: string
+): IToggleCreateCollectionOverlayAction => ({
   type: TOGGLE_CREATE_COLLECTION_OVERLAY,
   payload: { spaceId },
 });
@@ -295,7 +367,10 @@ export interface IToggleCreateTimeseriesOverlayAction {
   payload: { spaceId: string; collId: string };
 }
 
-export const toggleCreateTimeseriesOverlayAction = (spaceId: string, collId: string): IToggleCreateTimeseriesOverlayAction => ({
+export const toggleCreateTimeseriesOverlayAction = (
+  spaceId: string,
+  collId: string
+): IToggleCreateTimeseriesOverlayAction => ({
   type: TOGGLE_CREATE_TIMESERIES_OVERLAY,
   payload: { spaceId, collId },
 });
@@ -306,7 +381,11 @@ export interface ITimeseriesBrowserAddSeriesAction {
   collection: any; // Replace 'any' with the actual type of collection
 }
 
-export const timeseriesBrowserAddSeriesAction = (timeseries: any, collection: any): ITimeseriesBrowserAddSeriesAction => ({ // Replace 'any' with the actual types
+export const timeseriesBrowserAddSeriesAction = (
+  timeseries: any,
+  collection: any
+): ITimeseriesBrowserAddSeriesAction => ({
+  // Replace 'any' with the actual types
   type: TIMESERIES_BROWSER_ADD_SERIES,
   timeseries,
   collection,
@@ -318,16 +397,19 @@ export interface IFredBrowserToggleConfigOverlayAction {
   type: typeof FRED_BROWSER_TOGGLE_CONFIG_OVERLAY;
 }
 
-export const fredBrowserToggleConfigOverlayAction = (): IFredBrowserToggleConfigOverlayAction => ({
-  type: FRED_BROWSER_TOGGLE_CONFIG_OVERLAY,
-});
+export const fredBrowserToggleConfigOverlayAction =
+  (): IFredBrowserToggleConfigOverlayAction => ({
+    type: FRED_BROWSER_TOGGLE_CONFIG_OVERLAY,
+  });
 
 export interface IFredBrowserSelectCategoryAction {
   type: typeof FRED_BROWSER_SELECT_CATEGORY;
   payload: { categoryId: string };
 }
 
-export const fredBrowserSelectCategoryAction = (categoryId: string): IFredBrowserSelectCategoryAction => ({
+export const fredBrowserSelectCategoryAction = (
+  categoryId: string
+): IFredBrowserSelectCategoryAction => ({
   type: FRED_BROWSER_SELECT_CATEGORY,
   payload: { categoryId },
 });
@@ -337,7 +419,9 @@ export interface IFredBrowserSetCategoryLoadingAction {
   payload: string;
 }
 
-export const fredBrowserSetCategoryLoadingAction = (categoryId: string): IFredBrowserSetCategoryLoadingAction => ({
+export const fredBrowserSetCategoryLoadingAction = (
+  categoryId: string
+): IFredBrowserSetCategoryLoadingAction => ({
   type: FRED_BROWSER_SET_CATEGORY_LOADING,
   payload: categoryId,
 });
@@ -347,7 +431,9 @@ export interface IFredBrowserExpandCategoryAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserExpandCategoryAction = (categoryId: string): IFredBrowserExpandCategoryAction => ({
+export const fredBrowserExpandCategoryAction = (
+  categoryId: string
+): IFredBrowserExpandCategoryAction => ({
   type: FRED_BROWSER_EXPAND_CATEGORY,
   payload: { categoryId },
 });
@@ -357,7 +443,9 @@ export interface IFredBrowserCollapseCategoryAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserCollapseCategoryAction = (categoryId: string): IFredBrowserCollapseCategoryAction => ({
+export const fredBrowserCollapseCategoryAction = (
+  categoryId: string
+): IFredBrowserCollapseCategoryAction => ({
   type: FRED_BROWSER_COLLAPSE_CATEGORY,
   payload: { categoryId },
 });
@@ -367,7 +455,9 @@ export interface IFredBrowserSaveExpandedCategoryAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserSaveExpandedCategoryAction = (categoryId: string): IFredBrowserSaveExpandedCategoryAction => ({
+export const fredBrowserSaveExpandedCategoryAction = (
+  categoryId: string
+): IFredBrowserSaveExpandedCategoryAction => ({
   type: FRED_BROWSER_SAVE_EXPANDED_CATEGORY,
   payload: { categoryId },
 });
@@ -377,7 +467,9 @@ export interface IFredBrowserSaveCollapsedCategoryAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserSaveCollapsedCategoryAction = (categoryId: string): IFredBrowserSaveCollapsedCategoryAction => ({
+export const fredBrowserSaveCollapsedCategoryAction = (
+  categoryId: string
+): IFredBrowserSaveCollapsedCategoryAction => ({
   type: FRED_BROWSER_SAVE_COLLAPSED_CATEGORY,
   payload: { categoryId },
 });
@@ -387,7 +479,9 @@ export interface IFredBrowserSaveSelectedCategoryAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserSaveSelectedCategoryAction = (categoryId: string): IFredBrowserSaveSelectedCategoryAction => ({
+export const fredBrowserSaveSelectedCategoryAction = (
+  categoryId: string
+): IFredBrowserSaveSelectedCategoryAction => ({
   type: FRED_BROWSER_SAVE_SELECT_CATEGORY,
   payload: { categoryId },
 });
@@ -397,7 +491,9 @@ export interface IFredBrowserSetSeriesLoadingAction {
   payload: { categoryId: string };
 }
 
-export const fredBrowserSetSeriesLoadingAction = (categoryId: string): IFredBrowserSetSeriesLoadingAction => ({
+export const fredBrowserSetSeriesLoadingAction = (
+  categoryId: string
+): IFredBrowserSetSeriesLoadingAction => ({
   type: FRED_BROWSER_SET_SERIES_LOADING,
   payload: { categoryId },
 });

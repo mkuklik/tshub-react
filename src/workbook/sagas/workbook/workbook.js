@@ -16,7 +16,8 @@ import {
   WORKBOOK_OPEN_TIMESERIES_BROWSER,
   WORKBOOK_OPEN_UPLOAD,
   WORKBOOK_OPEN_ANALYTICS_BORDER_TAB,
-} from '../../action/ActionTypes';
+} from '../../action/workbookActions';
+
 import addNewGraphTab from './addNewGraphTab';
 import { switchGraphLayout } from './switchGraphLayout';
 import closeAnalyticsTab from './closeAnalyticsTab';

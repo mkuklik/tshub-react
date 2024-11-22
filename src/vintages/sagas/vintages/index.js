@@ -5,7 +5,7 @@ import {
   VINTAGES_FETCH_LIST,
   VINTAGES_FETCH_OBJECT,
   VINTAGES_REFRESH_LIST,
-} from '../../actions/ActionTypes';
+} from '../../actions/vintagesActions';
 import fetchVintageList from './fetchVintageList';
 import { fetchVintageObject } from './fetchVintageObject';
 import refreshList from './refreshList';

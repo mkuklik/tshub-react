@@ -1,5 +1,4 @@
-import types from 'prop-types';
-
+import types from "prop-types";
 
 export const UploadMessageType = types.shape({
   code: types.string,
@@ -25,3 +24,26 @@ export const VintageType = types.shape({
   ...VintageSummaryType,
   metadata: types.object,
 });
+
+export interface IUploadMessage {
+  code?: string;
+  message?: string;
+  data?: object;
+  row?: number;
+  column?: number;
+}
+
+export interface IVintageSummary {
+  vid: string;
+  coll_id?: string;
+  name?: string;
+  description?: string;
+  tsids?: string[];
+  realtime?: Date;
+  realStart?: Date;
+  realEnd?: Date;
+}
+
+export interface IVintage extends IVintageSummary {
+  metadata?: object;
+}

@@ -1,26 +1,27 @@
 /* eslint-disable no-underscore-dangle */
-import { toast } from 'react-semantic-toasts';
-import { TimeSeriesUpdate } from '../../client';
+import { toast } from "react-semantic-toasts";
+import { TimeSeriesUpdate } from "../../client";
+import { ITimeseries } from "../types/TTimeseries";
 
 // Timeseries
-export const FETCH_TIMESERIES = 'FETCH_TIMESERIES';
-export const UPDATE_TIMESERIES = 'UPDATE_TIMESERIES';
-export const FETCH_TIMESERIES_LIST = 'FETCH_TIMESERIES_LIST';
-export const FETCH_TIMESERIES_DETAILS = 'FETCH_TIMESERIES_DETAILS';
-export const TIMESERIES_DELETE_SERIES = 'TIMESERIES_DELETE_SERIES';
+export const FETCH_TIMESERIES = "FETCH_TIMESERIES";
+export const UPDATE_TIMESERIES = "UPDATE_TIMESERIES";
+export const FETCH_TIMESERIES_LIST = "FETCH_TIMESERIES_LIST";
+export const FETCH_TIMESERIES_DETAILS = "FETCH_TIMESERIES_DETAILS";
+export const TIMESERIES_DELETE_SERIES = "TIMESERIES_DELETE_SERIES";
 
-export const SAVE_TIMESERIES_DETAILS = 'SAVE_TIMESERIES_DETAILS';
-export const SAVE_TIMESERIES_LIST = 'SAVE_TIMESERIES_LIST';
-export const SAVE_TIMESERIES = 'SAVE_TIMESERIES';
-export const SAVE_TIMESERIES_DELETE = 'SAVE_TIMESERIES_DELETE';
+export const SAVE_TIMESERIES_DETAILS = "SAVE_TIMESERIES_DETAILS";
+export const SAVE_TIMESERIES_LIST = "SAVE_TIMESERIES_LIST";
+export const SAVE_TIMESERIES = "SAVE_TIMESERIES";
+export const SAVE_TIMESERIES_DELETE = "SAVE_TIMESERIES_DELETE";
 
-export const SAVE_OBSERVATIONS = 'FETCH_OBSERVATIONS';
+export const SAVE_OBSERVATIONS = "FETCH_OBSERVATIONS";
 
 // import '../../global';
 // this should be imported from golbal.d.ts
 declare global {
   interface Window {
-    _chronosdb: { wid: string, rawTimeSeriesApi: any };
+    _chronosdb: { wid: string; rawTimeSeriesApi: any };
   }
 }
 
@@ -29,7 +30,10 @@ export interface IFetchTimeseriesAction {
   payload: { collId: string; tsid: string };
 }
 
-export const fetchTimeseriesAction = (collId: string, tsid: string): IFetchTimeseriesAction => ({
+export const fetchTimeseriesAction = (
+  collId: string,
+  tsid: string
+): IFetchTimeseriesAction => ({
   type: FETCH_TIMESERIES,
   payload: { collId, tsid },
 });
@@ -39,7 +43,9 @@ export interface IFetchTimeseriesListAction {
   payload: string;
 }
 
-export const fetchTimeseriesListAction = (collId: string): IFetchTimeseriesListAction => ({
+export const fetchTimeseriesListAction = (
+  collId: string
+): IFetchTimeseriesListAction => ({
   type: FETCH_TIMESERIES_LIST,
   payload: collId,
 });
@@ -49,7 +55,10 @@ export interface IFetchTimeseriesDetailsAction {
   payload: { collId?: string; tsid?: string };
 }
 
-export const fetchTimeseriesDetailsAction = ({ collId, tsid }: { collId?: string, tsid?: string } = {}): IFetchTimeseriesDetailsAction => ({
+export const fetchTimeseriesDetailsAction = ({
+  collId,
+  tsid,
+}: { collId?: string; tsid?: string } = {}): IFetchTimeseriesDetailsAction => ({
   type: FETCH_TIMESERIES_DETAILS,
   payload: { collId, tsid },
 });
@@ -60,7 +69,10 @@ export interface IDeleteTimeseriesAction {
   tsids: string[];
 }
 
-export const deleteTimeseriesAction = (collId: string, tsids: string[]): IDeleteTimeseriesAction => ({
+export const deleteTimeseriesAction = (
+  collId: string,
+  tsids: string[]
+): IDeleteTimeseriesAction => ({
   type: TIMESERIES_DELETE_SERIES,
   collId,
   tsids,
@@ -72,7 +84,7 @@ export const deleteTimeseriesAction = (collId: string, tsids: string[]): IDelete
 
 export interface ISaveTimeSeriesAction {
   type: typeof SAVE_TIMESERIES;
-  payload: any;
+  payload: ITimeseries;
 }
 
 export const saveTimeSeriesAction = (data: any): ISaveTimeSeriesAction => ({
@@ -85,7 +97,9 @@ export interface ISaveTimeseriesListAction {
   payload: any;
 }
 
-export const saveTimeseriesListAction = (data: any): ISaveTimeseriesListAction => ({
+export const saveTimeseriesListAction = (
+  data: any
+): ISaveTimeseriesListAction => ({
   type: SAVE_TIMESERIES_LIST,
   payload: data,
 });
@@ -95,7 +109,9 @@ export interface ISaveTimeseriesDetailsAction {
   payload: any;
 }
 
-export const saveTimeseriesDetailsAction = (data: any): ISaveTimeseriesDetailsAction => ({
+export const saveTimeseriesDetailsAction = (
+  data: any
+): ISaveTimeseriesDetailsAction => ({
   type: SAVE_TIMESERIES_DETAILS,
   payload: data,
 });
@@ -105,16 +121,23 @@ export interface ISaveTimeseriesDeleteAction {
   payload: { collId: string; tsids: string[] };
 }
 
-export const saveTimeseriesDeleteAction = (collId: string, tsids: string[]): ISaveTimeseriesDeleteAction => ({
+export const saveTimeseriesDeleteAction = (
+  collId: string,
+  tsids: string[]
+): ISaveTimeseriesDeleteAction => ({
   type: SAVE_TIMESERIES_DELETE,
   payload: {
-    collId, tsids,
+    collId,
+    tsids,
   },
 });
 
 export interface ISaveObservationsAction {
   type: typeof SAVE_OBSERVATIONS;
-  payload: any;
+  payload: {
+    tsid: string;
+    data: any;
+  };
 }
 
 export const saveObservationsAction = (data: any): ISaveObservationsAction => ({
@@ -131,25 +154,45 @@ export interface IUpdateTimeSeriesDetailsAction {
   payload?: any;
 }
 
-export const updateTimeSeriesDetails = ({
-  collId, tsid, name, title, description,
-}: {
-  collId?: string, tsid?: string, name?: string, title?: string, description?: string
-} = {}) => (dispatch: (action: IUpdateTimeSeriesDetailsAction) => void) => {
-  const timeSeriesUpdate = TimeSeriesUpdate.constructFromObject({ name, title, description }, undefined);
+export const updateTimeSeriesDetails =
+  ({
+    collId,
+    tsid,
+    name,
+    title,
+    description,
+  }: {
+    collId: string;
+    tsid: string;
+    name?: string;
+    title?: string;
+    description?: string;
+  }) =>
+  (dispatch: (action: IUpdateTimeSeriesDetailsAction) => void) => {
+    const timeSeriesUpdate = TimeSeriesUpdate.constructFromObject(
+      { name, title, description },
+      undefined
+    );
 
-  window._chronosdb.rawTimeSeriesApi.appApiTimeseriesRawPut(collId, tsid, timeSeriesUpdate,
-    (err: any, data: any) => {
-      if (err !== null) {
-        // eslint-disable-next-line no-console
-        console.error('appApiTimeseriesRawPut', err);
-        toast({ title: 'Error updating time series details', type: 'error' });
-      } else {
-        toast({ title: 'Time series details were successfully updated', type: 'success' });
-        dispatch(saveTimeSeriesAction(data));
+    window._chronosdb.rawTimeSeriesApi.appApiTimeseriesRawPut(
+      collId,
+      tsid,
+      timeSeriesUpdate,
+      (err: any, data: any) => {
+        if (err !== null) {
+          // eslint-disable-next-line no-console
+          console.error("appApiTimeseriesRawPut", err);
+          toast({ title: "Error updating time series details", type: "error" });
+        } else {
+          toast({
+            title: "Time series details were successfully updated",
+            type: "success",
+          });
+          dispatch(saveTimeSeriesAction(data));
+        }
       }
-    });
-};
+    );
+  };
 
 // /* eslint-disable no-underscore-dangle */
 // import { toast } from 'react-semantic-toasts';

@@ -1,18 +1,20 @@
 // Fred
 
-export const FETCH_FRED_CATEGORY = 'FETCH_FRED_CATEGORY';
-export const FETCH_FRED_CATEGORY_TIMESERIES = 'FETCH_FRED_CATEGORY_TIMESERIES';
+export const FETCH_FRED_CATEGORY = "FETCH_FRED_CATEGORY";
+export const FETCH_FRED_CATEGORY_TIMESERIES = "FETCH_FRED_CATEGORY_TIMESERIES";
 
-export const SAVE_FRED_CATEGORY = 'SAVE_FRED_CATEGORY';
-export const SAVE_FRED_TIMESERIES_LIST = 'SAVE_FRED_TIMESERIES_LIST';
-export const SAVE_FRED_CONFIG = 'SAVE_FRED_CONFIG';
+export const SAVE_FRED_CATEGORY = "SAVE_FRED_CATEGORY";
+export const SAVE_FRED_TIMESERIES_LIST = "SAVE_FRED_TIMESERIES_LIST";
+export const SAVE_FRED_CONFIG = "SAVE_FRED_CONFIG";
 
 export interface IFetchFredCategoryAction {
   type: typeof FETCH_FRED_CATEGORY;
   categoryId: number;
 }
 
-export const fetchFredCategoryAction = (categoryId: number): IFetchFredCategoryAction => ({
+export const fetchFredCategoryAction = (
+  categoryId: number
+): IFetchFredCategoryAction => ({
   type: FETCH_FRED_CATEGORY,
   categoryId,
 });
@@ -22,7 +24,9 @@ export interface IFetchFredCategoryTimeseriesAction {
   categoryId: number;
 }
 
-export const fetchFredCategoryTimeseriesAction = (categoryId: number): IFetchFredCategoryTimeseriesAction => ({
+export const fetchFredCategoryTimeseriesAction = (
+  categoryId: number
+): IFetchFredCategoryTimeseriesAction => ({
   type: FETCH_FRED_CATEGORY_TIMESERIES,
   categoryId,
 });
@@ -33,7 +37,10 @@ export const fetchFredCategoryTimeseriesAction = (categoryId: number): IFetchFre
 
 export interface ISaveFredCategoryAction {
   type: typeof SAVE_FRED_CATEGORY;
-  payload: any;
+  payload: {
+    categoryId: number;
+    children: [{ id: number; name: string }];
+  };
 }
 
 export const saveFredCategoryAction = (data: any): ISaveFredCategoryAction => ({
@@ -78,7 +85,9 @@ export interface ISaveFredTimeseriesListAction {
   payload: any;
 }
 
-export const saveFredTimeseriesListAction = (data: any): ISaveFredTimeseriesListAction => ({
+export const saveFredTimeseriesListAction = (
+  data: any
+): ISaveFredTimeseriesListAction => ({
   type: SAVE_FRED_TIMESERIES_LIST,
   payload: data,
 });
@@ -88,7 +97,9 @@ export interface ISaveFredBrowserConfigAction {
   payload: any;
 }
 
-export const saveFredBrowserConfigAction = (data: any): ISaveFredBrowserConfigAction => ({
+export const saveFredBrowserConfigAction = (
+  data: any
+): ISaveFredBrowserConfigAction => ({
   type: SAVE_FRED_CONFIG,
   payload: data,
 });

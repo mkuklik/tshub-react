@@ -1,15 +1,23 @@
 import { takeEvery, takeLeading } from 'redux-saga/effects';
 import {
-  ANALYTICS_CREATE,
-  ANALYTICS_RUN,
-  ANALYTICS_ADD_VARIABLE,
   ANALYTICS_LM_DEPENDENT,
   ANALYTICS_LM_REGRESSOR,
   ANALYTICS_FILTER_GRAPH,
   ANALYTICS_LM_GRAPHS,
-  ANALYTICS_UPDATE_PARAMETERS,
   ANALYTICS_ADD_VARIABLE_TO_LIST,
 } from '../actions/actionTypes';
+import {
+  ANALYTICS_UPDATE_PARAMETERS,
+} from '../actions/index';
+
+
+import {
+  ANALYTICS_CREATE,
+  ANALYTICS_RUN,
+  ANALYTICS_ADD_VARIABLE,
+  ANALYTICS_UPDATE_PARAMETERS,
+} from '../actions/index';
+
 
 import createAnalytics from './createAnalytics';
 import runAnalytics from './runAnalytics';

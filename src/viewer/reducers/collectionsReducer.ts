@@ -22,13 +22,13 @@ import {
   SaveRemoveCollectionAction,
 } from '../actions/collectionsActions';
 
-interface Collection {
+export interface Collection {
   collId: string;
   spaceId: string;
   // ... other properties of a Collection
 }
 
-interface CollectionsState {
+export interface ICollectionsState {
   collections: { [spaceId: string]: Collection[] };
   collectionsByID: { [collId: string]: Collection };
   failedCollections: { [spaceId: string]: string };
@@ -37,7 +37,7 @@ interface CollectionsState {
   timeseriesViewerSelectedCollectionID: string | undefined;
 }
 
-const initialState: CollectionsState = {
+const initialState: ICollectionsState = {
   collections: {}, // spaceId -> [ Collection Objects ]
   collectionsByID: {}, // collId -> Collection object
   failedCollections: {},
@@ -58,7 +58,7 @@ export type CollectionsAction =
   | SaveCollectionDetailsAction
   | SaveRemoveCollectionAction;
 
-const reducer = (state: CollectionsState = initialState, action: CollectionsAction): CollectionsState => {
+const reducer = (state: ICollectionsState = initialState, action: CollectionsAction): ICollectionsState => {
   switch (action.type) {
     case SAVE_COLLECTIONS:
       return {

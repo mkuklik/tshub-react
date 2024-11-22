@@ -2,15 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { isNil } from 'ramda';
-import { TimeseriesListType } from '../../types/TTimeseries';
+import { ITimeseriesList } from '../../types/TTimeseries';
 import { addSelectedTimeseriesToGraphAction } from '../../actions/graphActions';
 
 import { StyledAddToGraphButton } from './FredBrowser.Components';
 
 interface AddToGraphButtonBaseProps {
   currentGraphID: string | null;
-  selectedTimeseries: TimeseriesListType;
-  addSelectedTimeseriesToGraph: (payload: { gid: string; timeseriesList: TimeseriesListType }) => void;
+  selectedTimeseries: ITimeseriesList;
+  addSelectedTimeseriesToGraph: (payload: { gid: string; timeseriesList: ITimeseriesList }) => void;
 }
 
 // TODO: create container component
@@ -41,7 +41,7 @@ const AddToGraphButtonBase: React.FC<AddToGraphButtonBaseProps> = ({
 // };
 
 interface StateProps {
-  selectedTimeseries: TimeseriesListType;
+  selectedTimeseries: ITimeseriesList;
   currentGraphID: string | null;
 }
 

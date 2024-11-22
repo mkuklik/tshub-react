@@ -18,9 +18,7 @@ const fredBrowserInitialState = {
 };
 
 const fredBrowserReducer = (state = fredBrowserInitialState, action) => {
-  const { type, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case FRED_BROWSER_TOGGLE_CONFIG_OVERLAY:
       return {
         ...state,
@@ -32,18 +30,18 @@ const fredBrowserReducer = (state = fredBrowserInitialState, action) => {
         ...state,
         expandedCategories: {
           ...state.expandedCategories,
-          [payload.categoryId]: undefined,
+          [action.payload.categoryId]: undefined,
         },
       };
 
     case FRED_BROWSER_SAVE_COLLAPSED_CATEGORY:
       return {
         ...state,
-        expandedCategories: r.omit([payload.categoryId], state.expandedCategories),
+        expandedCategories: r.omit([action.payload.categoryId], state.expandedCategories),
       };
 
     case FRED_BROWSER_SAVE_SELECT_CATEGORY: {
-      const { categoryId } = payload;
+      const { categoryId } = action.payload;
       return {
         ...state,
         selectedCategoryId: (categoryId === state.selectedCategoryId) ? undefined : categoryId,
@@ -52,7 +50,7 @@ const fredBrowserReducer = (state = fredBrowserInitialState, action) => {
     case UI_SAVE_RESTORE_REDUCER:
       return {
         ...state,
-        ...payload.fredBrowser,
+        ...action.payload.fredBrowser,
       };
     default:
       return state;

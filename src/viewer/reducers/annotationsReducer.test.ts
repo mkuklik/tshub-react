@@ -1,25 +1,32 @@
-import reducer, { alter, annotationsToTargets } from './annotationsReducer';
-import * as actions from '../actions/annotationActions';
+import { createStore } from "redux";
+import reducer, { alter, annotationsToTargets } from "./annotationsReducer";
+import * as actions from "../actions/annotationActions";
 
-describe('Annotation Reducer', () => {
+describe("Annotation Reducer", () => {
   const initialState = {
     annotations: {},
     indexToTargetsByCollId: {},
-    annotationDeleteRequestStatus: '',
-    annotationTargetRequestStatus: '',
-    statusOfUpdatingAnnotaion: '',
+    annotationDeleteRequestStatus: "",
+    annotationTargetRequestStatus: "",
+    statusOfUpdatingAnnotaion: "",
   };
 
-  it('should return the initial state', () => {
-    expect(reducer(undefined, {} as any)).toEqual(initialState);
+  it("should return the initial state", () => {
+    const store = createStore(reducer);
+
+    // Dispatch @@INIT manually
+    store.dispatch({ type: "@@INIT" } as any);
+
+    // Check initial state
+    expect(store.getState()).toEqual(initialState);
   });
 
-  it('should handle SAVE_ANNOTATIONS', () => {
+  it("should handle SAVE_ANNOTATIONS", () => {
     const annotations = [
-      { aid: '1', targets: [{ index: 1, freq: 1 }] },
-      { aid: '2', targets: [{ index: 2, freq: 2 }] },
+      { aid: "1", targets: [{ index: 1, freq: 1 }] },
+      { aid: "2", targets: [{ index: 2, freq: 2 }] },
     ];
-    const collId = 'testCollId';
+    const collId = "testCollId";
     const action = actions.saveAnnotationsAction({ collId, annotations });
     const expectedState = {
       ...initialState,
@@ -34,8 +41,12 @@ describe('Annotation Reducer', () => {
     expect(reducer(initialState, action)).toEqual(expectedState);
   });
 
-  it('should handle CREATE_ANNOTATION_SUCCESS', () => {
-    const annotation = { aid: '1', targets: [{ index: 1, freq: 1 }], collId: 'testCollId' };
+  it("should handle CREATE_ANNOTATION_SUCCESS", () => {
+    const annotation = {
+      aid: "1",
+      targets: [{ index: 1, freq: 1 }],
+      collId: "testCollId",
+    };
     const action = actions.createAnnotationSuccessAction(annotation);
     const expectedState = {
       ...initialState,
@@ -44,8 +55,12 @@ describe('Annotation Reducer', () => {
     expect(reducer(initialState, action)).toEqual(expectedState);
   });
 
-  it('should handle DELETE_ANNOTATION_SUCCESS', () => {
-    const existingAnnotation = { aid: '1', targets: [{ index: 1, freq: 1 }], collId: 'testCollId' };
+  it("should handle DELETE_ANNOTATION_SUCCESS", () => {
+    const existingAnnotation = {
+      aid: "1",
+      targets: [{ index: 1, freq: 1 }],
+      collId: "testCollId",
+    };
     const stateWithExisting = {
       ...initialState,
       annotations: { testCollId: [existingAnnotation] },
@@ -55,26 +70,33 @@ describe('Annotation Reducer', () => {
         },
       },
     };
-    const action = actions.deleteAnnotationSuccessAction({ collId: 'testCollId', aid: '1' });
+    const action = actions.deleteAnnotationSuccessAction({
+      collId: "testCollId",
+      aid: "1",
+    });
     const expectedState = {
       ...stateWithExisting,
       annotations: { testCollId: [] },
-      annotationDeleteRequestStatus: 'success',
+      annotationDeleteRequestStatus: "success",
     };
     expect(reducer(stateWithExisting, action)).toEqual(expectedState);
   });
 
-  it('should handle SET_DELETE_DIALOG_STATUS', () => {
+  it("should handle SET_DELETE_DIALOG_STATUS", () => {
     const action = actions.setDeleteDialogStatusAction();
     const expectedState = {
       ...initialState,
-      annotationDeleteRequestStatus: 'false',
+      annotationDeleteRequestStatus: "false",
     };
     expect(reducer(initialState, action)).toEqual(expectedState);
   });
 
-  it('should handle ADD_ANNOTATION_TARGET_SUCCESS', () => {
-    const existingAnnotation = { aid: '1', targets: [{ index: 1, freq: 1 }], collId: 'testCollId' };
+  it("should handle ADD_ANNOTATION_TARGET_SUCCESS", () => {
+    const existingAnnotation = {
+      aid: "1",
+      targets: [{ index: 1, freq: 1 }],
+      collId: "testCollId",
+    };
     const stateWithExisting = {
       ...initialState,
       annotations: { testCollId: [existingAnnotation] },
@@ -87,8 +109,8 @@ describe('Annotation Reducer', () => {
     const newTarget = { index: 2, freq: 2 };
     const action = actions.addAnnotationTargetSuccessAction({
       target: newTarget,
-      collId: 'testCollId',
-      aid: '1',
+      collId: "testCollId",
+      aid: "1",
     });
     const updatedAnnotation = {
       ...existingAnnotation,
@@ -103,13 +125,18 @@ describe('Annotation Reducer', () => {
           2: [{ index: 2, freq: 2, annotation: updatedAnnotation }],
         },
       },
-      annotationTargetRequestStatus: 'success',
+      annotationTargetRequestStatus: "success",
     };
     expect(reducer(stateWithExisting, action)).toEqual(expectedState);
   });
 
-  it('should handle UPDATE_ANNOTATION_SUCCESS (text)', () => {
-    const existingAnnotation = { aid: '1', targets: [{ index: 1, freq: 1 }], text: 'old', collId: 'testCollId' };
+  it("should handle UPDATE_ANNOTATION_SUCCESS (text)", () => {
+    const existingAnnotation = {
+      aid: "1",
+      targets: [{ index: 1, freq: 1 }],
+      text: "old",
+      collId: "testCollId",
+    };
     const stateWithExisting = {
       ...initialState,
       annotations: { testCollId: [existingAnnotation] },
@@ -120,11 +147,11 @@ describe('Annotation Reducer', () => {
       },
     };
     const action = actions.updateAnnotationSuccess({
-      toBeUpdateValue: { text: 'new' },
-      collId: 'testCollId',
-      aid: '1',
+      toBeUpdateValue: { text: "new" },
+      collId: "testCollId",
+      aid: "1",
     });
-    const updatedAnnotation = { ...existingAnnotation, text: 'new' };
+    const updatedAnnotation = { ...existingAnnotation, text: "new" };
     const expectedState = {
       ...stateWithExisting,
       annotations: { testCollId: [updatedAnnotation] },
@@ -132,8 +159,13 @@ describe('Annotation Reducer', () => {
     expect(reducer(stateWithExisting, action)).toEqual(expectedState);
   });
 
-  it('should handle UPDATE_ANNOTATION_SUCCESS (symbol)', () => {
-    const existingAnnotation = { aid: '1', targets: [{ index: 1, freq: 1 }], symbol: 'old', collId: 'testCollId' };
+  it("should handle UPDATE_ANNOTATION_SUCCESS (symbol)", () => {
+    const existingAnnotation = {
+      aid: "1",
+      targets: [{ index: 1, freq: 1 }],
+      symbol: "old",
+      collId: "testCollId",
+    };
     const stateWithExisting = {
       ...initialState,
       annotations: { testCollId: [existingAnnotation] },
@@ -144,11 +176,11 @@ describe('Annotation Reducer', () => {
       },
     };
     const action = actions.updateAnnotationSuccess({
-      toBeUpdateValue: { symbol: 'new' },
-      collId: 'testCollId',
-      aid: '1',
+      toBeUpdateValue: { symbol: "new" },
+      collId: "testCollId",
+      aid: "1",
     });
-    const updatedAnnotation = { ...existingAnnotation, symbol: 'new' };
+    const updatedAnnotation = { ...existingAnnotation, symbol: "new" };
     const expectedState = {
       ...stateWithExisting,
       annotations: { testCollId: [updatedAnnotation] },
@@ -156,20 +188,23 @@ describe('Annotation Reducer', () => {
     expect(reducer(stateWithExisting, action)).toEqual(expectedState);
   });
 
-  it('should handle SAVE_STATUS_OF_UPDATING_ANNOTATION', () => {
-    const action = actions.saveStatusOfUpdatingAnnotationAction('success');
+  it("should handle SAVE_STATUS_OF_UPDATING_ANNOTATION", () => {
+    const action = actions.saveStatusOfUpdatingAnnotationAction("success");
     const expectedState = {
       ...initialState,
-      statusOfUpdatingAnnotaion: 'success',
+      statusOfUpdatingAnnotaion: "success",
     };
     expect(reducer(initialState, action)).toEqual(expectedState);
   });
 
-  it('should handle SAVE_STATUS_OF_DELETE_ANNOTATION_TARGET', () => {
+  it("should handle SAVE_STATUS_OF_DELETE_ANNOTATION_TARGET", () => {
     const existingAnnotation = {
-      aid: '1',
-      targets: [{ index: 1, freq: 1 }, { index: 2, freq: 2 }],
-      collId: 'testCollId',
+      aid: "1",
+      targets: [
+        { index: 1, freq: 1 },
+        { index: 2, freq: 2 },
+      ],
+      collId: "testCollId",
     };
     const stateWithExisting = {
       ...initialState,
@@ -183,10 +218,13 @@ describe('Annotation Reducer', () => {
     };
     const action = actions.saveStatusOfDeleteAnnotationTarget({
       target: { index: 1, freq: 1 },
-      collId: 'testCollId',
-      aid: '1',
+      collId: "testCollId",
+      aid: "1",
     });
-    const updatedAnnotation = { ...existingAnnotation, targets: [{ index: 2, freq: 2 }] };
+    const updatedAnnotation = {
+      ...existingAnnotation,
+      targets: [{ index: 2, freq: 2 }],
+    };
     const expectedState = {
       ...stateWithExisting,
       annotations: { testCollId: [updatedAnnotation] },
@@ -199,26 +237,38 @@ describe('Annotation Reducer', () => {
     expect(reducer(stateWithExisting, action)).toEqual(expectedState);
   });
 
-  describe('alter function', () => {
-    it('should update targets of a specific annotation', () => {
+  describe("alter function", () => {
+    it("should update targets of a specific annotation", () => {
       const annotations = [
-        { aid: '1', targets: [{ index: 1, freq: 1 }] },
-        { aid: '2', targets: [{ index: 2, freq: 2 }] },
+        { aid: "1", targets: [{ index: 1, freq: 1 }] },
+        { aid: "2", targets: [{ index: 2, freq: 2 }] },
       ];
       const newTargets = [{ index: 3, freq: 3 }];
       const expected = [
-        { aid: '1', targets: newTargets },
-        { aid: '2', targets: [{ index: 2, freq: 2 }] },
+        { aid: "1", targets: newTargets },
+        { aid: "2", targets: [{ index: 2, freq: 2 }] },
       ];
-      expect(alter(newTargets, '1', annotations)).toEqual(expected);
+      expect(alter(newTargets, "1", annotations)).toEqual(expected);
     });
   });
 
-  describe('annotationsToTargets function', () => {
-    it('should transform annotations to targets grouped by index', () => {
+  describe("annotationsToTargets function", () => {
+    it("should transform annotations to targets grouped by index", () => {
       const annotations = [
-        { aid: '1', targets: [{ index: 1, freq: 1 }, { index: 2, freq: 2 }] },
-        { aid: '2', targets: [{ index: 2, freq: 2 }, { index: 3, freq: 3 }] },
+        {
+          aid: "1",
+          targets: [
+            { index: 1, freq: 1 },
+            { index: 2, freq: 2 },
+          ],
+        },
+        {
+          aid: "2",
+          targets: [
+            { index: 2, freq: 2 },
+            { index: 3, freq: 3 },
+          ],
+        },
       ];
       const expected = {
         1: [{ index: 1, freq: 1, annotation: annotations[0] }],

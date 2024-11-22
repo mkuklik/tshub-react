@@ -13,7 +13,7 @@ import series from './seriesReducer';
 import ui from './uiReducer';
 import spaces from './spacesReducer';
 import table from './tableReducer';
-import timeseries from './timeseriesReducer';
+import timeseriesReducer from './timeseriesReducer';
 import vintages from '../../vintages/reducers/vintagesReducer';
 
 // NOT USED IN WORKBOOK
@@ -30,7 +30,7 @@ export default combineReducers({
   series,
   spaces,
   table,
-  timeseries,
+  timeseries: timeseriesReducer,
   ui,
   vintages,
 });

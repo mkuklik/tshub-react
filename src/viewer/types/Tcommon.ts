@@ -1,16 +1,26 @@
 // No need to import 'prop-types' in a TypeScript file
 
 interface SizeType {
-  height?: number;
-  width?: number;
+  height: number;
+  width: number;
 }
 
-type FreqType = 'D' | 'W' | 'M' | 'Q';
+enum IFreq {
+  DAILY = "D",
+  WEEKLY = "W",
+  MONTHLY = "M",
+  QUARTERLY = "Q",
+}
 
-// Expanded DTypeType based on your comment 
-type DTypeType = 'float' | 'init' | 'factor' | 'discrete'; 
+// Expanded DTypeType based on your comment
+enum IDType {
+  FLOAT = "float",
+  INIT = "init",
+  FACTOR = "factor",
+  DISCRETE = "discrete",
+}
 
-export { SizeType, FreqType, DTypeType };
+export { SizeType, IFreq, IDType };
 
 // import types from 'prop-types';
 
