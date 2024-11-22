@@ -47,6 +47,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### generate FRED client
 ```
 openapi-generator generate -g javascript -i fred-schema.yaml -o .
+
+openapi-generator generate -g typescript -i fred/fred-schema.yaml -o ./src/fred_ts_client
 ```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
