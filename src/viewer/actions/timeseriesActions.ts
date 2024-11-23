@@ -17,14 +17,6 @@ export const SAVE_TIMESERIES_DELETE = "SAVE_TIMESERIES_DELETE";
 
 export const SAVE_OBSERVATIONS = "FETCH_OBSERVATIONS";
 
-// import '../../global';
-// this should be imported from golbal.d.ts
-declare global {
-  interface Window {
-    _chronosdb: { wid: string; rawTimeSeriesApi: any };
-  }
-}
-
 export interface IFetchTimeseriesAction {
   type: typeof FETCH_TIMESERIES;
   payload: { collId: string; tsid: string };

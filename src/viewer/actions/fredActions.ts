@@ -1,5 +1,5 @@
+import { IFredSeries } from "../types/TFred";
 // Fred
-
 export const FETCH_FRED_CATEGORY = "FETCH_FRED_CATEGORY";
 export const FETCH_FRED_CATEGORY_TIMESERIES = "FETCH_FRED_CATEGORY_TIMESERIES";
 
@@ -82,14 +82,18 @@ export const saveFredCategoryAction = (data: any): ISaveFredCategoryAction => ({
 */
 export interface ISaveFredTimeseriesListAction {
   type: typeof SAVE_FRED_TIMESERIES_LIST;
-  payload: any;
+  payload: {
+    categoryId: number;
+    seriess: IFredSeries[];
+  };
 }
 
 export const saveFredTimeseriesListAction = (
-  data: any
+  categoryId: number,
+  seriess: IFredSeries[]
 ): ISaveFredTimeseriesListAction => ({
   type: SAVE_FRED_TIMESERIES_LIST,
-  payload: data,
+  payload: { categoryId, seriess },
 });
 
 export interface ISaveFredBrowserConfigAction {

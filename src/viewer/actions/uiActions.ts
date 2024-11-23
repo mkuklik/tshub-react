@@ -416,14 +416,18 @@ export const fredBrowserSelectCategoryAction = (
 
 export interface IFredBrowserSetCategoryLoadingAction {
   type: typeof FRED_BROWSER_SET_CATEGORY_LOADING;
-  payload: string;
+  payload: {
+    categoryId: number;
+    loading: boolean;
+  };
 }
 
 export const fredBrowserSetCategoryLoadingAction = (
-  categoryId: string
+  categoryId: number,
+  loading: boolean
 ): IFredBrowserSetCategoryLoadingAction => ({
   type: FRED_BROWSER_SET_CATEGORY_LOADING,
-  payload: categoryId,
+  payload: { categoryId, loading },
 });
 
 export interface IFredBrowserExpandCategoryAction {

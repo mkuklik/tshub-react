@@ -1,33 +1,30 @@
 /* eslint-disable react/require-default-props */
-import * as React from 'react';
-import types from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  path, compose, find, isNil,
-} from 'ramda';
+import * as React from "react";
+import types from "prop-types";
+import { connect } from "react-redux";
+import { path, compose, find, isNil } from "ramda";
 
 import {
   fetchTimeseriesListAction,
   fetchTimeseriesDetailsAction,
   deleteTimeseriesAction,
-} from '../../../actions/timeseriesActions';
+} from "../../../actions/timeseriesActions";
 import {
   selectTimeseriesAction,
   toggleCreateTimeseriesOverlayAction,
   timeseriesBrowserAddSeriesAction,
-} from '../../../actions/uiActions';
+} from "../../../actions/uiActions";
+import { fredSeriesByCategorySelector } from "../../../selectors/fred";
+import {
+  TimeseriesListMapType,
+  TimeseriesDetailsType,
+} from "../../../types/Timeseries";
 
-import { CollectionType } from '../../../types/Collections';
-import { SpaceType } from '../../../types/Spaces';
-import { TimeseriesListMapType, TimeseriesDetailsType } from '../../../types/Timeseries';
-
-import { TimeseriesTable } from './TimeseriesTable';
+import { TimeseriesTable } from "./TimeseriesTable";
 
 const TimeseriesTableContainerBase = ({
   timeseries,
-  timeseriesDetails,
-  selectedSpace,
-  selectedCollection,
+  // timeseriesDetails,
   isTimeseriesListLoading,
   addTimeseries,
   selectTimeseries,
@@ -38,33 +35,33 @@ const TimeseriesTableContainerBase = ({
   openUpload,
   ...props
 }) => {
-  const selectedCollectionID = path(['collId'], selectedCollection);
-  const selectedCollectionTimeseries = timeseries[selectedCollectionID] || [];
-
   const handleRefetchTimeseriesList = React.useCallback(() => {
-    fetchTimeseriesList(selectedCollection.collId);
-  }, [selectedCollection, fetchTimeseriesList]);
+    // fetchTimeseriesList(selectedCollection.collId);
+  }, [fetchTimeseriesList]);
 
-  const handleSelectTimeseries = React.useCallback((timeseriesList) => {
-    selectTimeseries(timeseriesList);
-  }, [selectTimeseries]);
+  const handleSelectTimeseries = React.useCallback(
+    (timeseriesList) => {
+      selectTimeseries(timeseriesList);
+    },
+    [selectTimeseries]
+  );
 
-  const handleShowInformation = React.useCallback(({ tsid }) => {
-    fetchTimeseriesDetails({
-      collId: selectedCollectionID,
-      tsid,
-    });
-  }, [selectedCollectionID, fetchTimeseriesDetails]);
+  const handleShowInformation = React.useCallback(
+    ({ tsid }) => {
+      fetchTimeseriesDetails({
+        tsid,
+      });
+    },
+    [fetchTimeseriesDetails]
+  );
 
   return (
     <TimeseriesTable
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       isLoading={isTimeseriesListLoading}
-      space={selectedSpace}
-      collection={selectedCollection}
-      timeseries={selectedCollectionTimeseries}
-      timeseriesDetails={timeseriesDetails}
+      timeseries={timeseries}
+      // timeseriesDetails={timeseriesDetails}
       onAddTimeseries={addTimeseries}
       onSelectTimeseries={handleSelectTimeseries}
       onRefetchTimeseriesList={handleRefetchTimeseriesList}
@@ -79,8 +76,6 @@ const TimeseriesTableContainerBase = ({
 TimeseriesTableContainerBase.propTypes = {
   timeseries: TimeseriesListMapType,
   timeseriesDetails: TimeseriesDetailsType,
-  selectedCollection: CollectionType,
-  selectedSpace: SpaceType,
   isTimeseriesListLoading: types.bool,
   currentGraphID: types.string,
   selectTimeseries: types.func.isRequired,
@@ -96,16 +91,18 @@ TimeseriesTableContainerBase.defaultProps = {
   isTimeseriesListLoading: false,
 };
 
-const mapStateToProps = ({ ui, timeseries, collections, spaces }) => {
-  return ({
-    timeseries: timeseries.timeseriesListByColl,
-    timeseriesDetails: timeseries.timeseriesDetails,
-    selectedCollection: collections.selectedCollection,
-    selectedSpace: (
-      isNil(collections.selectedCollection))
-      ? null : find((x) => x.id === collections.selectedCollection.spaceId, spaces.spaces),
-    isTimeseriesListLoading: ui.timeseriesBrowser.isTimeseriesListLoading,
-  });
+const mapStateToProps = (state) => {
+  return {
+    timeseries: fredSeriesByCategorySelector(
+      state.ui.fredBrowser.selectedCategoryId
+    )(state),
+    // timeseriesDetails: timeseries.timeseriesDetails,
+    // selectedCollection: collections.selectedCollection,
+    // selectedSpace: (
+    //   isNil(collections.selectedCollection))
+    //   ? null : find((x) => x.id === collections.selectedCollection.spaceId, spaces.spaces),
+    // isTimeseriesListLoading: ui.timeseriesBrowser.isTimeseriesListLoading,
+  };
 };
 
 const mapDispatchToProps = {
@@ -118,7 +115,7 @@ const mapDispatchToProps = {
 };
 
 const TimeseriesTableContainer = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(TimeseriesTableContainerBase);
 
 // eslint-disable-next-line import/prefer-default-export

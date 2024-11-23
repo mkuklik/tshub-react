@@ -7,32 +7,7 @@ import {
   ISaveFredTimeseriesListAction,
   ISaveFredBrowserConfigAction,
 } from "../actions/fredActions";
-
-export interface ICategory {
-  name: string | null;
-  children: number[] | null;
-  parentId: number | null;
-  fetched: boolean;
-}
-
-export interface ITimeseries {
-  id: string;
-  realtime_start: string;
-  realtime_end: string;
-  title: string;
-  observation_start: string;
-  observation_end: string;
-  frequency: string;
-  frequency_short: string;
-  units: string;
-  units_short: string;
-  seasonal_adjustment: string;
-  seasonal_adjustment_short: string;
-  last_updated: string;
-  popularity: number;
-  group_popularity: number;
-  notes?: string;
-}
+import { ICategory, IFredSeries } from "../types/TFred";
 
 export interface IConfig {
   apiKey: string | null;
@@ -42,7 +17,8 @@ export interface IConfig {
 export interface IFredState {
   config: IConfig;
   categories: { [key: number]: ICategory };
-  timeseries: { [key: string]: ITimeseries };
+  timeseriesByCategory: { [categoryId: number]: string[] };
+  timeseries: { [id: string]: IFredSeries };
 }
 
 const initialState: IFredState = {
@@ -60,6 +36,7 @@ const initialState: IFredState = {
       fetched: false,
     },
   },
+  timeseriesByCategory: {},
   timeseries: {},
 };
 
@@ -107,20 +84,30 @@ const fred = (state: IFredState = initialState, action: Action): IFredState => {
       };
     }
     case SAVE_FRED_TIMESERIES_LIST: {
-      const timeseries: { [key: string]: ITimeseries } = {};
-      action.payload.seriess.forEach((x: ITimeseries) => {
-        if (
-          !has(x.id, state.timeseries) &&
-          !(state.config.removeDiscontinued && x.title.includes("DISCONTINUED"))
-        ) {
-          timeseries[x.id] = x;
-        }
+      // const timeseries: { [key: string]: IFredSeries } = {};
+      // action.payload.seriess.forEach((x: IFredSeries) => {
+      //   if (
+      //     !has(x.id, state.timeseries) &&
+      //     !(state.config.removeDiscontinued && x.title.includes("DISCONTINUED"))
+      //   ) {
+      //     timeseries[x.id] = x;
+      //   }
+      // });
+      const timeseries: { [key: string]: IFredSeries } = {};
+      const seriesIds: string[] = [];
+      action.payload.seriess.forEach((series) => {
+        timeseries[series.id] = series;
+        seriesIds.push(series.id);
       });
       return {
         ...state,
+        timeseriesByCategory: {
+          ...state.timeseriesByCategory,
+          [action.payload.categoryId]: seriesIds,
+        },
         timeseries: {
           ...state.timeseries,
-          ...timeseries, // Fixed: Use spread operator here to merge timeseries
+          ...timeseries,
         },
       };
     }

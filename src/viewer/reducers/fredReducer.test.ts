@@ -5,6 +5,29 @@ import {
   saveFredTimeseriesListAction,
   saveFredBrowserConfigAction,
 } from "../actions/fredActions";
+import { IFredSeries } from "../types/TFred";
+import { IFrequency, IDType } from "../types/TTimeseries";
+
+const generateFredSeries = (id: string): IFredSeries => ({
+  id,
+  realtimeStart: "2023-01-01",
+  realtimeEnd: "2023-12-31",
+  title: `Series ${id}`,
+  observationStart: "2023-01-01",
+  observationEnd: "2023-12-31",
+  frequency: "D",
+  frequencyShort: "D",
+  units: "Units",
+  unitsShort: "Units",
+  seasonalAdjustment: "None",
+  seasonalAdjustmentShort: "None",
+  lastUpdated: "2024-01-01",
+  popularity: 100,
+  groupPopularity: 100,
+  freq: IFrequency.D,
+  dtype: IDType.FLOAT,
+  isDiscontinued: false,
+});
 
 describe("fred reducer", () => {
   it("should return the initial state", () => {
@@ -50,31 +73,18 @@ describe("fred reducer", () => {
   });
 
   it("should handle SAVE_FRED_TIMESERIES_LIST", () => {
-    const action = saveFredTimeseriesListAction({
-      seriess: [
-        {
-          id: "FRED1",
-          title: "Series 1",
-          observation_start: "2023-01-01",
-          observation_end: "2023-12-31",
-        },
-        {
-          id: "FRED2",
-          title: "Series 2 (DISCONTINUED)",
-          observation_start: "2022-01-01",
-          observation_end: "2022-12-31",
-        },
-      ],
-    });
+    const action = saveFredTimeseriesListAction(1234, [
+      generateFredSeries("FRED1"),
+      generateFredSeries("FRED2"),
+    ]);
     const expectedState = {
       ...initialState,
       timeseries: {
-        FRED1: {
-          id: "FRED1",
-          title: "Series 1",
-          observation_start: "2023-01-01",
-          observation_end: "2023-12-31",
-        },
+        FRED1: generateFredSeries("FRED1"),
+        FRED2: generateFredSeries("FRED2"),
+      },
+      timeseriesByCategory: {
+        1234: ["FRED1", "FRED2"],
       },
     };
     expect(fredReducer(initialState, action)).toEqual(expectedState);

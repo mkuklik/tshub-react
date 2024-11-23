@@ -48,13 +48,16 @@ export function showErrorsAction(): IShowErrorsAction {
 export interface IReportApiErrorAction {
   type: typeof REPORT_API_ERROR;
   error: any; // Replace 'any' with the actual type of your error object
-  extra: any; // Replace 'any' with the actual type of your extra data
+  extra?: any; // Replace 'any' with the actual type of your extra data
 }
 
 export function reportApiError({
   error,
   extra,
-}: IReportApiErrorAction): IReportApiErrorAction {
+}: {
+  error: any;
+  extra?: any;
+}): IReportApiErrorAction {
   return {
     type: REPORT_API_ERROR,
     error,

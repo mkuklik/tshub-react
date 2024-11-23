@@ -15,7 +15,7 @@ const ColumnDefinitions = [
   },
   {
     headerName: 'Name',
-    field: 'name',
+    field: 'id',
     cellRenderer: 'nameCellRenderer',
     suppressMovable: true,
   },

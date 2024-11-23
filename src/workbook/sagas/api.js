@@ -1,14 +1,12 @@
-import {
-  takeEvery, put,
-} from 'redux-saga/effects';
-import axios from 'axios';
+import { takeEvery, put } from "redux-saga/effects";
+import axios from "axios";
 import {
   ApiClient as AnalyticsApiClient,
   DefaultApi as AnalyticsApi,
   FilterApi,
   ModelApi,
   TestApi,
-} from '../../analytics_client';
+} from "../../analytics_client";
 import {
   ApiClient,
   RawSpaceApi,
@@ -20,19 +18,29 @@ import {
   TimeSeriesApi,
   RawUploadApi,
   // UserApi,
-} from '../../client';
+} from "../../client";
+import { API_SET_PARAMETERS } from "../../viewer/actions/ActionTypes";
+import { saveApiParametersAction } from "../../viewer/actions/index";
+import WseriesApi from "../../analytics_client/api/WseriesApi";
+// import {
+//   ApiClient as FredApiClient,
+//   CategoryApi as FredCategoryApi,
+// } from '../../fred_client';
 import {
-  API_SET_PARAMETERS,
-} from '../../viewer/actions/ActionTypes';
-import { saveApiParametersAction } from '../../viewer/actions/index';
-import WseriesApi from '../../analytics_client/api/WseriesApi';
-import {
-  ApiClient as FredApiClient,
+  // ApiClient as FredApiClient,
   CategoryApi as FredCategoryApi,
-} from '../../fred_client';
+  SeriesApi as FredSeriesApi,
+  createConfiguration as createFredConfiguration,
+} from "../../fred_ts_client";
 
 export function* setParameters({
-  spaceId, collId, tsid, jwt, wid, chronos_address, analytics_address,
+  spaceId,
+  collId,
+  tsid,
+  jwt,
+  wid,
+  chronos_address,
+  analytics_address,
 }) {
   // const client = new ApiClient();
   // client.basePath = chronos_address.replace(/\/+$/, '');
@@ -60,26 +68,27 @@ export function* setParameters({
   // } = this.props;
 
   const client = new ApiClient();
-  client.basePath = chronos_address.replace(/\/+$/, '');
+  client.basePath = chronos_address.replace(/\/+$/, "");
   client.authentications.jwt.accessToken = jwt;
 
   const analyticsClient = new AnalyticsApiClient();
   analyticsClient.authentications.jwt.accessToken = jwt;
-  if (process.env.NODE_ENV === 'production') {
-    analyticsClient.basePath = analytics_address
-      .replace(/\/+$/, '');
+  if (process.env.NODE_ENV === "production") {
+    analyticsClient.basePath = analytics_address.replace(/\/+$/, "");
   } else {
     analyticsClient.basePath = analytics_address
-      .replace(/\/+$/, '')
-      .replace(/:(\d){1,}\//gm, ':9091/');
+      .replace(/\/+$/, "")
+      .replace(/:(\d){1,}\//gm, ":9091/");
   }
 
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 
-  if (process.env.NODE_ENV === 'production') {
-    axios.defaults.baseURL = chronos_address.replace(/\/+$/, '').replace('/api', '');
+  if (process.env.NODE_ENV === "production") {
+    axios.defaults.baseURL = chronos_address
+      .replace(/\/+$/, "")
+      .replace("/api", "");
   } else {
-    axios.defaults.baseURL = 'http://localhost:5000';
+    axios.defaults.baseURL = "http://localhost:5000";
   }
   axios.defaults.headers.common.Authorization = `Bearer ${jwt}`;
   // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -107,14 +116,28 @@ export function* setParameters({
     wseriesApi: new WseriesApi(analyticsClient),
   };
 
-  const fredClient = new FredApiClient();
+  // const fredClient = new FredApiClient();
+  const fredConfig = createFredConfiguration();
   // eslint-disable-next-line no-underscore-dangle
   window._fred = {
-    client: fredClient,
-    categoryApi: new FredCategoryApi(fredClient),
+    // client: fredClient,
+    // categoryApi: new FredCategoryApi(fredClient),
+    config: fredConfig,
+    categoryApi: new FredCategoryApi(fredConfig),
+    seriesApi: new FredSeriesApi(fredConfig),
   };
 
-  yield put(saveApiParametersAction(spaceId, collId, tsid, jwt, wid, chronos_address, analytics_address));
+  yield put(
+    saveApiParametersAction(
+      spaceId,
+      collId,
+      tsid,
+      jwt,
+      wid,
+      chronos_address,
+      analytics_address
+    )
+  );
 }
 
 export default function* watchApiActions() {

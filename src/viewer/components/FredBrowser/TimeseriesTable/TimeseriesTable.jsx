@@ -9,9 +9,6 @@ import {
 } from '@blueprintjs/core';
 import styled from 'styled-components';
 
-import { CollectionType } from '../../../types/Collections';
-import { SpaceType } from '../../../types/Spaces';
-
 import {
   TimeseriesListType,
   TimeseriesDetailsType,
@@ -39,10 +36,7 @@ const ContentContainer = styled(ContentContainerBase)`
 `;
 
 const TimeseriesTableBase = ({
-  space,
-  collection,
   timeseries,
-  timeseriesDetails,
   onAddTimeseries,
   onSelectTimeseries,
   onRefetchTimeseriesList,
@@ -55,8 +49,6 @@ const TimeseriesTableBase = ({
   const container = React.useRef(null);
 
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [deleteTimeseriesVisibility, setDeleteTimeseriesVisibility] = React.useState(false);
-  const handleDeleteTimeseriesDialogClose = () => setDeleteTimeseriesVisibility(false);
 
   const handleGridReady = React.useCallback((params) => {
     // const containerWidth = container.current.offsetWidth;
@@ -68,21 +60,6 @@ const TimeseriesTableBase = ({
     onShowInformation(selectedRows[0]);
   }, [selectedRows, onShowInformation]);
 
-
-  const handleCreateTimeseries = React.useCallback(() => {
-    toggleCreateTimeseriesOverlay(collection.spaceId, collection.collId);
-  }, [collection, toggleCreateTimeseriesOverlay]);
-
-  const handleCollectionUploadClick = React.useCallback(() => {
-    openUpload();
-  }, [openUpload]);
-
-  const handleDeleteTimeseriesDialogConfirm = React.useCallback(() => {
-    deleteTimeseries(collection.collId, map((ts) => ts.tsid, selectedRows));
-    handleDeleteTimeseriesDialogClose();
-  }, [collection, selectedRows, deleteTimeseries, handleDeleteTimeseriesDialogClose]);
-
-
   return (
     <div
       className={className}
@@ -92,10 +69,10 @@ const TimeseriesTableBase = ({
         <Header.Title>
           Timeseries
 
-          {collection && (
+          {/* {collection && (
             // eslint-disable-next-line react/jsx-one-expression-per-line
             <span> - {collection.name}</span>
-          )}
+          )} */}
         </Header.Title>
         <Header.ActionButtons>
           {onShowInformation && (
@@ -107,11 +84,11 @@ const TimeseriesTableBase = ({
                 onClick={handleShowInformation}
               />
 
-              <InformationContent>
+              {/* <InformationContent>
                 {timeseriesDetails && (
                   <TimeseriesDetails information={timeseriesDetails} />
                 )}
-              </InformationContent>
+              </InformationContent> */}
             </Popover>
           )}
 
@@ -119,7 +96,7 @@ const TimeseriesTableBase = ({
             <Button
               minimal
               icon="refresh"
-              disabled={isNil(collection)}
+              // disabled={isNil(collection)}
               onClick={onRefetchTimeseriesList}
             />
           )}
@@ -136,8 +113,8 @@ const TimeseriesTableBase = ({
           frameworkComponents={FrameworkComponents}
           suppressDragLeaveHidesColumns
           context={{
-            space,
-            collection,
+            // space,
+            // collection,
             onAddTimeseries,
           }}
           rowSelection="multiple"
@@ -157,10 +134,7 @@ const TimeseriesTableBase = ({
 };
 
 TimeseriesTableBase.propTypes = {
-  space: SpaceType,
-  collection: CollectionType,
   timeseries: TimeseriesListType,
-  timeseriesDetails: TimeseriesDetailsType,
   onAddTimeseries: types.func.isRequired,
   onSelectTimeseries: types.func.isRequired,
   toggleCreateTimeseriesOverlay: types.func.isRequired,

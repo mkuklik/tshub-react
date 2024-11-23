@@ -2,6 +2,7 @@ import { select, put, takeEvery } from "redux-saga/effects";
 import { isNil, has, path } from "ramda";
 import { fredCategorySelector } from "../selectors/ui";
 import { fetchFredCategoryAction } from "../actions/fredActions";
+import { fetchCategorySeries } from "./fred";
 import {
   fredBrowserSaveExpandedCategoryAction,
   fredBrowserSaveCollapsedCategoryAction,
@@ -59,6 +60,7 @@ function* selectCategory(message) {
       )
     );
   }
+  yield* fetchCategorySeries({ categoryId });
   // const category = yield select(fredCategorySelector(categoryId));
   // if (has('fetched', category) && !category.fetched) {
   //   yield* fetchFredCategory({ categoryId });
