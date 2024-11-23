@@ -8,13 +8,13 @@ import {
 } from "./fred";
 
 // Mock state
-const mockRootState: IRootState = {
-  // other props
+const mockRootState: any = {
   fred: {
     config: {
       apiKey: "testApiKey",
       removeDiscontinued: true,
     },
+    categories: {},
     timeseriesByCategory: {
       1: ["id1", "id2"],
       2: ["id3"],
@@ -25,22 +25,6 @@ const mockRootState: IRootState = {
       id3: { id: "id3", isDiscontinued: false } as IFredSeries,
       id4: { id: "id4", isDiscontinued: true } as IFredSeries,
       id5: { id: "id5", isDiscontinued: false } as IFredSeries,
-    },
-  },
-  workbook: {
-    activeLayout: undefined,
-    activeGraphTabset: undefined,
-    mainModel: undefined,
-    analyticsModel: undefined,
-    timeseriesBrowserModel: undefined,
-    isFavorite: false,
-    metadata: {
-      title: undefined,
-    },
-  },
-  ui: {
-    workbook: {
-      isTourOpen: false,
     },
   },
 };
@@ -76,7 +60,7 @@ describe("fred selectors", () => {
 
   it("should select fredSeriesByCategory and return empty array for categoryId", () => {
     const mockStateWithoutCategory = { ...mockRootState };
-    mockStateWithoutCategory.fred.timeseriesByCategory = undefined;
+    mockStateWithoutCategory.fred.timeseriesByCategory = {};
     expect(fredSeriesByCategorySelector(1)(mockStateWithoutCategory)).toEqual(
       []
     );

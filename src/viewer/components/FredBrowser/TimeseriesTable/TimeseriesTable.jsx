@@ -24,7 +24,6 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import { TimeseriesDetails } from './TimeseriesDetails/TimeseriesDetails';
 import { ColumnDefinitions, FrameworkComponents } from './TimeseriesTable.Settings';
 import { InformationContent } from './TimeseriesTable.Components';
-import TimeseriesConfirmDelete from './TimeseriesConfirmDelete';
 
 const ContentContainer = styled(ContentContainerBase)`
   height: 100%;  //74%;
@@ -134,6 +133,7 @@ const TimeseriesTableBase = ({
 };
 
 TimeseriesTableBase.propTypes = {
+  isLoading: types.bool,
   timeseries: TimeseriesListType,
   onAddTimeseries: types.func.isRequired,
   onSelectTimeseries: types.func.isRequired,
