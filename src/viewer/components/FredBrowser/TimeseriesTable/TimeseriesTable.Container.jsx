@@ -21,20 +21,25 @@ import {
 } from "../../../types/Timeseries";
 
 import { TimeseriesTable } from "./TimeseriesTable";
+// import TimeseriesTable2 from "./TimeseriesTable2";
 
-const TimeseriesTableContainerBase = ({
-  timeseries,
-  // timeseriesDetails,
-  isTimeseriesListLoading,
-  addTimeseries,
-  selectTimeseries,
-  fetchTimeseriesList,
-  fetchTimeseriesDetails,
-  toggleCreateTimeseriesOverlay,
-  deleteTimeseries,
-  openUpload,
-  ...props
-}) => {
+const TimeseriesTableContainerBase = (
+  {
+    timeseries,
+    // timeseriesDetails,
+    isTimeseriesListLoading,
+    addTimeseries,
+    selectTimeseries,
+    fetchTimeseriesList,
+    fetchTimeseriesDetails,
+    toggleCreateTimeseriesOverlay,
+    deleteTimeseries,
+    openUpload,
+    ...props
+  } = {
+    isTimeseriesListLoading: false,
+  }
+) => {
   const handleRefetchTimeseriesList = React.useCallback(() => {
     // fetchTimeseriesList(selectedCollection.collId);
   }, [fetchTimeseriesList]);
@@ -85,10 +90,6 @@ TimeseriesTableContainerBase.propTypes = {
   deleteTimeseries: types.func.isRequired,
   openUpload: types.func.isRequired,
   addTimeseries: types.func.isRequired,
-};
-
-TimeseriesTableContainerBase.defaultProps = {
-  isTimeseriesListLoading: false,
 };
 
 const mapStateToProps = (state) => {

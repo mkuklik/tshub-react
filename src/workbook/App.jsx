@@ -1,25 +1,27 @@
-import * as React from 'react';
-import types from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-import { FocusStyleManager } from '@blueprintjs/core';
-import { WebR } from '@r-wasm/webr';
+import * as React from "react";
+import types from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import styled from "styled-components";
+import { FocusStyleManager } from "@blueprintjs/core";
+import { WebR } from "@r-wasm/webr";
 // eslint-disable-next-line no-unused-vars, import/no-named-as-default
-import AppToaster from '../viewer/components/errors/AppToaster';
-import GlobalFonts from '../fonts/fonts';
-import '@blueprintjs/core/lib/css/blueprint.css';
-import 'react-semantic-toasts/styles/react-semantic-alert.css';
-import { initializeAction } from '../viewer/actions';
-import TopNavbar from './components/TopNavbar/TopNavbar';
-import WorkbookContainer from './components/Workbook/WorkbookContainer';
-import TopMenu from './components/TopMenu/TopMenu';
-import CreateSpaceOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateSpaceOverlay';
-import CreateCollectionOverlay from '../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateCollectionOverlay';
-import CreateTimeseriesOverlay from '../viewer/components/TimeseriesBrowser/TimeseriesTable/CreateTimeseriesOverlay';
-import FredBrowserConfigOverlay from '../viewer/components/FredBrowser/CategoryBrowser/FredBrowserConfigOverlay';
-import TourMain from './tour';
-import LoginPortal from './components/User/LoginPortal';
+import AppToaster from "../viewer/components/errors/AppToaster";
+import GlobalFonts from "../fonts/fonts";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "react-semantic-toasts/styles/react-semantic-alert.css";
+import { initializeAction } from "../viewer/actions";
+import TopNavbar from "./components/TopNavbar/TopNavbar";
+import WorkbookContainer from "./components/Workbook/WorkbookContainer";
+import TopMenu from "./components/TopMenu/TopMenu";
+import CreateSpaceOverlay from "../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateSpaceOverlay";
+import CreateCollectionOverlay from "../viewer/components/TimeseriesBrowser/SpaceBrowser/CreateCollectionOverlay";
+import CreateTimeseriesOverlay from "../viewer/components/TimeseriesBrowser/TimeseriesTable/CreateTimeseriesOverlay";
+import FredBrowserConfigOverlay from "../viewer/components/FredBrowser/CategoryBrowser/FredBrowserConfigOverlay";
+import TourMain from "./tour";
+import LoginPortal from "./components/User/LoginPortal";
+// import registerWebRServiceWorker from "../registerWebRServiceWorker";
+
 // import { createAnalyticsAction } from './analytics/actions';
 // import { AnalyticsKind } from './analytics/definitions/AnalyticsKind';
 // import {
@@ -51,7 +53,7 @@ const Container = styled.div`
 `;
 
 const StyledTopMenu = styled(TopMenu)`
-  margin-top:30px;
+  margin-top: 30px;
 `;
 
 class App extends React.Component {
@@ -59,7 +61,13 @@ class App extends React.Component {
     super(props);
 
     const {
-      wid, chronos_address, analytics_address, jwt, title, isFavorite, initialize,
+      wid,
+      chronos_address,
+      analytics_address,
+      jwt,
+      title,
+      isFavorite,
+      initialize,
     } = this.props;
 
     // this.client = new ApiClient();
@@ -105,7 +113,12 @@ class App extends React.Component {
     // };
 
     initialize({
-      wid, jwt, title, isFavorite, chronos_address, analytics_address,
+      wid,
+      jwt,
+      title,
+      isFavorite,
+      chronos_address,
+      analytics_address,
     });
 
     // debugging
@@ -117,15 +130,33 @@ class App extends React.Component {
     this.webR = null; // Add webR instance variable
   }
 
+  // async initWebR() {
+  //   const { WebR } = await import("@r-wasm/webr");
+  //   window._webR = new WebR();
+  //   await window._webR.init();
+  //   console.log("webR is ready!");
+  // }
+
+  // async componentDidMount() {
+  //   // Initialize webR after the component mounts
+  //   await this.initWebR();
+  // }
+
   async componentDidMount() {
     // Initialize webR after the component mounts
+    // registerWebRServiceWorker(); // Call the registration function here
+    // const webR = new WebR({
+    //   serviceWorkerUrl: "webr/",
+    // });
+    // await webR.init();
     this.webR = new WebR({
       createLazyFilesystem: false,
-      baseUrl: 'https://webr.r-wasm.org/v0.1.1/',
-      repoUrl: 'https://repo.r-wasm.org/',
+      baseUrl: "https://webr.r-wasm.org/v0.1.1/",
+      repoUrl: "https://repo.r-wasm.org/",
+      serviceWorkerUrl: "webr/",
     });
     await this.webR.init();
-    console.log('webR is ready!');
+    console.log("webR is ready!");
   }
 
   render() {
@@ -158,9 +189,13 @@ App.propTypes = {
   // createAnalytics: types.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  initialize: initializeAction,
-  // createAnalytics: createAnalyticsAction,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      initialize: initializeAction,
+      // createAnalytics: createAnalyticsAction,
+    },
+    dispatch
+  );
 
 export default connect(null, mapDispatchToProps)(App);

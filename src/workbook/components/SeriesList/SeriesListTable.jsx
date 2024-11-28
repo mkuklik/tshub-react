@@ -1,58 +1,53 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import types from 'prop-types';
-import {
-  isNil, path, filter, map,
-} from 'ramda';
-import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import styled from 'styled-components';
-import { Button } from '@blueprintjs/core';
-import { StyledNavbarGroup, NavbarBase } from './common';
+import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import types from "prop-types";
+import { isNil, path, filter, map } from "ramda";
+// import { AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from "@ag-grid-community/react";
+import { AllCommunityModules } from "@ag-grid-community/all-modules";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-balham.css";
+import styled from "styled-components";
+import { Button } from "@blueprintjs/core";
+import { StyledNavbarGroup, NavbarBase } from "./common";
 
-import {
-  updateSeriesAction,
-} from '../../../viewer/actions/seriesActions';
+import { updateSeriesAction } from "../../../viewer/actions/seriesActions";
 import {
   selectSeriesAction,
   deselectSeriesAction,
   removeSeriesAction,
   reorderSeriesAction,
   updateSeriesPropsAction,
-} from '../../../viewer/actions/graphActions';
+} from "../../../viewer/actions/graphActions";
 import {
   GraphType,
   SeriesDefinitionType,
   ErrorType,
-} from '../../../viewer/types/Graph';
-import { SeriesType } from '../../../viewer/types/Series';
+} from "../../../viewer/types/Graph";
+import { SeriesType } from "../../../viewer/types/Series";
 import {
   currentGraphGidSelector,
   currentGraphSelector,
   currentGraphSeriesDefSelector,
   currentGraphErrorsSelector,
-} from '../../../viewer/selectors/graph';
-import {
-  seriesDefListSelector,
-} from '../../../viewer/selectors/series';
+} from "../../../viewer/selectors/graph";
+import { seriesDefListSelector } from "../../../viewer/selectors/series";
 import {
   openFuncEditorAction,
   closeFuncEditorAction,
-} from '../../action/uiActions';
+} from "../../action/uiActions";
 
-import ControlsCellRenderer from './ControlsCellRenderer';
-import IndicatorCellRenderer from './IndicatorCellRenderer';
-import NameCellRenderer from './NameCellRenderer';
-import DrapDropToGraphWrapper from '../DrapDropToGraphWrapper';
+import ControlsCellRenderer from "./ControlsCellRenderer";
+import IndicatorCellRenderer from "./IndicatorCellRenderer";
+import NameCellRenderer from "./NameCellRenderer";
+import DrapDropToGraphWrapper from "../DrapDropToGraphWrapper";
 
-import './SeriesListTable.css';
-
+import "./SeriesListTable.css";
 
 const ContentContainer = styled.div`
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TableContainer = styled(DrapDropToGraphWrapper)`
@@ -71,38 +66,37 @@ const TableContainer = styled(DrapDropToGraphWrapper)`
 export const StyledNavbar = styled(NavbarBase)`
   order: 1;
   position: absolute;
-  z-index:2;
+  z-index: 2;
   height: 30px;
 `;
-
 
 class SeriesListTable extends React.Component {
   columnDefs = [
     {
-      headerName: '',
-      field: 'drag',
+      headerName: "",
+      field: "drag",
       rowDrag: true,
       width: 60,
       rowDragText: (params) => params.rowNode.data.wsid,
       checkboxSelection: true,
     },
     {
-      field: 'indicator',
+      field: "indicator",
       width: 90,
-      headerName: '',
-      cellRenderer: 'indicatorCellRenderer',
+      headerName: "",
+      cellRenderer: "indicatorCellRenderer",
     },
     {
-      field: 'name',
+      field: "name",
       flex: 1,
-      headerName: '',
-      cellRenderer: 'nameCellRenderer',
+      headerName: "",
+      cellRenderer: "nameCellRenderer",
     },
     {
-      field: 'controls',
-      headerName: '',
+      field: "controls",
+      headerName: "",
       width: 90,
-      cellRenderer: 'controlsCellRenderer',
+      cellRenderer: "controlsCellRenderer",
     },
   ];
 
@@ -119,11 +113,12 @@ class SeriesListTable extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { seriesDef, graphErrors, selected } = this.props;
-    if (nextProps.seriesDef !== seriesDef
-      || (nextProps.selected.length === selected
-          && !nextProps.selected.every((e) => selected.includes(e))
-      )
-      || nextProps.graphErrors !== graphErrors) {
+    if (
+      nextProps.seriesDef !== seriesDef ||
+      (nextProps.selected.length === selected &&
+        !nextProps.selected.every((e) => selected.includes(e))) ||
+      nextProps.graphErrors !== graphErrors
+    ) {
       // console.log('update SeriesList');
       return true;
     }
@@ -202,25 +197,25 @@ class SeriesListTable extends React.Component {
   // toDeselect.forEach((wsid) => deselectSeries({ gid, wsid }));
   // }
 
-
   onRowDragEnd = (event) => {
     const { gid, reorderSeries } = this.props;
-    const wsid = path(['node', 'data', 'wsid'], event);
-    const wsidOver = path(['overNode', 'data', 'wsid'], event);
-    const pos = event.overIndex === -1
-      ? event.api.rowModel.rowsToDisplay.length - 1
-      : event.overIndex;
+    const wsid = path(["node", "data", "wsid"], event);
+    const wsidOver = path(["overNode", "data", "wsid"], event);
+    const pos =
+      event.overIndex === -1
+        ? event.api.rowModel.rowsToDisplay.length - 1
+        : event.overIndex;
     if (wsidOver !== wsid) reorderSeries({ gid, wsid, pos });
   };
 
   onCellDoubleClicked = (event) => {
-    console.log('onCellDoubleClicked', event);
+    console.log("onCellDoubleClicked", event);
   };
 
   handleOpenNewSeriesEditor = () => this.props.openFuncEditor(undefined);
 
   handleSuppressKeyboardEvent = () => true;
-  
+
   render() {
     const {
       className,
@@ -240,7 +235,10 @@ class SeriesListTable extends React.Component {
     } = this.props;
 
     let rowData = !isNil(graph) ? seriesDef : [];
-    rowData = map((x) => ({ ...x, errors: filter((e) => e.wsid === x.wsid, graphErrors) }), rowData);
+    rowData = map(
+      (x) => ({ ...x, errors: filter((e) => e.wsid === x.wsid, graphErrors) }),
+      rowData
+    );
     //     console.log('rowData', rowData);
     return (
       <ContentContainer className={className}>
@@ -255,9 +253,7 @@ class SeriesListTable extends React.Component {
           </StyledNavbarGroup>
         </StyledNavbar>
 
-        <TableContainer
-          className="ag-theme-balham"
-        >
+        <TableContainer className="ag-theme-balham">
           <AgGridReact
             rowData={rowData}
             onGridReady={this.onGridReady}
@@ -289,15 +285,16 @@ class SeriesListTable extends React.Component {
               graphErrors,
             }}
             onRowDragMove={this.onRowDragMove}
-          // deltaRowDataMode // this prevent redraw of cells on change of deeper series properties like visible
-          // return id required for delta updates
+            // deltaRowDataMode // this prevent redraw of cells on change of deeper series properties like visible
+            // return id required for delta updates
             getRowNodeId={(data) => data.wsid}
             onRowDragEnd={this.onRowDragEnd}
             onRowSelected={this.onRowSelected}
             // onSelectionChanged={this.onSelectionChanged}
             onCellDoubleClicked={this.onCellDoubleClicked}
             rowClassRules={{
-              'rag-red': (params) => params.data.errors && params.data.errors.length > 0,
+              "rag-red": (params) =>
+                params.data.errors && params.data.errors.length > 0,
             }}
             // immutableData={true}
           />
@@ -343,16 +340,20 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  removeSeries: removeSeriesAction,
-  reorderSeries: reorderSeriesAction,
-  updateSeriesProps: updateSeriesPropsAction,
-  updateSeries: updateSeriesAction,
-  selectSeries: selectSeriesAction,
-  deselectSeries: deselectSeriesAction,
-  openFuncEditor: openFuncEditorAction,
-  closeFuncEditor: closeFuncEditorAction,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      removeSeries: removeSeriesAction,
+      reorderSeries: reorderSeriesAction,
+      updateSeriesProps: updateSeriesPropsAction,
+      updateSeries: updateSeriesAction,
+      selectSeries: selectSeriesAction,
+      deselectSeries: deselectSeriesAction,
+      openFuncEditor: openFuncEditorAction,
+      closeFuncEditor: closeFuncEditorAction,
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(SeriesListTable);
 // , null, { forwardRef: true }

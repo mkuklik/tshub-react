@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import types from 'prop-types';
-import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core';
+import React from "react";
+import types from "prop-types";
+import { ContextMenuTargetLegacy, Menu, MenuItem } from "@blueprintjs/core";
 
-const ContextMenu = ContextMenuTarget(
+const ContextMenu = ContextMenuTargetLegacy(
   class extends React.Component {
     renderContextMenu() {
       const { onAddAnnotation, onDeleteAnnotation, disabled } = this.props;
@@ -29,13 +29,9 @@ const ContextMenu = ContextMenuTarget(
     render() {
       const { children } = this.props;
 
-      return (
-        <div>
-          {children}
-        </div>
-      );
+      return <div>{children}</div>;
     }
-  },
+  }
 );
 
 ContextMenu.propTypes = {

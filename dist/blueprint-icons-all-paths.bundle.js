@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkchronosdb_react=self.webpackChunkchronosdb_react||[]).push([[860],{39803:(c,n,e)=>{e.r(n),e.d(n,{IconSvgPaths16:()=>t,IconSvgPaths20:()=>o,getIconPaths:()=>s,iconNameToPathsRecordKey:()=>h});var r=e(43261),t=e(15369),o=e(44766),a=e(6134);function s(c,n){var e=(0,r.fL)(c);return n===a.l.STANDARD?t[e]:o[e]}function h(c){return(0,r.fL)(c)}}}]);

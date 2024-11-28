@@ -1,14 +1,14 @@
 /* eslint-disable react/require-default-props */
-import * as React from 'react';
-import types from 'prop-types';
-import { connect } from 'react-redux';
-import { isNil, compose, path } from 'ramda';
+import * as React from "react";
+import types from "prop-types";
+import { connect } from "react-redux";
+import { isNil, compose, path } from "ramda";
 
 import {
   fetchSpacesAction,
   fetchSpaceDetailsAction,
   deleteSpaceAction,
-} from '../../../actions/spacesActions';
+} from "../../../actions/spacesActions";
 
 import {
   selectCollectionAction,
@@ -16,9 +16,9 @@ import {
   refetchCollectionsAction,
   fetchCollectionDetailsAction,
   deleteCollectionAction,
-} from '../../../actions/collectionsActions';
+} from "../../../actions/collectionsActions";
 
-import { fetchTimeseriesListAction } from '../../../actions/timeseriesActions';
+import { fetchTimeseriesListAction } from "../../../actions/timeseriesActions";
 
 import {
   timeseriesBrowserSelectSpace,
@@ -29,28 +29,28 @@ import {
   timeseriesBrowserSetOverNodeIDAction,
   toggleCreateCollectionOverlayAction,
   toggleDeleteSpaceCollectionOverlayAction,
-} from '../../../actions/uiActions';
+} from "../../../actions/uiActions";
 
-import { SpaceListType, SpaceDetailsType } from '../../../types/Spaces';
+import { SpaceListType, SpaceDetailsType } from "../../../types/Spaces";
 
 import {
   CollectionListMapType,
   CollectionErrorMapType,
   CollectionDetailsType,
-} from '../../../types/Collections';
+} from "../../../types/Collections";
 
-import { TimeseriesListMapType } from '../../../types/Timeseries';
+import { TimeseriesListMapType } from "../../../types/Timeseries";
 
-import { SpaceBrowser } from './SpaceBrowser';
+import { SpaceBrowser } from "./SpaceBrowser";
 import {
   timeseriesBrowserOverSpaceIdSelector,
   isDeleteSpaceCollectionOverlayOpenSelector,
-} from '../../../selectors/ui';
+} from "../../../selectors/ui";
 
 const SpaceBrowserContainerBase = ({
   spaces,
   spaceDetails,
-  isSpaceListLoading,
+  isSpaceListLoading = false,
   loadingSpaces,
   expandedSpaces,
   fetchSpaces,
@@ -71,13 +71,13 @@ const SpaceBrowserContainerBase = ({
   uiExpandSpace,
   uiCollapseSpace,
   uiSelectCollection,
-  showUploadButton,
+  showUploadButton = false,
   openUpload,
   toggleCreateSpaceOverlay,
   setOverNode,
-  overSpaceId,
+  overSpaceId = null,
   toggleCreateCollectionOverlay,
-  isDeleteSpaceCollectionOverlayOpen,
+  isDeleteSpaceCollectionOverlayOpen = false,
   toggleDeleteSpaceCollectionOverlay,
   deleteCollection,
   deleteSpace,
@@ -98,7 +98,7 @@ const SpaceBrowserContainerBase = ({
         uiExpandSpace(node);
       }
     },
-    [collections, uiExpandSpace, fetchCollections],
+    [collections, uiExpandSpace, fetchCollections]
   );
 
   const handleSelectCollection = React.useCallback(
@@ -115,7 +115,7 @@ const SpaceBrowserContainerBase = ({
       selectCollection,
       uiSelectCollection,
       fetchTimeseriesList,
-    ],
+    ]
   );
 
   const handleRefetchInformation = React.useCallback(() => {
@@ -127,16 +127,18 @@ const SpaceBrowserContainerBase = ({
     (selectedNode) => {
       const { type } = selectedNode;
 
-      if (type === 'space') {
+      if (type === "space") {
         fetchSpaceDetails(selectedNode);
         return;
       }
 
-      if (type === 'collection') {
-        fetchCollectionDetails(path(['collectionNode', 'collId'], selectedNode));
+      if (type === "collection") {
+        fetchCollectionDetails(
+          path(["collectionNode", "collId"], selectedNode)
+        );
       }
     },
-    [fetchSpaceDetails, fetchCollectionDetails],
+    [fetchSpaceDetails, fetchCollectionDetails]
   );
 
   const handleRefetchSpaceCollections = React.useCallback(
@@ -146,7 +148,7 @@ const SpaceBrowserContainerBase = ({
         spaceNode: node,
       });
     },
-    [fetchCollections],
+    [fetchCollections]
   );
 
   return (
@@ -221,19 +223,9 @@ SpaceBrowserContainerBase.propTypes = {
   deleteSpace: types.func.isRequired,
 };
 
-SpaceBrowserContainerBase.defaultProps = {
-  isSpaceListLoading: false,
-  showUploadButton: false,
-  openUpload: undefined,
-  overSpaceId: null,
-  isDeleteSpaceCollectionOverlayOpen: false,
-};
-
 const mapStateToProps = (state) => {
-  const {
-    ui, spaces, collections, timeseries,
-  } = state;
-  return ({
+  const { ui, spaces, collections, timeseries } = state;
+  return {
     spaces: spaces.spaces,
     spaceDetails: spaces.spaceDetails,
     collections: collections.collections,
@@ -246,8 +238,9 @@ const mapStateToProps = (state) => {
     selectedSpaceId: ui.timeseriesBrowser.selectedSpaceId,
     selectedCollectionID: ui.timeseriesBrowser.selectedCollectionID,
     overSpaceId: timeseriesBrowserOverSpaceIdSelector(state),
-    isDeleteSpaceCollectionOverlayOpen: isDeleteSpaceCollectionOverlayOpenSelector(state),
-  });
+    isDeleteSpaceCollectionOverlayOpen:
+      isDeleteSpaceCollectionOverlayOpenSelector(state),
+  };
 };
 
 const mapDispatchToProps = {
@@ -271,7 +264,7 @@ const mapDispatchToProps = {
 };
 
 const SpaceBrowserContainer = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(SpaceBrowserContainerBase);
 
 // eslint-disable-next-line import/prefer-default-export

@@ -133,7 +133,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'node',
+  testEnvironment: "node",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -169,15 +169,18 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,
+  // transform: {
+  //   "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+  // },
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    "^.+\\.[jt]sx?$": "babel-jest", // For Babel
+    "^.+\\.tsx?$": "ts-jest", // For TypeScript
   },
-  roots: [
-    '<rootDir>/src'
-  ],
+  roots: ["<rootDir>/src"],
   testMatch: [
-    '**/__tests__/**/*.+(ts)',
-    '**/?(*.)+(test).+(ts)'
+    "**/__tests__/**/*.+(ts)",
+    "**/?(*.)+(test).+(ts)",
+    "**/?(*.)+(test).+(js)",
   ],
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [

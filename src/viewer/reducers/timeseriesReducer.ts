@@ -1,4 +1,4 @@
-import { isNil, filter, has, contains } from "ramda";
+import { isNil, filter, has, includes } from "ramda";
 import {
   ISaveTimeSeriesAction,
   ISaveTimeseriesListAction,
@@ -86,7 +86,7 @@ const timeseriesReducer = (
       };
       if (has(collId, state.timeseriesListByColl)) {
         const filteredTimeseries: ITimeseries[] = filter(
-          (x: ITimeseries) => !contains(x.tsid, tsids),
+          (x: ITimeseries) => !includes(x.tsid, tsids),
           state.timeseriesListByColl[collId] || [] // Provide a default empty array
         ) as ITimeseries[]; // Type assertion
         // const filteredTimeseries: ITimeseries[] = [];

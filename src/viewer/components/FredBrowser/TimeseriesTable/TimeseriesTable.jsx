@@ -1,32 +1,39 @@
 /* eslint-disable react/require-default-props */
-import * as React from 'react';
-import types from 'prop-types';
-import { compose, isNil, map } from 'ramda';
-import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import * as React from "react";
+import types from "prop-types";
+import { compose, isNil, map } from "ramda";
+import "../../../../agGridSetup";
+import { AgGridReact } from "@ag-grid-community/react";
 import {
-  Button, Popover, Position, Tooltip, AnchorButton,
-} from '@blueprintjs/core';
-import styled from 'styled-components';
+  Button,
+  Popover,
+  Position,
+  Tooltip,
+  AnchorButton,
+} from "@blueprintjs/core";
+import styled from "styled-components";
 
 import {
   TimeseriesListType,
   TimeseriesDetailsType,
-} from '../../../types/Timeseries';
+} from "../../../types/Timeseries";
 
-import { Header } from '../Common/Header';
-import { Loadable } from '../Common/Loadable';
-import { ContentContainer as ContentContainerBase } from '../FredBrowser.Components';
+import { Header } from "../Common/Header";
+import { Loadable } from "../Common/Loadable";
+import { ContentContainer as ContentContainerBase } from "../FredBrowser.Components";
 
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-balham.css";
 
-import { TimeseriesDetails } from './TimeseriesDetails/TimeseriesDetails';
-import { ColumnDefinitions, FrameworkComponents } from './TimeseriesTable.Settings';
-import { InformationContent } from './TimeseriesTable.Components';
+import { TimeseriesDetails } from "./TimeseriesDetails/TimeseriesDetails";
+import {
+  ColumnDefinitions,
+  FrameworkComponents,
+} from "./TimeseriesTable.Settings";
+import { InformationContent } from "./TimeseriesTable.Components";
 
 const ContentContainer = styled(ContentContainerBase)`
-  height: 100%;  //74%;
+  height: 100%; //74%;
   background-color: transparent;
 
   .ag-root {
@@ -45,11 +52,13 @@ const TimeseriesTableBase = ({
   openUpload,
   className,
 }) => {
+  console.log("timeseries: ", timeseries);
   const container = React.useRef(null);
 
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   const handleGridReady = React.useCallback((params) => {
+    console.log("params: ", params);
     // const containerWidth = container.current.offsetWidth;
     // params.api.sizeColumnsToFit(containerWidth);
     // params.api.autoSizeColumns(['title'])
@@ -62,12 +71,15 @@ const TimeseriesTableBase = ({
   return (
     <div
       className={className}
-      style={{ height: '100%', display: 'grid', gridTemplateRows: '[header] 30px [main-table] auto' }}
+      style={{
+        height: "100%",
+        display: "grid",
+        gridTemplateRows: "[header] 30px [main-table] auto",
+      }}
     >
       <Header>
         <Header.Title>
           Timeseries
-
           {/* {collection && (
             // eslint-disable-next-line react/jsx-one-expression-per-line
             <span> - {collection.name}</span>
@@ -101,14 +113,10 @@ const TimeseriesTableBase = ({
           )}
         </Header.ActionButtons>
       </Header>
-      <ContentContainer
-        ref={container}
-        className="ag-theme-balham"
-      >
+      <ContentContainer ref={container} className="ag-theme-balham">
         <AgGridReact
           rowData={timeseries}
           columnDefs={ColumnDefinitions}
-          modules={AllCommunityModules}
           frameworkComponents={FrameworkComponents}
           suppressDragLeaveHidesColumns
           context={{
@@ -120,6 +128,7 @@ const TimeseriesTableBase = ({
           rowDragManaged
           onGridReady={handleGridReady}
           gridOptions={{
+            rowModelType: "clientSide",
             onSelectionChanged: ({ api }) => {
               const changedSelectedRows = api.getSelectedRows();
               onSelectTimeseries(changedSelectedRows);
@@ -145,13 +154,7 @@ TimeseriesTableBase.propTypes = {
   className: types.string,
 };
 
-TimeseriesTableBase.defaultProps = {
-  className: '',
-};
-
-const TimeseriesTable = compose(
-  Loadable,
-)(TimeseriesTableBase);
+const TimeseriesTable = compose(Loadable)(TimeseriesTableBase);
 
 // eslint-disable-next-line import/prefer-default-export
 export { TimeseriesTable };

@@ -1,5 +1,5 @@
 import { select, put } from 'redux-saga/effects';
-import FlexLayout, { Model, Actions, DockLocation } from 'flexlayout-react';
+import { Model, Actions, DockLocation, FlexLayout } from 'flexlayout-react';
 import { isNil } from 'ramda';
 import {
   FORTH_LAYOUT,
@@ -46,7 +46,7 @@ export function* changeGraphLayouts({ layoutIndex }) {
   const currentModel = yield select(flexLayoutModelSelector);
   const tmp = currentModel.toJson();
   tmp.layout = graphLayouts[layoutIndex];
-  const newModel = FlexLayout.Model.fromJson(tmp);
+  const newModel = Model.fromJson(tmp);
 
   // move graph tabs around
   if (graphLayoutSize[getLayoutName(newModel)] >= graphLayoutSize[getLayoutName(currentModel)]) {

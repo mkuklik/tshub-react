@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "sourceMap": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,19 +14,21 @@
     "resolveJsonModule": true,
     // "isolatedModules": true,
     "isolatedModules": false,
-    "noEmit": true,
-    "jsx": "react",
-    "transpileOnly": true,
-    "typeCheck": false,
-    "files": [
-      "src/**/*.ts"
-    ],
+    "noEmit": false, // Changed to false to allow emitting output files
+    "jsx": "react-jsx",
+    "transpileOnly": false, // Changed to false for type checking during compilation
+    "typeCheck": true // Changed to true to enable type checking
+    // "noEmit": true,
+    // "jsx": "react-jsx",  // "react-jsx", "preserve", "react"
+    // "transpileOnly": true,
+    // "typeCheck": false,
+    // "files": [
+    //   "src/**/*.ts"
+    // ],
   },
-  "include": [
-    "src"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "useBabel": true,
-    "useCache": true
-  }
+  "include": ["src"]
+  // "awesomeTypescriptLoaderOptions": {
+  //   "useBabel": true,
+  //   "useCache": true
+  // }
 }

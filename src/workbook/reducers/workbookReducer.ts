@@ -2,6 +2,7 @@ import {
   WORKBOOK_SAVE_MODEL,
   WORKBOOK_SAVE_ANALYTICS_MODEL,
   WORKBOOK_SAVE_TSB_MODEL,
+  WORKBOOK_SAVE_FRED_MODEL,
   WORKBOOK_SAVE_ACTIVE_LAYOUT,
   WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET,
   WORKBOOK_SAVE_METADATA,
@@ -10,17 +11,20 @@ import {
   ISaveModelAction,
   ISaveAnalyticsModelAction,
   ISaveTimeseriesBrowserModelAction,
+  ISaveFredBrowserModelAction,
   ISaveActiveGraphLayoutAction,
   ISaveActiveGraphTabsetAction,
   ISaveMetadataAction,
   ISaveIsFavoriteAction,
   ISaveWidAction,
-} from '../action/workbookActions'; // Assuming you put the interfaces in 'WorkbookActions.ts'
+} from "../action/workbookActions"; // Assuming you put the interfaces in 'WorkbookActions.ts'
+import { Model } from "flexlayout-react";
 
 export interface IWorkbookState {
   mainModel: any; // Replace 'any' with the actual model type
-  analyticsModel: any; // Replace 'any' with the actual model type
-  timeseriesBrowserModel: any; // Replace 'any' with the actual model type
+  analyticsModel: Model;
+  timeseriesBrowserModel: Model;
+  fredBrowserModel: Model;
   activeLayout: number;
   activeGraphTabset: string | undefined; // Or the correct type for activeGraphTabset
   metadata: { [key: string]: any };
@@ -39,15 +43,19 @@ const initialState: IWorkbookState = {
   wid: undefined,
 };
 
-const workbook = (state: IWorkbookState = initialState, action:
-  | ISaveModelAction
-  | ISaveAnalyticsModelAction
-  | ISaveTimeseriesBrowserModelAction
-  | ISaveActiveGraphLayoutAction
-  | ISaveActiveGraphTabsetAction
-  | ISaveMetadataAction
-  | ISaveIsFavoriteAction
-  | ISaveWidAction): IWorkbookState => {
+const workbook = (
+  state: IWorkbookState = initialState,
+  action:
+    | ISaveModelAction
+    | ISaveAnalyticsModelAction
+    | ISaveTimeseriesBrowserModelAction
+    | ISaveFredBrowserModelAction
+    | ISaveActiveGraphLayoutAction
+    | ISaveActiveGraphTabsetAction
+    | ISaveMetadataAction
+    | ISaveIsFavoriteAction
+    | ISaveWidAction
+): IWorkbookState => {
   switch (action.type) {
     case WORKBOOK_SAVE_MODEL: {
       const { model } = action.payload;
@@ -70,7 +78,13 @@ const workbook = (state: IWorkbookState = initialState, action:
         timeseriesBrowserModel: model,
       };
     }
-
+    case WORKBOOK_SAVE_FRED_MODEL: {
+      const { model } = action.payload;
+      return {
+        ...state,
+        fredBrowserModel: model,
+      };
+    }
     case WORKBOOK_SAVE_ACTIVE_LAYOUT: {
       const { layoutIndex } = action.payload;
       return {

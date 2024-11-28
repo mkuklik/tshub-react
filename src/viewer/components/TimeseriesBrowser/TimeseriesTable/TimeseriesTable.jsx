@@ -1,36 +1,42 @@
 /* eslint-disable react/require-default-props */
-import * as React from 'react';
-import types from 'prop-types';
-import { compose, isNil, map } from 'ramda';
-import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import * as React from "react";
+import types from "prop-types";
+import { compose, isNil, map } from "ramda";
+import { AgGridReact } from "@ag-grid-community/react";
 import {
-  Button, Popover, Position, Tooltip, AnchorButton,
-} from '@blueprintjs/core';
-import styled from 'styled-components';
+  Button,
+  Popover,
+  Position,
+  Tooltip,
+  AnchorButton,
+} from "@blueprintjs/core";
+import styled from "styled-components";
 
-import { CollectionType } from '../../../types/Collections';
-import { SpaceType } from '../../../types/Spaces';
+import { CollectionType } from "../../../types/Collections";
+import { SpaceType } from "../../../types/Spaces";
 
 import {
   TimeseriesListType,
   TimeseriesDetailsType,
-} from '../../../types/Timeseries';
+} from "../../../types/Timeseries";
 
-import { Header } from '../Common/Header';
-import { Loadable } from '../Common/Loadable';
-import { ContentContainer as ContentContainerBase } from '../TimeseriesBrowser.Components';
+import { Header } from "../Common/Header";
+import { Loadable } from "../Common/Loadable";
+import { ContentContainer as ContentContainerBase } from "../TimeseriesBrowser.Components";
 
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-balham.css";
 
-import { TimeseriesDetails } from './TimeseriesDetails/TimeseriesDetails';
-import { ColumnDefinitions, FrameworkComponents } from './TimeseriesTable.Settings';
-import { InformationContent } from './TimeseriesTable.Components';
-import TimeseriesConfirmDelete from './TimeseriesConfirmDelete';
+import { TimeseriesDetails } from "./TimeseriesDetails/TimeseriesDetails";
+import {
+  ColumnDefinitions,
+  FrameworkComponents,
+} from "./TimeseriesTable.Settings";
+import { InformationContent } from "./TimeseriesTable.Components";
+import TimeseriesConfirmDelete from "./TimeseriesConfirmDelete";
 
 const ContentContainer = styled(ContentContainerBase)`
-  height: 100%;  //74%;
+  height: 100%; //74%;
   background-color: transparent;
 
   .ag-root {
@@ -55,8 +61,10 @@ const TimeseriesTableBase = ({
   const container = React.useRef(null);
 
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [deleteTimeseriesVisibility, setDeleteTimeseriesVisibility] = React.useState(false);
-  const handleDeleteTimeseriesDialogClose = () => setDeleteTimeseriesVisibility(false);
+  const [deleteTimeseriesVisibility, setDeleteTimeseriesVisibility] =
+    React.useState(false);
+  const handleDeleteTimeseriesDialogClose = () =>
+    setDeleteTimeseriesVisibility(false);
 
   const handleGridReady = React.useCallback((params) => {
     // const containerWidth = container.current.offsetWidth;
@@ -68,7 +76,6 @@ const TimeseriesTableBase = ({
     onShowInformation(selectedRows[0]);
   }, [selectedRows, onShowInformation]);
 
-
   const handleCreateTimeseries = React.useCallback(() => {
     toggleCreateTimeseriesOverlay(collection.spaceId, collection.collId);
   }, [collection, toggleCreateTimeseriesOverlay]);
@@ -78,20 +85,30 @@ const TimeseriesTableBase = ({
   }, [openUpload]);
 
   const handleDeleteTimeseriesDialogConfirm = React.useCallback(() => {
-    deleteTimeseries(collection.collId, map((ts) => ts.tsid, selectedRows));
+    deleteTimeseries(
+      collection.collId,
+      map((ts) => ts.tsid, selectedRows)
+    );
     handleDeleteTimeseriesDialogClose();
-  }, [collection, selectedRows, deleteTimeseries, handleDeleteTimeseriesDialogClose]);
-
+  }, [
+    collection,
+    selectedRows,
+    deleteTimeseries,
+    handleDeleteTimeseriesDialogClose,
+  ]);
 
   return (
     <div
       className={className}
-      style={{ height: '100%', display: 'grid', gridTemplateRows: '[header] 30px [main-table] auto' }}
+      style={{
+        height: "100%",
+        display: "grid",
+        gridTemplateRows: "[header] 30px [main-table] auto",
+      }}
     >
       <Header>
         <Header.Title>
           Timeseries
-
           {collection && (
             // eslint-disable-next-line react/jsx-one-expression-per-line
             <span> - {collection.name}</span>
@@ -131,19 +148,22 @@ const TimeseriesTableBase = ({
           />
 
           {onShowInformation && (
-            <Popover position={Position.BOTTOM}>
+            <Popover
+              content={
+                <InformationContent>
+                  {timeseriesDetails && (
+                    <TimeseriesDetails information={timeseriesDetails} />
+                  )}
+                </InformationContent>
+              }
+              position={Position.BOTTOM}
+            >
               <AnchorButton
                 minimal
                 icon="info-sign"
                 disabled={selectedRows.length !== 1}
                 onClick={handleShowInformation}
               />
-
-              <InformationContent>
-                {timeseriesDetails && (
-                  <TimeseriesDetails information={timeseriesDetails} />
-                )}
-              </InformationContent>
             </Popover>
           )}
 
@@ -157,14 +177,10 @@ const TimeseriesTableBase = ({
           )}
         </Header.ActionButtons>
       </Header>
-      <ContentContainer
-        ref={container}
-        className="ag-theme-balham"
-      >
+      <ContentContainer ref={container} className="ag-theme-balham">
         <AgGridReact
           rowData={timeseries}
           columnDefs={ColumnDefinitions}
-          modules={AllCommunityModules}
           frameworkComponents={FrameworkComponents}
           suppressDragLeaveHidesColumns
           context={{
@@ -203,13 +219,7 @@ TimeseriesTableBase.propTypes = {
   className: types.string,
 };
 
-TimeseriesTableBase.defaultProps = {
-  className: '',
-};
-
-const TimeseriesTable = compose(
-  Loadable,
-)(TimeseriesTableBase);
+const TimeseriesTable = compose(Loadable)(TimeseriesTableBase);
 
 // eslint-disable-next-line import/prefer-default-export
 export { TimeseriesTable };

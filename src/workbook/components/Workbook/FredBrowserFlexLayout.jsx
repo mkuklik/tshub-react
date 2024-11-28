@@ -1,24 +1,22 @@
-import React, { Component } from 'react';
-import types from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-import FlexLayout from 'flexlayout-react';
-import { isNil } from 'ramda';
-import { Spinner } from '@blueprintjs/core';
-import FlexView from 'react-flexview';
-import { CategoryBrowser } from '../../../viewer/components/FredBrowser/CategoryBrowser/CategoryBrowser.Container';
-import { AddToGraphButton } from '../../../viewer/components/FredBrowser/AddToGraphButton';
-import { TimeseriesTable as TimeseriesTableBase } from '../../../viewer/components/FredBrowser/TimeseriesTable/TimeseriesTable.Container';
+import React, { Component } from "react";
+import types from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import styled from "styled-components";
+import { Layout, Model } from "flexlayout-react";
+import { isNil } from "ramda";
+import { Spinner } from "@blueprintjs/core";
+import FlexView from "react-flexview";
+import { CategoryBrowser } from "../../../viewer/components/FredBrowser/CategoryBrowser/CategoryBrowser.Container";
+import { AddToGraphButton } from "../../../viewer/components/FredBrowser/AddToGraphButton";
+import { TimeseriesTable as TimeseriesTableBase } from "../../../viewer/components/FredBrowser/TimeseriesTable/TimeseriesTable.Container";
 import {
   closeAnalyticsTabAction,
-  saveTimeseriesBrowserModelAction,
-  // onModelChangeAction,
-  // onActionAction,
+  saveFredBrowserModelAction,
   openUploadAction,
-} from '../../action/workbookActions';
-import { TSB_COMP, TSB_TABLE_COMP } from '../../layouts/definitions';
-import { timeseriesBrowserModelSelector } from '../../selectors/workbookSelectors';
+} from "../../action/workbookActions";
+import { FRED_COMP, FRED_TABLE_COMP } from "../../layouts/definitions";
+import { fredBrowserModelSelector } from "../../selectors/workbookSelectors";
 
 // const TimeSeriesDiv = styled.div`
 //   width: 100%;
@@ -60,10 +58,10 @@ const AddToGraphButtonDiv = styled(AddToGraphButton)`
 class FredBrowserFlexLayout extends Component {
   constructor(props) {
     super(props);
-    if (isNil(props.timeseriesBrowserModel)) {
-      const timeseriesBrowserModel = FlexLayout.Model.fromJson(props.model);
-      timeseriesBrowserModel.setOnAllowDrop(this.allowDrop);
-      props.saveTimeseriesBrowserModel(timeseriesBrowserModel);
+    if (isNil(props.fredBrowserModel)) {
+      const fredBrowserModel = Model.fromJson(props.model);
+      fredBrowserModel.setOnAllowDrop(this.allowDrop);
+      props.saveFredBrowserModel(fredBrowserModel);
     }
   }
 
@@ -72,55 +70,38 @@ class FredBrowserFlexLayout extends Component {
   factory = (node) => {
     const { openUpload } = this.props;
     const component = node.getComponent();
-    if (component === TSB_COMP) {
-      return (
-        <CategoryBrowser
-          showUploadButton
-          openUpload={openUpload}
-        />
-      );
-    } if (component === TSB_TABLE_COMP) {
+    if (component === FRED_COMP) {
+      return <CategoryBrowser showUploadButton openUpload={openUpload} />;
+    }
+    if (component === FRED_TABLE_COMP) {
       return (
         <TimeSeriesDiv>
-          <TimeseriesTableBase
-            openUpload={openUpload}
-          />
+          <TimeseriesTableBase openUpload={openUpload} />
           <AddToGraphButtonDiv />
         </TimeSeriesDiv>
       );
     }
-    console.error('Wrong layout selected', component);
+    console.error("Wrong layout selected", component);
     return <h1>Something went wrong</h1>;
-  }
-
-  // handleOnAction = (action) => action
-
-  // handleOnModelChange = (model) => {
-  // }
+  };
 
   render() {
-    const { timeseriesBrowserModel } = this.props;
-    if (isNil(timeseriesBrowserModel)) {
-      return ( // null; // todo add spinner
+    const { fredBrowserModel } = this.props;
+    if (isNil(fredBrowserModel)) {
+      return (
+        // null; // todo add spinner
         <FlexView
           hAlignContent="center"
           vAlignContent="center"
           height="100%"
           width="100%"
-          style={{ zIndex: 100, position: 'absolute' }}
+          style={{ zIndex: 100, position: "absolute" }}
         >
           <Spinner />
         </FlexView>
       );
     }
-    return (
-      <FlexLayout.Layout
-        model={timeseriesBrowserModel}
-        factory={this.factory}
-        // onModelChange={this.handleOnModelChange}
-        // onAction={this.handleOnAction}
-      />
-    );
+    return <Layout model={fredBrowserModel} factory={this.factory} />;
   }
 }
 
@@ -129,25 +110,28 @@ FredBrowserFlexLayout.defaultProps = {
 };
 
 FredBrowserFlexLayout.propTypes = {
-  timeseriesBrowserModel: types.instanceOf(FlexLayout.Model),
+  fredBrowserModel: types.instanceOf(Model),
   // eslint-disable-next-line react/forbid-prop-types
   model: types.object.isRequired,
-  saveTimeseriesBrowserModel: types.func.isRequired,
-  // onModelChange: types.func.isRequired,
-  // onAction: types.func.isRequired,
+  saveFredBrowserModel: types.func.isRequired,
   openUpload: types.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  timeseriesBrowserModel: timeseriesBrowserModelSelector(state),
+  fredBrowserModel: fredBrowserModelSelector(state),
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  saveTimeseriesBrowserModel: saveTimeseriesBrowserModelAction,
-  // onModelChange: onModelChangeAction,
-  // onAction: onActionAction,
-  closeAnalyticsTab: closeAnalyticsTabAction,
-  openUpload: openUploadAction,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      saveFredBrowserModel: saveFredBrowserModelAction,
+      closeAnalyticsTab: closeAnalyticsTabAction,
+      openUpload: openUploadAction,
+    },
+    dispatch
+  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(FredBrowserFlexLayout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FredBrowserFlexLayout);

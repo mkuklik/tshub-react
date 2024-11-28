@@ -1,9 +1,9 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { Tag as TagBase } from '@blueprintjs/core';
+import * as React from "react";
+import styled from "styled-components";
+import { Tag as TagBase } from "@blueprintjs/core";
 
-import * as SpaceTypes from '../../../../types/TSpaces';
-import { InformationField } from '../../Common/InformationField';
+import * as SpaceTypes from "../../../../types/Spaces";
+import { InformationField } from "../../Common/InformationField";
 
 const Tag = styled(TagBase)`
   &:not(:first-child) {
@@ -13,10 +13,7 @@ const Tag = styled(TagBase)`
 
 const SpaceDetails = ({ information }) => (
   <div>
-    <InformationField
-      label="Name"
-      value={information.name}
-    />
+    <InformationField label="Name" value={information.name} />
 
     <InformationField
       label="Title"
@@ -30,24 +27,18 @@ const SpaceDetails = ({ information }) => (
       noValueText="No description provided"
     />
 
-    <InformationField
-      label="Visibility"
-      value={information.visibility}
-    />
+    <InformationField label="Visibility" value={information.visibility} />
 
     <InformationField
       label="Tags"
-      value={information.tags.length > 0
-        ? information.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))
-        : 'No tags provided'}
+      value={
+        information.tags.length > 0
+          ? information.tags.map((tag) => <Tag key={tag}>{tag}</Tag>)
+          : "No tags provided"
+      }
     />
 
-    <InformationField
-      label="Space ID"
-      value={information.spaceId}
-    />
+    <InformationField label="Space ID" value={information.spaceId} />
   </div>
 );
 

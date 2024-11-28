@@ -6,10 +6,6 @@ import {
   ANALYTICS_LM_GRAPHS,
   ANALYTICS_ADD_VARIABLE_TO_LIST,
 } from '../actions/actionTypes';
-import {
-  ANALYTICS_UPDATE_PARAMETERS,
-} from '../actions/index';
-
 
 import {
   ANALYTICS_CREATE,

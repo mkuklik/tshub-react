@@ -1,12 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import types from 'prop-types';
+import React from "react";
+import styled from "styled-components";
+import types from "prop-types";
 import {
-  Dialog, Classes, Button, AnchorButton, Intent,
-} from '@blueprintjs/core';
-import { map } from 'ramda';
-import { TimeseriesType } from '../../../types/Timeseries';
-
+  Dialog,
+  Classes,
+  Button,
+  AnchorButton,
+  Intent,
+} from "@blueprintjs/core";
+import { map } from "ramda";
+import { TimeseriesType } from "../../../types/Timeseries";
 
 const Footer = styled.div.attrs({
   className: Classes.DIALOG_FOOTER,
@@ -21,13 +24,16 @@ const ActionButton = styled(Button)`
   }
 `;
 
-const TimeseriesConfirmDelete = ({
-  handleClose,
-  handleConfirm,
-  selectedTimeseries,
-  visible,
-}) => {
-  const renderedTimeseries = map((ts) => (<li key={ts.tsid}>{ts.name}</li>), selectedTimeseries);
+const TimeseriesConfirmDelete = (
+  { handleClose, handleConfirm, selectedTimeseries, visible } = {
+    selectedTimeseries: [],
+    visible: false,
+  }
+) => {
+  const renderedTimeseries = map(
+    (ts) => <li key={ts.tsid}>{ts.name}</li>,
+    selectedTimeseries
+  );
   return (
     <Dialog
       icon="warning-sign"
@@ -43,30 +49,17 @@ const TimeseriesConfirmDelete = ({
     >
       <div className={Classes.DIALOG_BODY}>
         <p>Are you sure you want to delete the following series?</p>
-        <p>
-          {renderedTimeseries}
-        </p>
-
+        <p>{renderedTimeseries}</p>
       </div>
       <Footer>
-        <ActionButton
-          intent="danger"
-          onClick={handleConfirm}
-        >
+        <ActionButton intent="danger" onClick={handleConfirm}>
           Delete
         </ActionButton>
 
-        <ActionButton onClick={handleClose}>
-          Cancel
-        </ActionButton>
+        <ActionButton onClick={handleClose}>Cancel</ActionButton>
       </Footer>
     </Dialog>
   );
-};
-
-TimeseriesConfirmDelete.defaultProps = {
-  selectedTimeseries: [],
-  visible: false,
 };
 
 TimeseriesConfirmDelete.propTypes = {

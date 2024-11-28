@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 // https://dev.to/alaskaa/how-to-import-a-web-font-into-your-react-app-with-styled-components-4-1dni
 
 import DancingScript from './Dancing Script.woff';
-import PermanentMarker from './PermanentMarker-Regular.ttf'; // './nameOfYourFont.woff2';
+// import PermanentMarker from './PermanentMarker-Regular.ttf'; // './nameOfYourFont.woff2';
 
 export const FontNames = [
   'Dancing Script',

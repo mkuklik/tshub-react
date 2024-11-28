@@ -1,40 +1,43 @@
-import {
-  parse as vegaParser,
-  ASTNode,
-} from 'vega-expression';
-import estraverse from 'estraverse';
-import {
-  mergeAll,
-  mapObjIndexed,
-  any,
-} from 'ramda';
-import { refCheck } from './refCheck';
-import moment from 'moment';
+import { parseExpression, ASTNode } from "vega-expression";
+import estraverse from "estraverse";
+import { mergeAll, mapObjIndexed, any } from "ramda";
+import { refCheck } from "./refCheck";
+import moment from "moment";
 
-const allowedKeyNames = ['tsName', 'collName', 'spaceName', 'start', 'end', 'realtime', 'tsid', 'collId', 'wsid'];
+const allowedKeyNames = [
+  "tsName",
+  "collName",
+  "spaceName",
+  "start",
+  "end",
+  "realtime",
+  "tsid",
+  "collId",
+  "wsid",
+];
 
 const IdentifierNode = (name) => {
-  const node = new ASTNode('Identifier');
+  const node = new ASTNode("Identifier");
   node.name = name;
   return node;
 };
 
 const refNode = (_ref) => ({
-  type: 'Identifier',
+  type: "Identifier",
   name: _ref,
 });
 
 const ref2obj = (x) => {
   // check if key is supported
-  if (x.key.type !== 'Identifier' || !allowedKeyNames.includes(x.key.name)) {
+  if (x.key.type !== "Identifier" || !allowedKeyNames.includes(x.key.name)) {
     // report error
     throw Error(`unsupported property, ${x.key.name}`);
   }
   // extract the stuff we need, i.e. either value or ASTNode
   if (x.value instanceof ASTNode) {
     // check validity of keys
-    if (x.key.name === 'realtime') {
-      if (x.value instanceof ASTNode && x.value.type === 'Literal') {
+    if (x.key.name === "realtime") {
+      if (x.value instanceof ASTNode && x.value.type === "Literal") {
         const tmp = moment.utc(x.value.value, undefined, true);
         if (!tmp.isValid()) {
           throw Error(`invalid realtime date, ${x.value}`);
@@ -44,10 +47,10 @@ const ref2obj = (x) => {
     }
     return { [x.key.name]: x.value };
   }
-  if (x.value instanceof Object && x.value.type === 'Literal') {
+  if (x.value instanceof Object && x.value.type === "Literal") {
     return { [x.key.name]: x.value.value };
   }
-  if (x.value instanceof Object && x.value.type === 'Identifier') {
+  if (x.value instanceof Object && x.value.type === "Identifier") {
     return { [x.key.name]: IdentifierNode(x.value.value) };
   }
 
@@ -57,24 +60,24 @@ const ref2obj = (x) => {
 };
 
 const funcRefCheck = (node, parent) => {
-  if (node.type === 'CallExpression') {
+  if (node.type === "CallExpression") {
     // check callee
     const { found, ref } = refCheck(node.callee, node);
     if (found) {
       // check arguments
       let args = [];
       if (node.arguments.length > 1) {
-        throw Error('too many arguments');
+        throw Error("too many arguments");
       } else if (node.arguments.length === 1) {
-        if (node.arguments[0].type !== 'ObjectExpression') throw Error('argument to time series must be be a object of parameters');
+        if (node.arguments[0].type !== "ObjectExpression")
+          throw Error(
+            "argument to time series must be be a object of parameters"
+          );
         args = node.arguments[0].properties;
       }
       return {
         found: true,
-        ref: [
-          ...ref,
-          ...args,
-        ],
+        ref: [...ref, ...args],
       };
     }
   }
@@ -94,7 +97,6 @@ const funcRefCheck = (node, parent) => {
 //     },
 //   ],
 // });
-
 
 export function processAST(ast) {
   /*
@@ -127,26 +129,35 @@ export function parse(expr) {
   /*
   -
   */
-  const vegaAST = vegaParser(expr);
+  const vegaAST = parseExpression(expr);
   const { ast, references } = processAST(vegaAST);
 
   // Todo, evaluate references that are AST trees, e.g. someone could have put Date("2000-01-01") in realtime parameter
 
   // const refs = references.map( (r, i) => mergeAll([{_ref: i}, ...r.map(x => ref2obj(x))]));
   // const refs = RmapObjIndexed((i, key, obj) => RmergeAll([{ ref: key }, ...obj[key].map(x => ref2obj(x))]), references);
-  const refs = mapObjIndexed((i, key, obj) => mergeAll(obj[key].map((x) => ref2obj(x))), references);
+  const refs = mapObjIndexed(
+    (i, key, obj) => mergeAll(obj[key].map((x) => ref2obj(x))),
+    references
+  );
 
   // check references
   for (const ref in refs) {
     if (ref.wsid !== undefined) {
       // then tsName, collName, spaceName, tsid, collId are not allowed
-      const notAllowed = ['tsName', 'collName', 'spaceName', 'tsid', 'collId'];
-      if (any(notAllowed.map((r) => ref[r]))) throw Error("workbook series reference can't contain 'tsName', 'collName', 'spaceName', 'tsid', or 'collId'");
+      const notAllowed = ["tsName", "collName", "spaceName", "tsid", "collId"];
+      if (any(notAllowed.map((r) => ref[r])))
+        throw Error(
+          "workbook series reference can't contain 'tsName', 'collName', 'spaceName', 'tsid', or 'collId'"
+        );
     }
 
     if (ref.tsid !== undefined || ref.collId !== undefined) {
-      const notAllowed = ['tsName', 'collName', 'spaceName', 'wsid'];
-      if (any(notAllowed.map((r) => ref[r]))) throw Error("workbook series reference can't contain 'tsName', 'collName', 'spaceName', 'tsid', or 'collId'");
+      const notAllowed = ["tsName", "collName", "spaceName", "wsid"];
+      if (any(notAllowed.map((r) => ref[r])))
+        throw Error(
+          "workbook series reference can't contain 'tsName', 'collName', 'spaceName', 'tsid', or 'collId'"
+        );
     }
   }
   return { ast, refs };

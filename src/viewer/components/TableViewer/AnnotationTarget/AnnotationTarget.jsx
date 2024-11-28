@@ -1,7 +1,7 @@
-import React from 'react';
-import types from 'prop-types';
-import styled from 'styled-components';
-import { Popover, Position } from '@blueprintjs/core';
+import React from "react";
+import types from "prop-types";
+import styled from "styled-components";
+import { Popover, Position } from "@blueprintjs/core";
 
 const AnnotationLink = styled.button`
   padding: 5px;
@@ -19,14 +19,11 @@ const AnnotationContent = styled.div`
 `;
 
 const AnnotationTarget = ({ symbol, text }) => (
-  <Popover position={Position.BOTTOM}>
-    <AnnotationLink>
-      {symbol}
-    </AnnotationLink>
-
-    <AnnotationContent>
-      {text}
-    </AnnotationContent>
+  <Popover
+    content={<AnnotationContent>{text}</AnnotationContent>}
+    position={Position.BOTTOM}
+  >
+    <AnnotationLink>{symbol}</AnnotationLink>
   </Popover>
 );
 

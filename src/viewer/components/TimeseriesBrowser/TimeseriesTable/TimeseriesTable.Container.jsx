@@ -1,60 +1,69 @@
 /* eslint-disable react/require-default-props */
-import * as React from 'react';
-import types from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  path, compose, find, isNil,
-} from 'ramda';
+import * as React from "react";
+import types from "prop-types";
+import { connect } from "react-redux";
+import { path, compose, find, isNil } from "ramda";
 
 import {
   fetchTimeseriesListAction,
   fetchTimeseriesDetailsAction,
   deleteTimeseriesAction,
-} from '../../../actions/timeseriesActions';
+} from "../../../actions/timeseriesActions";
 import {
   selectTimeseriesAction,
   toggleCreateTimeseriesOverlayAction,
   timeseriesBrowserAddSeriesAction,
-} from '../../../actions/uiActions';
+} from "../../../actions/uiActions";
 
-import { CollectionType } from '../../../types/Collections';
-import { SpaceType } from '../../../types/Spaces';
-import { TimeseriesListMapType, TimeseriesDetailsType } from '../../../types/Timeseries';
+import { CollectionType } from "../../../types/Collections";
+import { SpaceType } from "../../../types/Spaces";
+import {
+  TimeseriesListMapType,
+  TimeseriesDetailsType,
+} from "../../../types/Timeseries";
 
-import { TimeseriesTable } from './TimeseriesTable';
+import { TimeseriesTable } from "./TimeseriesTable";
 
-const TimeseriesTableContainerBase = ({
-  timeseries,
-  timeseriesDetails,
-  selectedSpace,
-  selectedCollection,
-  isTimeseriesListLoading,
-  addTimeseries,
-  selectTimeseries,
-  fetchTimeseriesList,
-  fetchTimeseriesDetails,
-  toggleCreateTimeseriesOverlay,
-  deleteTimeseries,
-  openUpload,
-  ...props
-}) => {
-  const selectedCollectionID = path(['collId'], selectedCollection);
+const TimeseriesTableContainerBase = (
+  {
+    timeseries,
+    timeseriesDetails,
+    selectedSpace,
+    selectedCollection,
+    isTimeseriesListLoading,
+    addTimeseries,
+    selectTimeseries,
+    fetchTimeseriesList,
+    fetchTimeseriesDetails,
+    toggleCreateTimeseriesOverlay,
+    deleteTimeseries,
+    openUpload,
+    ...props
+  } = { isTimeseriesListLoading: false }
+) => {
+  const selectedCollectionID = path(["collId"], selectedCollection);
   const selectedCollectionTimeseries = timeseries[selectedCollectionID] || [];
 
   const handleRefetchTimeseriesList = React.useCallback(() => {
     fetchTimeseriesList(selectedCollection.collId);
   }, [selectedCollection, fetchTimeseriesList]);
 
-  const handleSelectTimeseries = React.useCallback((timeseriesList) => {
-    selectTimeseries(timeseriesList);
-  }, [selectTimeseries]);
+  const handleSelectTimeseries = React.useCallback(
+    (timeseriesList) => {
+      selectTimeseries(timeseriesList);
+    },
+    [selectTimeseries]
+  );
 
-  const handleShowInformation = React.useCallback(({ tsid }) => {
-    fetchTimeseriesDetails({
-      collId: selectedCollectionID,
-      tsid,
-    });
-  }, [selectedCollectionID, fetchTimeseriesDetails]);
+  const handleShowInformation = React.useCallback(
+    ({ tsid }) => {
+      fetchTimeseriesDetails({
+        collId: selectedCollectionID,
+        tsid,
+      });
+    },
+    [selectedCollectionID, fetchTimeseriesDetails]
+  );
 
   return (
     <TimeseriesTable
@@ -92,20 +101,19 @@ TimeseriesTableContainerBase.propTypes = {
   addTimeseries: types.func.isRequired,
 };
 
-TimeseriesTableContainerBase.defaultProps = {
-  isTimeseriesListLoading: false,
-};
-
 const mapStateToProps = ({ ui, timeseries, collections, spaces }) => {
-  return ({
+  return {
     timeseries: timeseries.timeseriesListByColl,
     timeseriesDetails: timeseries.timeseriesDetails,
     selectedCollection: collections.selectedCollection,
-    selectedSpace: (
-      isNil(collections.selectedCollection))
-      ? null : find((x) => x.id === collections.selectedCollection.spaceId, spaces.spaces),
+    selectedSpace: isNil(collections.selectedCollection)
+      ? null
+      : find(
+          (x) => x.id === collections.selectedCollection.spaceId,
+          spaces.spaces
+        ),
     isTimeseriesListLoading: ui.timeseriesBrowser.isTimeseriesListLoading,
-  });
+  };
 };
 
 const mapDispatchToProps = {
@@ -118,7 +126,7 @@ const mapDispatchToProps = {
 };
 
 const TimeseriesTableContainer = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(TimeseriesTableContainerBase);
 
 // eslint-disable-next-line import/prefer-default-export

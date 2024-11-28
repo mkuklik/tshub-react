@@ -1,20 +1,19 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
-import types from 'prop-types';
-import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import React from "react";
+import types from "prop-types";
+import { AgGridReact } from "@ag-grid-community/react";
 
-import 'moment-timezone';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import "moment-timezone";
+import "@ag-grid-community/styles/ag-grid.css";
+import "@ag-grid-community/styles/ag-theme-balham.css";
 
-import { isNil } from 'ramda';
-import { IndexToTargetsByCollIdType } from '../../types/Annotations';
+import { isNil } from "ramda";
+import { IndexToTargetsByCollIdType } from "../../types/Annotations";
 
-import IndexRenderer from './Renderers/IndexRenderer';
-import ValueRenderer from './Renderers/ValueRenderer';
-import TimeSeriesRenderer from './Renderers/TimeSeriesRendered';
-import { CollectionListType } from '../../types/Collections';
+import IndexRenderer from "./Renderers/IndexRenderer";
+import ValueRenderer from "./Renderers/ValueRenderer";
+import TimeSeriesRenderer from "./Renderers/TimeSeriesRendered";
+import { CollectionListType } from "../../types/Collections";
 
 const Table = ({
   size,
@@ -33,11 +32,10 @@ const Table = ({
   tries,
   updateTable,
 }) => {
-
   React.useEffect(() => {
     console.log(`check freq ${freq}, and tries ${tries}`);
     if (tries === 0 && isNil(freq)) {
-      console.log('trigger tabel update');
+      console.log("trigger tabel update");
       updateTable();
     }
   }, [tries, freq, updateTable]);
@@ -47,19 +45,24 @@ const Table = ({
   }, []);
 
   const handleFirstDataRendered = React.useCallback(({ api }) => {
-    if (!isNil(api)) api.autoSizeColumns(['index']);
+    if (!isNil(api)) api.autoSizeColumns(["index"]);
   }, []);
 
-  const handleAddAnnotationRequest = React.useCallback((targetToSet) => {
-    annotationsSetAddTarget(targetToSet);
-    annotationsSetAddTargetDialogVisibility(true);
-  }, [annotationsSetAddTarget, annotationsSetAddTargetDialogVisibility]);
+  const handleAddAnnotationRequest = React.useCallback(
+    (targetToSet) => {
+      annotationsSetAddTarget(targetToSet);
+      annotationsSetAddTargetDialogVisibility(true);
+    },
+    [annotationsSetAddTarget, annotationsSetAddTargetDialogVisibility]
+  );
 
-  const handleDeleteAnnotationRequest = React.useCallback((targetToDelete) => {
-    annotationsSetDeleteTarget(targetToDelete);
-    annotationsSetDeleteDialogVisibility(true);
-  }, [annotationsSetDeleteTarget, annotationsSetDeleteDialogVisibility]);
-
+  const handleDeleteAnnotationRequest = React.useCallback(
+    (targetToDelete) => {
+      annotationsSetDeleteTarget(targetToDelete);
+      annotationsSetDeleteDialogVisibility(true);
+    },
+    [annotationsSetDeleteTarget, annotationsSetDeleteDialogVisibility]
+  );
 
   const context = {
     collections,
@@ -97,10 +100,12 @@ const Table = ({
   // console.log('tableViewer size', size); // style={{ height: '30px' }}
 
   return (
-    <div style={{ height: size.height - 30, width: size.width }} className="ag-theme-balham">
+    <div
+      style={{ height: size.height - 30, width: size.width }}
+      className="ag-theme-balham"
+    >
       <AgGridReact
         ref={grid}
-        modules={AllCommunityModules}
         columnDefs={columnDefs}
         rowData={rowData}
         context={context}

@@ -14,7 +14,7 @@ import { collectionSummarySelector } from '../../../viewer/selectors/collections
 import { timeseriesBrowserSelectedCollectionIDSelector } from '../../../viewer/selectors/ui';
 import { CollectionType } from '../../../viewer/types/Collections';
 import { spaceSelector } from '../../../viewer/selectors/spaces';
-import { SpaceType } from '../../../viewer/types/TSpaces';
+import { SpaceType } from '../../../viewer/types/Spaces';
 import { uploadHasPermissionSelector } from '../../../uploader/selectors/uploadSelectors';
 import { initiateUploadAction } from '../../../uploader/actions/uploadActions';
 

@@ -1,7 +1,5 @@
-import moment from 'moment';
-import {
-  shape, string, arrayOf, instanceOf,
-} from 'prop-types';
+import moment from "moment";
+import { shape, string, arrayOf, instanceOf } from "prop-types";
 
 const SpaceType = shape({
   spaceId: string.isRequired,
@@ -22,8 +20,4 @@ const SpaceDetailsType = shape({
   realEnd: instanceOf(moment).isRequired,
 });
 
-export {
-  SpaceType,
-  SpaceListType,
-  SpaceDetailsType,
-};
+export { SpaceType, SpaceListType, SpaceDetailsType };

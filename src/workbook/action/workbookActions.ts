@@ -28,50 +28,58 @@
 //   UI_SAVE_TOUR_IS_TOUR_OPEN,
 // } from './ActionTypes';
 
+import { Model } from "flexlayout-react";
+
 // when we update active layout
-export const WORKBOOK_SAVE_MODEL = 'WORKBOOK_SAVE_MODEL';
-export const WORKBOOK_SAVE_ANALYTICS_MODEL = 'WORKBOOK_SAVE_ANALYTICS_MODEL';
-export const WORKBOOK_SAVE_TSB_MODEL = 'WORKBOOK_SAVE_TSB_MODEL';
-export const WORKBOOK_SAVE_ACTIVE_LAYOUT = 'WORKBOOK_SAVE_ACTIVE_LAYOUT';
-export const WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET = 'WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET';
+export const WORKBOOK_SAVE_MODEL = "WORKBOOK_SAVE_MODEL";
+export const WORKBOOK_SAVE_ANALYTICS_MODEL = "WORKBOOK_SAVE_ANALYTICS_MODEL";
+export const WORKBOOK_SAVE_TSB_MODEL = "WORKBOOK_SAVE_TSB_MODEL";
+export const WORKBOOK_SAVE_FRED_MODEL = "WORKBOOK_SAVE_FRED_MODEL";
+export const WORKBOOK_SAVE_ACTIVE_LAYOUT = "WORKBOOK_SAVE_ACTIVE_LAYOUT";
+export const WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET =
+  "WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET";
 
-export const WORKBOOK_CLOSE_GRAPH_TAB = 'WORKBOOK_CLOSE_GRAPH_TAB';
-export const WORKBOOK_CLOSE_ANALYTICS_TAB = 'WORKBOOK_CLOSE_ANALYTICS_TAB';
+export const WORKBOOK_CLOSE_GRAPH_TAB = "WORKBOOK_CLOSE_GRAPH_TAB";
+export const WORKBOOK_CLOSE_ANALYTICS_TAB = "WORKBOOK_CLOSE_ANALYTICS_TAB";
 
-export const WORKBOOK_ADD_ANALYTICS_TAB = 'WORKBOOK_ADD_ANALYTICS_TAB';
-export const WORKBOOK_CREATE_ANALYTICS_TAB = 'WORKBOOK_CREATE_ANALYTICS_TAB';
+export const WORKBOOK_ADD_ANALYTICS_TAB = "WORKBOOK_ADD_ANALYTICS_TAB";
+export const WORKBOOK_CREATE_ANALYTICS_TAB = "WORKBOOK_CREATE_ANALYTICS_TAB";
 
-export const WORKBOOK_ON_MODEL_CHANGE = 'WORKBOOK_ON_MODEL_CHANGE';
-export const WORKBOOK_ON_ACTION = 'WORKBOOK_ON_ACTION';
+export const WORKBOOK_ON_MODEL_CHANGE = "WORKBOOK_ON_MODEL_CHANGE";
+export const WORKBOOK_ON_ACTION = "WORKBOOK_ON_ACTION";
 
 // save active tabset
-export const WORKBOOK_SWITCH_GRAPH_LAYOUTS = 'WORKBOOK_SWITCH_GRAPH_LAYOUTS';
+export const WORKBOOK_SWITCH_GRAPH_LAYOUTS = "WORKBOOK_SWITCH_GRAPH_LAYOUTS";
 
 // add tab in model
-export const WORKBOOK_ADD_NEW_GRAPH_TAB = 'WORKBOOK_ADD_NEW_GRAPH_TAB';
+export const WORKBOOK_ADD_NEW_GRAPH_TAB = "WORKBOOK_ADD_NEW_GRAPH_TAB";
 
-export const WORKBOOK_CREATE_ANALYTICS_FROM_SERIES = 'WORKBOOK_CREATE_ANALYTICS_FROM_SERIES';
-export const WORKBOOK_OPEN_ANALYTICS_BORDER_TAB = 'WORKBOOK_OPEN_ANALYTICS_BORDER_TAB';
-export const UI_SAVE_TOUR_IS_TOUR_OPEN = 'UI_SAVE_TOUR_IS_TOUR_OPEN';
+export const WORKBOOK_CREATE_ANALYTICS_FROM_SERIES =
+  "WORKBOOK_CREATE_ANALYTICS_FROM_SERIES";
+export const WORKBOOK_OPEN_ANALYTICS_BORDER_TAB =
+  "WORKBOOK_OPEN_ANALYTICS_BORDER_TAB";
+export const UI_SAVE_TOUR_IS_TOUR_OPEN = "UI_SAVE_TOUR_IS_TOUR_OPEN";
 
 //
 //  WORKBOOK
 //
-export const WORKBOOK_UPDATE_METADATA = 'WORKBOOK_UPDATE_METADATA';
-export const WORKBOOK_UPDATE_FAVORITE = 'WORKBOOK_UPDATE_FAVORITE';
+export const WORKBOOK_UPDATE_METADATA = "WORKBOOK_UPDATE_METADATA";
+export const WORKBOOK_UPDATE_FAVORITE = "WORKBOOK_UPDATE_FAVORITE";
 
 // reducer
-export const WORKBOOK_SAVE_METADATA = 'WORKBOOK_SAVE_METADATA';
-export const WORKBOOK_SAVE_FAVORITE = 'WORKBOOK_SAVE_FAVORITE';
-export const WORKBOOK_SAVE_WID = 'WORKBOOK_SAVE_WID';
-export const WORKBOOK_GET_WORKBOOK = 'WORKBOOK_GET_WORKBOOK';
-export const WORKBOOK_PUT_WORKBOOK = 'WORKBOOK_PUT_WORKBOOK';
+export const WORKBOOK_SAVE_METADATA = "WORKBOOK_SAVE_METADATA";
+export const WORKBOOK_SAVE_FAVORITE = "WORKBOOK_SAVE_FAVORITE";
+export const WORKBOOK_SAVE_WID = "WORKBOOK_SAVE_WID";
+export const WORKBOOK_GET_WORKBOOK = "WORKBOOK_GET_WORKBOOK";
+export const WORKBOOK_PUT_WORKBOOK = "WORKBOOK_PUT_WORKBOOK";
 
 // WORKBOOK UI
-export const WORKBOOK_SAVE_WORKBOOK_UI_PROPS = 'WORKBOOK_SAVE_WORKBOOK_UI_PROPS';
+export const WORKBOOK_SAVE_WORKBOOK_UI_PROPS =
+  "WORKBOOK_SAVE_WORKBOOK_UI_PROPS";
 
-export const WORKBOOK_OPEN_TIMESERIES_BROWSER = 'WORKBOOK_OPEN_TIMESERIES_BROWSER';
-export const WORKBOOK_OPEN_UPLOAD = 'WORKBOOK_OPEN_UPLOAD';
+export const WORKBOOK_OPEN_TIMESERIES_BROWSER =
+  "WORKBOOK_OPEN_TIMESERIES_BROWSER";
+export const WORKBOOK_OPEN_UPLOAD = "WORKBOOK_OPEN_UPLOAD";
 
 // Define interfaces for the different action types
 export interface ISaveModelAction {
@@ -81,12 +89,17 @@ export interface ISaveModelAction {
 
 export interface ISaveAnalyticsModelAction {
   type: typeof WORKBOOK_SAVE_ANALYTICS_MODEL;
-  payload: { model: any }; // Replace 'any' with the actual model type
+  payload: { model: Model }; // Replace 'any' with the actual model type
 }
 
 export interface ISaveTimeseriesBrowserModelAction {
   type: typeof WORKBOOK_SAVE_TSB_MODEL;
-  payload: { model: any }; // Replace 'any' with the actual model type
+  payload: { model: Model }; // Replace 'any' with the actual model type
+}
+
+export interface ISaveFredBrowserModelAction {
+  type: typeof WORKBOOK_SAVE_TSB_MODEL;
+  payload: { model: Model }; // Replace 'any' with the actual model type
 }
 
 export interface ICloseAnalyticsTabAction {
@@ -211,17 +224,30 @@ export const saveModelAction = (model: any): ISaveModelAction => ({
   payload: { model },
 });
 
-export const saveAnalyticsModelAction = (model: any): ISaveAnalyticsModelAction => ({
+export const saveAnalyticsModelAction = (
+  model: Model
+): ISaveAnalyticsModelAction => ({
   type: WORKBOOK_SAVE_ANALYTICS_MODEL,
   payload: { model },
 });
 
-export const saveTimeseriesBrowserModelAction = (model: any): ISaveTimeseriesBrowserModelAction => ({
+export const saveTimeseriesBrowserModelAction = (
+  model: Model
+): ISaveTimeseriesBrowserModelAction => ({
   type: WORKBOOK_SAVE_TSB_MODEL,
   payload: { model },
 });
 
-export const closeAnalyticsTabAction = (nodeId: string): ICloseAnalyticsTabAction => ({
+export const saveFredBrowserModelAction = (
+  model: Model
+): ISaveFredBrowserModelAction => ({
+  type: WORKBOOK_SAVE_FRED_MODEL,
+  payload: { model },
+});
+
+export const closeAnalyticsTabAction = (
+  nodeId: string
+): ICloseAnalyticsTabAction => ({
   type: WORKBOOK_CLOSE_ANALYTICS_TAB,
   nodeId,
 });
@@ -241,7 +267,7 @@ export const loadWorkbookAction = (): ILoadWorkbookAction => ({
 
 export const onModelChangeAction = (
   layout: any, // Replace 'any' with the actual layout type
-  model: any, // Replace 'any' with the actual model type
+  model: any // Replace 'any' with the actual model type
 ): IOnModelChangeAction => ({
   type: WORKBOOK_ON_MODEL_CHANGE,
   layout,
@@ -250,7 +276,7 @@ export const onModelChangeAction = (
 
 export const onActionAction = (
   layout: any, // Replace 'any' with the actual layout type
-  action: any, // Replace 'any' with the actual action type
+  action: any // Replace 'any' with the actual action type
 ): IOnActionAction => ({
   type: WORKBOOK_ON_ACTION,
   layout,
@@ -258,34 +284,40 @@ export const onActionAction = (
 });
 
 export const createAnalyticsTabAction = ({
-  kind = '',
-  ayid = '',
+  kind = "",
+  ayid = "",
 }: {
   kind?: string;
-  ayid?: string
+  ayid?: string;
 } = {}): ICreateAnalyticsTabAction => ({
   type: WORKBOOK_CREATE_ANALYTICS_TAB,
   kind,
   ayid,
 });
 
-export const addAnalyticsTabAction = (ayid: string): IAddAnalyticsTabAction => ({
+export const addAnalyticsTabAction = (
+  ayid: string
+): IAddAnalyticsTabAction => ({
   type: WORKBOOK_ADD_ANALYTICS_TAB,
   ayid,
 });
 
-export const switchGraphLayoutsAction = (layoutIndex: number): ISwitchGraphLayoutsAction => ({
+export const switchGraphLayoutsAction = (
+  layoutIndex: number
+): ISwitchGraphLayoutsAction => ({
   type: WORKBOOK_SWITCH_GRAPH_LAYOUTS,
   layoutIndex,
 });
 
-export const saveActiveGraphLayoutAction = (layoutIndex: number): ISaveActiveGraphLayoutAction => ({
+export const saveActiveGraphLayoutAction = (
+  layoutIndex: number
+): ISaveActiveGraphLayoutAction => ({
   type: WORKBOOK_SAVE_ACTIVE_LAYOUT,
   payload: { layoutIndex },
 });
 
 export const saveActiveGraphTabsetAction = (
-  activeGraphTabset: string, // Or the correct type for activeGraphTabset
+  activeGraphTabset: string // Or the correct type for activeGraphTabset
 ): ISaveActiveGraphTabsetAction => ({
   type: WORKBOOK_SAVE_ACTIVE_GRAPH_TABSET,
   payload: { activeGraphTabset },
@@ -293,7 +325,7 @@ export const saveActiveGraphTabsetAction = (
 
 export const workbookAddNewGraphTabAction = (
   tabsetId: string,
-  gid: string,
+  gid: string
 ): IWorkbookAddNewGraphTabAction => ({
   type: WORKBOOK_ADD_NEW_GRAPH_TAB,
   tabsetId,
@@ -302,11 +334,13 @@ export const workbookAddNewGraphTabAction = (
 
 // Action creators with type annotations and default values
 
-export const updateMetadataAction = (title?: string,
-  description?: string): IUpdateMetadataAction => ({
+export const updateMetadataAction = (
+  title?: string,
+  description?: string
+): IUpdateMetadataAction => ({
   type: WORKBOOK_UPDATE_METADATA,
-  title: title || '',
-  description: description || '',
+  title: title || "",
+  description: description || "",
 });
 
 export const updateFavoriteAction = ({
@@ -324,8 +358,8 @@ export const saveWidAction = (wid: string): ISaveWidAction => ({
 });
 
 export const saveMetadataAction = ({
-  title = '',
-  description = '',
+  title = "",
+  description = "",
 }: {
   title?: string;
   description?: string;
@@ -334,19 +368,23 @@ export const saveMetadataAction = ({
   payload: { title, description },
 });
 
-export const saveIsFavoriteAction = (isFavorite: boolean): ISaveIsFavoriteAction => ({
+export const saveIsFavoriteAction = (
+  isFavorite: boolean
+): ISaveIsFavoriteAction => ({
   type: WORKBOOK_SAVE_FAVORITE,
   payload: { isFavorite },
 });
 
-export const saveWorkbookUIPropsAction = (props: any): ISaveWorkbookUIPropsAction => ({
+export const saveWorkbookUIPropsAction = (
+  props: any
+): ISaveWorkbookUIPropsAction => ({
   type: WORKBOOK_SAVE_WORKBOOK_UI_PROPS,
   payload: props,
 });
 
 export const createAnalyticsFromSeriesAction = ({
-  kind = '',
-  wsid = '',
+  kind = "",
+  wsid = "",
 }: {
   kind?: string;
   wsid?: string;
@@ -356,13 +394,15 @@ export const createAnalyticsFromSeriesAction = ({
   wsid,
 });
 
-export const openAnalyticsBorderTabAction = (): IOpenAnalyticsBorderTabAction => ({
-  type: WORKBOOK_OPEN_ANALYTICS_BORDER_TAB,
-});
+export const openAnalyticsBorderTabAction =
+  (): IOpenAnalyticsBorderTabAction => ({
+    type: WORKBOOK_OPEN_ANALYTICS_BORDER_TAB,
+  });
 
-export const openTimeSeriesBrowserAction = (): IOpenTimeSeriesBrowserAction => ({
-  type: WORKBOOK_OPEN_TIMESERIES_BROWSER,
-});
+export const openTimeSeriesBrowserAction =
+  (): IOpenTimeSeriesBrowserAction => ({
+    type: WORKBOOK_OPEN_TIMESERIES_BROWSER,
+  });
 
 export const openUploadAction = (): IOpenUploadAction => ({
   type: WORKBOOK_OPEN_UPLOAD,

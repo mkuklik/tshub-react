@@ -14,6 +14,8 @@ export const analyticsModelSelector = (state: IRootState) =>
   state.workbook.analyticsModel;
 export const timeseriesBrowserModelSelector = (state: IRootState) =>
   state.workbook.timeseriesBrowserModel;
+export const fredBrowserModelSelector = (state: IRootState) =>
+  state.workbook.fredBrowserModel;
 export const workbookWidSelector = () => window._chronosdb.wid;
 // export const workbookWidSelector = (state: RootState) => path(['workbook', 'wid'], state);
 export const workbookIsFavoriteSelector = (state: IRootState) =>

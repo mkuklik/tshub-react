@@ -1,10 +1,10 @@
-import * as React from 'react';
-import types from 'prop-types';
-import moment from 'moment';
-import { Button, ControlGroup } from '@blueprintjs/core';
-import { DateRangeInput, TimePrecision } from '@blueprintjs/datetime';
-import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
-import { dateFormat } from '../../utilities/format';
+import * as React from "react";
+import types from "prop-types";
+import moment from "moment";
+import { Button, ControlGroup } from "@blueprintjs/core";
+import { DateRangeInput, TimePrecision } from "@blueprintjs/datetime";
+import "@blueprintjs/datetime/lib/css/blueprint-datetime.css";
+import { dateFormat } from "../../utilities/format";
 
 function momentFormatter(format) {
   return {
@@ -21,14 +21,14 @@ function momentFormatter(format) {
 // ];
 
 const FORMATS = {
-  D: momentFormatter(dateFormat('D')),
-  W: momentFormatter(dateFormat('W')),
-  M: momentFormatter(dateFormat('M')),
-  Q: momentFormatter(dateFormat('Q')),
-  A: momentFormatter(dateFormat('A')),
+  D: momentFormatter(dateFormat("D")),
+  W: momentFormatter(dateFormat("W")),
+  M: momentFormatter(dateFormat("M")),
+  Q: momentFormatter(dateFormat("Q")),
+  A: momentFormatter(dateFormat("A")),
 };
 
-const defaultFormat = momentFormatter('YYYY-MM-DD');
+const defaultFormat = momentFormatter("YYYY-MM-DD");
 
 class GraphRangeSelector extends React.Component {
   constructor(props) {
@@ -52,11 +52,12 @@ class GraphRangeSelector extends React.Component {
     };
   }
 
-  handleApply = () => this.props.updateRange({
-    gid: this.props.gid,
-    rangeStart: this.state.range[0],
-    rangeEnd: this.state.range[1],
-  });
+  handleApply = () =>
+    this.props.updateRange({
+      gid: this.props.gid,
+      rangeStart: this.state.range[0],
+      rangeEnd: this.state.range[1],
+    });
 
   handleRangeChange = (range) => {
     console.log(range);
@@ -77,7 +78,9 @@ class GraphRangeSelector extends React.Component {
           maxDate={maxDate.toDate()}
           onChange={this.handleRangeChange}
         />
-        <Button disabled={disabled} onClick={this.handleApply}>Apply</Button>
+        <Button disabled={disabled} onClick={this.handleApply}>
+          Apply
+        </Button>
       </ControlGroup>
     );
   }
@@ -87,8 +90,10 @@ GraphRangeSelector.defaultProps = {
   gid: undefined,
   freq: undefined,
   disabled: false,
-  minDate: moment("01/01/1900"),
-  maxDate: moment.utc(),
+  minDate: moment("1900-01-01"),
+  maxDate: moment.utc().toDate(),
+  // minDate: moment("01/01/1900"),
+  // maxDate: moment.utc(),  // fixed value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.
 };
 
 GraphRangeSelector.propTypes = {

@@ -1,14 +1,14 @@
-import * as R from 'ramda';
-import { ASTNode } from 'vega-expression';
-import evaluate from './evaluate';
-import { parse } from './parser';
-import * as basicfuncs from './timeseries-basic-functions';
-import * as advfuncs from './timeseries-adv-functions';
-import * as macrofuncs from './timeseries-macro-functions';
-import * as mathfuncs from './timeseries-math-functions';
-import * as mathinternal from './timeseries-math-internal';
-import * as utilfuncs from './timeseries-utils-functions';
-import * as statsfuncs from './timeseries-stats-functions';
+import * as R from "ramda";
+import { ASTNode } from "vega-expression";
+import evaluate from "./evaluate";
+import { parse } from "./parser";
+import * as basicfuncs from "./timeseries-basic-functions";
+import * as advfuncs from "./timeseries-adv-functions";
+import * as macrofuncs from "./timeseries-macro-functions";
+import * as mathfuncs from "./timeseries-math-functions";
+import * as mathinternal from "./timeseries-math-internal";
+import * as utilfuncs from "./timeseries-utils-functions";
+import * as statsfuncs from "./timeseries-stats-functions";
 
 const _args_vars = {
   undefined,
@@ -26,13 +26,17 @@ class Evaluator {
     try {
       ({ ast, refs } = parse(expr)); // handle errors
     } catch (error) {
-      this.errors = [(error instanceof Error) ? error.message : error];
+      this.errors = [error instanceof Error ? error.message : error];
     }
 
     // evaluate references
     // const a = Rmap(x => (x instanceof ASTNode), refs); // todo handle errors
     // this.refs = Rmap(x => (x instanceof ASTNode) ? evaluate(x, _args_vars) : x, refs);
-    this.refs = R.map((x) => R.map((y) => ((y instanceof ASTNode) ? evaluate(y, _args_vars) : y), x), refs); // todo handle errors
+    this.refs = R.map(
+      (x) =>
+        R.map((y) => (y instanceof ASTNode ? evaluate(y, _args_vars) : y), x),
+      refs
+    ); // todo handle errors
     this.ast = ast;
   }
 
@@ -46,7 +50,7 @@ class Evaluator {
 
   isSingleReference() {
     if (Object.keys(this.refs).length !== 1) return false;
-    if (R.path(['type'], this.ast) === 'Identifier') return true;
+    if (R.path(["type"], this.ast) === "Identifier") return true;
     return false;
   }
 
@@ -76,11 +80,11 @@ class Evaluator {
     try {
       out = evaluate(this.ast, exprVars);
     } catch (error) {
-      this.errors = [(error instanceof Error) ? error.message : error];
+      this.errors = [error instanceof Error ? error.message : error];
     }
-    if (out === {}) {
+    if (R.isNil(out) || Object.keys(out).length === 0) {
       // handle error
-      this.errors = ['evaluation error'];
+      this.errors = ["evaluation error"];
       out = undefined;
     }
     return [out, this.errors];
