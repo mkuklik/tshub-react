@@ -40,9 +40,9 @@ test('parser_debugging', () => {
   });
   expect(e2).toStrictEqual(10);
   expect(Object.keys(refs2)).toContain('_ref0');
-  expect(Object.keys(refs2._ref0)).toContain('ts_name');
-  expect(Object.keys(refs2._ref0)).toContain('coll_name');
-  expect(Object.keys(refs2._ref0)).toContain('space_name');
+  expect(Object.keys(refs2._ref0)).toContain('tsName');
+  expect(Object.keys(refs2._ref0)).toContain('collName');
+  expect(Object.keys(refs2._ref0)).toContain('spaceName');
   expect(Object.keys(refs2._ref2)).toContain('start');
   expect(Object.keys(refs2._ref2)).toContain('realtime');
 
@@ -63,13 +63,13 @@ test('parser simple', () => {
   });
   expect(e).toStrictEqual('abc');
   expect(Object.keys(refs)).toContain('_ref0');
-  expect(Object.keys(refs._ref0)).toContain('ts_name');
-  expect(Object.keys(refs._ref0)).toContain('coll_name');
-  expect(Object.keys(refs._ref0)).toContain('space_name');
+  expect(Object.keys(refs._ref0)).toContain('tsName');
+  expect(Object.keys(refs._ref0)).toContain('collName');
+  expect(Object.keys(refs._ref0)).toContain('spaceName');
 
-  expect(refs._ref0.ts_name).toStrictEqual('gdp')
-  expect(refs._ref0.coll_name).toBeUndefined();
-  expect(refs._ref0.space_name).toBeUndefined();
+  expect(refs._ref0.tsName).toStrictEqual('gdp')
+  expect(refs._ref0.collName).toBeUndefined();
+  expect(refs._ref0.spaceName).toBeUndefined();
 
 });
 
@@ -83,15 +83,15 @@ test('parser expr1', () => {
   expect(val).toStrictEqual('abc');
   expect(Object.keys(refs)).toContain('_ref0');
 
-  expect(Object.keys(refs._ref0)).toContain('ts_name');
-  expect(Object.keys(refs._ref0)).toContain('coll_name');
-  expect(Object.keys(refs._ref0)).toContain('space_name');
+  expect(Object.keys(refs._ref0)).toContain('tsName');
+  expect(Object.keys(refs._ref0)).toContain('collName');
+  expect(Object.keys(refs._ref0)).toContain('spaceName');
   expect(Object.keys(refs._ref0)).toContain('start');
   expect(Object.keys(refs._ref0)).toContain('realtime');
   
-  expect(refs._ref0.ts_name).toStrictEqual('ts_name')
-  expect(refs._ref0.coll_name).toStrictEqual('coll_name')
-  expect(refs._ref0.space_name).toBeUndefined();
+  expect(refs._ref0.tsName).toStrictEqual('ts_name')
+  expect(refs._ref0.collName).toStrictEqual('coll_name')
+  expect(refs._ref0.spaceName).toBeUndefined();
 
 });
 

@@ -174,14 +174,19 @@ module.exports = {
   // },
   transform: {
     "^.+\\.[jt]sx?$": "babel-jest", // For Babel
-    "^.+\\.tsx?$": "ts-jest", // For TypeScript
   },
   roots: ["<rootDir>/src"],
   testMatch: [
     "**/__tests__/**/*.+(ts)",
     "**/?(*.)+(test).+(ts)",
     "**/?(*.)+(test).+(js)",
+    "**/?(*.)+(test).+(tsx)",
   ],
+  // for react test
+  // setupFiles: ['@testing-library/jest-dom'],
+  testEnvironment: "jsdom", // Required for react-testing-library
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.js"], // Path to your setup file
+
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
   //   "/node_modules/"
