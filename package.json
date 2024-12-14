@@ -42,6 +42,7 @@
     "@r-wasm/webr": "^0.2.0",
     "@sentry/react": "^8.40.0",
     "@tensorflow/tfjs": "^4.22.0",
+    "@types/estree": "^1.0.6",
     "@types/mathjs": "^9.4.2",
     "@types/moment-timezone": "^0.5.13",
     "@types/node": "^22.9.3",

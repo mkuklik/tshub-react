@@ -1,15 +1,16 @@
 // Collections
-export const FETCH_COLLECTIONS = 'FETCH_COLLECTIONS';
-export const REFETCH_COLLECTIONS = 'REFETCH_COLLECTIONS';
-export const SAVE_COLLECTIONS = 'SAVE_COLLECTIONS';
-export const SAVE_COLLECTION = 'SAVE_COLLECTION';
-export const DELETE_COLLECTION = 'DELETE_COLLECTION';
-export const FETCH_COLLECTION_DETAILS = 'FETCH_COLLECTION_DETAILS';
-export const SAVE_COLLECTION_DETAILS = 'SAVE_COLLECTION_DETAILS';
-export const SAVE_COLLECTION_REMOVE = 'SAVE_COLLECTION_REMOVE';
-export const TIMESERIES_VIEWER_SELECT_COLLECTION = 'TIMESERIES_VIEWER_SELECT_COLLECTION';
-export const TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS = 'TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS';
-
+export const FETCH_COLLECTIONS = "FETCH_COLLECTIONS";
+export const REFETCH_COLLECTIONS = "REFETCH_COLLECTIONS";
+export const SAVE_COLLECTIONS = "SAVE_COLLECTIONS";
+export const SAVE_COLLECTION = "SAVE_COLLECTION";
+export const DELETE_COLLECTION = "DELETE_COLLECTION";
+export const FETCH_COLLECTION_DETAILS = "FETCH_COLLECTION_DETAILS";
+export const SAVE_COLLECTION_DETAILS = "SAVE_COLLECTION_DETAILS";
+export const SAVE_COLLECTION_REMOVE = "SAVE_COLLECTION_REMOVE";
+export const TIMESERIES_VIEWER_SELECT_COLLECTION =
+  "TIMESERIES_VIEWER_SELECT_COLLECTION";
+export const TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS =
+  "TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS";
 
 export interface FetchCollectionsAction {
   type: typeof FETCH_COLLECTIONS;
@@ -26,7 +27,9 @@ export interface RefetchCollectionsAction {
   payload: any; // Replace 'any' with the actual type of your data
 }
 
-export const refetchCollectionsAction = (data: any): RefetchCollectionsAction => ({
+export const refetchCollectionsAction = (
+  data: any
+): RefetchCollectionsAction => ({
   type: REFETCH_COLLECTIONS,
   payload: data,
 });
@@ -36,7 +39,9 @@ export interface DeleteCollectionAction {
   collId: string;
 }
 
-export const deleteCollectionAction = (collId: string): DeleteCollectionAction => ({
+export const deleteCollectionAction = (
+  collId: string
+): DeleteCollectionAction => ({
   type: DELETE_COLLECTION,
   collId,
 });
@@ -56,7 +61,11 @@ export interface SaveCollectionAction {
   payload: { spaceId: string; collection: any }; // Replace 'any' with the actual type of your collection object
 }
 
-export const saveCollectionAction = (spaceId: string, collection: any): SaveCollectionAction => ({ // Replace 'any' with the actual type of your collection object
+export const saveCollectionAction = (
+  spaceId: string,
+  collection: any
+): SaveCollectionAction => ({
+  // Replace 'any' with the actual type of your collection object
   type: SAVE_COLLECTION,
   payload: { spaceId, collection },
 });
@@ -66,7 +75,9 @@ export interface SelectCollectionAction {
   payload: any; // Replace 'any' with the actual type of your data
 }
 
-export const selectCollectionAction = (data: any): SelectCollectionAction => ({
+export const selectCollectionAction = (
+  data: string
+): SelectCollectionAction => ({
   type: TIMESERIES_VIEWER_SELECT_COLLECTION,
   payload: data,
 });
@@ -76,7 +87,9 @@ export interface SetFailedCollectionsAction {
   payload: any; // Replace 'any' with the actual type of your data
 }
 
-export const setFailedCollectionsAction = (data: any): SetFailedCollectionsAction => ({
+export const setFailedCollectionsAction = (
+  data: any
+): SetFailedCollectionsAction => ({
   type: TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS,
   payload: data,
 });
@@ -86,7 +99,9 @@ export interface FetchCollectionDetailsAction {
   collId: string;
 }
 
-export const fetchCollectionDetailsAction = (collId: string): FetchCollectionDetailsAction => ({
+export const fetchCollectionDetailsAction = (
+  collId: string
+): FetchCollectionDetailsAction => ({
   type: FETCH_COLLECTION_DETAILS,
   collId,
 });
@@ -96,7 +111,9 @@ export interface SaveCollectionDetailsAction {
   payload: any; // Replace 'any' with the actual type of your data
 }
 
-export const saveCollectionDetailsAction = (data: any): SaveCollectionDetailsAction => ({
+export const saveCollectionDetailsAction = (
+  data: any
+): SaveCollectionDetailsAction => ({
   type: SAVE_COLLECTION_DETAILS,
   payload: data,
 });
@@ -106,7 +123,9 @@ export interface SaveRemoveCollectionAction {
   payload: { collId: string };
 }
 
-export const saveRemoveCollectionAction = (collId: string): SaveRemoveCollectionAction => ({
+export const saveRemoveCollectionAction = (
+  collId: string
+): SaveRemoveCollectionAction => ({
   type: SAVE_COLLECTION_REMOVE,
   payload: {
     collId,

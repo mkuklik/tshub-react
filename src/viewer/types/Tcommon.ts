@@ -1,4 +1,6 @@
-// No need to import 'prop-types' in a TypeScript file
+interface IError {
+  message: string;
+}
 
 interface SizeType {
   height: number;
@@ -10,6 +12,7 @@ enum IFreq {
   WEEKLY = "W",
   MONTHLY = "M",
   QUARTERLY = "Q",
+  ANNUAL = "A",
 }
 
 // Expanded DTypeType based on your comment

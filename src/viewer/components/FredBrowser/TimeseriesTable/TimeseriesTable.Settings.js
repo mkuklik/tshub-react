@@ -1,4 +1,4 @@
-import { NameCellRenderer } from './TimeseriesTable.Renderers';
+import { NameCellRenderer } from "./TimeseriesTable.Renderers";
 
 const ColumnDefinitions = [
   {
@@ -8,36 +8,37 @@ const ColumnDefinitions = [
     width: 40,
     suppressMovable: true,
     suppressSizeToFit: true,
-    // rowDragText: (params) => { // doesn't work with dnd, 
+    // rowDragText: (params) => { // doesn't work with dnd,
     //   console.log('rowDragText', params);
     //   return params.rowNode.data.name;
     // },
   },
   {
-    headerName: 'Name',
-    field: 'id',
-    cellRenderer: 'nameCellRenderer',
-    suppressMovable: true,
-  },
-  {
-    headerName: 'Freq',
-    field: 'freq',
-    suppressMovable: true,
-    maxWidth: 60,
-  },
-  {
-    headerName: 'DType',
-    field: 'dtype',
-    suppressMovable: true,
-    maxWidth: 70,
-  },
-  {
-    headerName: 'Title',
-    field: 'title',
+    headerName: "Title",
+    field: "title",
     suppressMovable: true,
     flex: 1,
     resizable: true,
     minWidth: 100,
+  },
+
+  {
+    headerName: "Freq",
+    field: "freq",
+    suppressMovable: true,
+    maxWidth: 60,
+  },
+  {
+    headerName: "DType",
+    field: "dtype",
+    suppressMovable: true,
+    maxWidth: 70,
+  },
+  {
+    headerName: "Name",
+    field: "id",
+    cellRenderer: "nameCellRenderer",
+    suppressMovable: true,
   },
 ];
 
@@ -65,7 +66,4 @@ const FrameworkComponents = {
 //   }
 // }
 
-export {
-  ColumnDefinitions,
-  FrameworkComponents,
-};
+export { ColumnDefinitions, FrameworkComponents };

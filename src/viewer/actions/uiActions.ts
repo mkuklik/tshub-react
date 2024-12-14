@@ -95,6 +95,7 @@ export const FRED_BROWSER_SET_SERIES_LOADING =
 // ui triggered sagas
 export const FRED_BROWSER_EXPAND_CATEGORY = "FRED_BROWSER_EXPAND_CATEGORY";
 export const FRED_BROWSER_COLLAPSE_CATEGORY = "FRED_BROWSER_COLLAPSE_CATEGORY";
+export const FRED_BROWSER_ADD_SERIES = "FRED_BROWSER_ADD_SERIES";
 // listen to by reducer
 export const FRED_BROWSER_SAVE_EXPANDED_CATEGORY =
   "FRED_BROWSER_SAVE_EXPANDED_CATEGORY";
@@ -500,6 +501,18 @@ export const fredBrowserSetSeriesLoadingAction = (
 ): IFredBrowserSetSeriesLoadingAction => ({
   type: FRED_BROWSER_SET_SERIES_LOADING,
   payload: { categoryId },
+});
+
+export interface IFredBrowserAddSeriesAction {
+  type: typeof FRED_BROWSER_ADD_SERIES;
+  payload: { seriesId: string };
+}
+
+export const fredBrowserAddSeriesAction = (
+  seriesId: string
+): IFredBrowserAddSeriesAction => ({
+  type: FRED_BROWSER_ADD_SERIES,
+  payload: { seriesId },
 });
 
 // import {

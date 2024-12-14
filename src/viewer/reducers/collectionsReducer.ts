@@ -1,6 +1,19 @@
 import {
-  propEq, find, pipe, values, flatten, omit, map, mergeAll, filter, path, has, isNil,
-} from 'ramda';
+  propEq,
+  find,
+  pipe,
+  values,
+  flatten,
+  omit,
+  map,
+  mergeAll,
+  filter,
+  path,
+  has,
+  isNil,
+  propSatisfies,
+  equals,
+} from "ramda";
 
 import {
   SAVE_COLLECTIONS,
@@ -9,7 +22,6 @@ import {
   SAVE_COLLECTION_DETAILS,
   SAVE_COLLECTION,
   SAVE_COLLECTION_REMOVE,
-
   FetchCollectionsAction,
   RefetchCollectionsAction,
   DeleteCollectionAction,
@@ -20,7 +32,7 @@ import {
   FetchCollectionDetailsAction,
   SaveCollectionDetailsAction,
   SaveRemoveCollectionAction,
-} from '../actions/collectionsActions';
+} from "../actions/collectionsActions";
 
 export interface Collection {
   collId: string;
@@ -58,23 +70,36 @@ export type CollectionsAction =
   | SaveCollectionDetailsAction
   | SaveRemoveCollectionAction;
 
-const reducer = (state: ICollectionsState = initialState, action: CollectionsAction): ICollectionsState => {
+const reducer = (
+  state: ICollectionsState = initialState,
+  action: CollectionsAction
+): ICollectionsState => {
   switch (action.type) {
     case SAVE_COLLECTIONS:
       return {
         ...state,
         collections: {
           ...state.collections,
-          [action.payload.spaceId]: map((c: Collection) => ({ ...c, spaceId: action.payload.spaceId }), action.payload.collections),
+          [action.payload.spaceId]: map(
+            (c: Collection) => ({ ...c, spaceId: action.payload.spaceId }),
+            action.payload.collections
+          ),
         },
         collectionsByID: {
           ...state.collectionsByID,
-          ...mergeAll(map((x: Collection) => ({
-            [x.collId]: { ...x, spaceId: action.payload.spaceId },
-          }), action.payload.collections)),
-
+          ...mergeAll(
+            map(
+              (x: Collection) => ({
+                [x.collId]: { ...x, spaceId: action.payload.spaceId },
+              }),
+              action.payload.collections
+            )
+          ),
         },
-        failedCollections: omit([action.payload.spaceId], state.failedCollections),
+        failedCollections: omit(
+          [action.payload.spaceId],
+          state.failedCollections
+        ),
       };
     case SAVE_COLLECTION:
       return {
@@ -82,28 +107,35 @@ const reducer = (state: ICollectionsState = initialState, action: CollectionsAct
         collections: {
           ...state.collections,
           [action.payload.spaceId]: [
-            ...filter((c: Collection) => c.collId !== action.payload.collection.collId, state.collections[action.payload.spaceId]),
+            ...filter(
+              (c: Collection) => c.collId !== action.payload.collection.collId,
+              state.collections[action.payload.spaceId]
+            ),
             { ...action.payload.collection, spaceId: action.payload.spaceId },
           ],
         },
         collectionsByID: {
           ...state.collectionsByID,
-          [action.payload.collection.collId]: { ...action.payload.collection, spaceId: action.payload.spaceId },
+          [action.payload.collection.collId]: {
+            ...action.payload.collection,
+            spaceId: action.payload.spaceId,
+          },
         },
       };
     case SAVE_COLLECTION_REMOVE: {
-      const spaceId : string = path([action.payload.collId, 'spaceId'], state.collectionsByID) || '';
-      const collections = (!has(isNil(spaceId) ? '' : spaceId, state.collections))
+      const spaceId: string =
+        path([action.payload.collId, "spaceId"], state.collectionsByID) || "";
+      const collections = !has(isNil(spaceId) ? "" : spaceId, state.collections)
         ? state.collections
         : {
-          ...state.collections,
-          [spaceId]: [
-            ...filter(
-              (c: Collection) => c.collId !== action.payload.collId,
-              state.collections[spaceId as string],
-            ),
-          ],
-        };
+            ...state.collections,
+            [spaceId]: [
+              ...filter(
+                (c: Collection) => c.collId !== action.payload.collId,
+                state.collections[spaceId as string]
+              ),
+            ],
+          };
       return {
         ...state,
         collections,
@@ -121,17 +153,16 @@ const reducer = (state: ICollectionsState = initialState, action: CollectionsAct
         },
       };
 
-    case TIMESERIES_VIEWER_SELECT_COLLECTION:
-      /* eslint-disable no-case-declarations */
+    case TIMESERIES_VIEWER_SELECT_COLLECTION: {
       const allCollections = pipe(values, flatten)(state.collections);
       const selectedCollectionID = action.payload;
-      /* eslint-enable no-case-declarations */
-
       return {
         ...state,
-        selectedCollection: find(propEq('collId', selectedCollectionID))(allCollections) as Collection | undefined,
+        selectedCollection: find(
+          propSatisfies(equals(selectedCollectionID), "collId")
+        )(allCollections) as Collection | undefined,
       };
-
+    }
     case TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS:
       return {
         ...state,
@@ -243,7 +274,7 @@ export default reducer;
 
 //       return {
 //         ...state,
-//         selectedCollection: find(propEq('collId', selectedCollectionID))(allCollections),
+//         selectedCollection: find(propEq('collId', selectedCollectionID))(allCollections),  // this is incorrect
 //       };
 
 //     case TIMESERIES_VIEWER_SET_FAILED_COLLECTIONS:

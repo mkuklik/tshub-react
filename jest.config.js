@@ -174,6 +174,7 @@ module.exports = {
   // },
   transform: {
     "^.+\\.[jt]sx?$": "babel-jest", // For Babel
+    // "^.+\\.[t]s?$": "babel-jest", // For Babel
   },
   roots: ["<rootDir>/src"],
   testMatch: [

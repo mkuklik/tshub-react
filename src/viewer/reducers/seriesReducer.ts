@@ -11,11 +11,11 @@ import {
   ISaveUpdateSeriesAction,
   IRestoreSeriesStoreAction,
 } from "../actions/seriesActions";
-import { ISeries } from "../types/TSeries";
+import { ISeries, IResolvedSeries } from "../types/TSeries";
 
 export interface ISeriesState {
   definition: { [wsid: string]: ISeries };
-  resolved: { [wsid: string]: ISeries };
+  resolved: { [wsid: string]: IResolvedSeries };
 }
 
 const initialState: ISeriesState = {
@@ -34,11 +34,9 @@ const reducer = (
   state: ISeriesState = initialState,
   action: SeriesActions
 ): ISeriesState => {
-  const { type, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case SERIES_SAVE_SERIES: {
-      const { wsid, series } = payload;
+      const { wsid, series } = action.payload;
       return {
         ...state,
         definition: {
@@ -48,7 +46,7 @@ const reducer = (
       };
     }
     case SERIES_SAVE_RESOLVED_SERIES: {
-      const { wsid, series } = payload;
+      const { wsid, series } = action.payload;
       return {
         ...state,
         resolved: {
@@ -58,14 +56,14 @@ const reducer = (
       };
     }
     case SERIES_SAVE_DELETE_SERIES: {
-      const { wsid } = payload;
+      const { wsid } = action.payload;
       return {
         ...state,
         resolved: R.omit([wsid], state.resolved),
       };
     }
     case SERIES_SAVE_UPDATE: {
-      const { wsid, series } = payload;
+      const { wsid, series } = action.payload;
       return {
         ...state,
         definition: {
@@ -84,7 +82,7 @@ const reducer = (
     case SERIES_SAVE_RESTORE_SERIES:
       return {
         ...state,
-        ...payload, // Make sure the payload matches the SeriesState structure
+        ...action.payload, // Make sure the payload matches the SeriesState structure
       };
     default:
       return state;

@@ -13,6 +13,7 @@ import {
   selectTimeseriesAction,
   toggleCreateTimeseriesOverlayAction,
   timeseriesBrowserAddSeriesAction,
+  fredBrowserAddSeriesAction,
 } from "../../../actions/uiActions";
 import { fredSeriesByCategorySelector } from "../../../selectors/fred";
 import {
@@ -21,7 +22,6 @@ import {
 } from "../../../types/Timeseries";
 
 import { TimeseriesTable } from "./TimeseriesTable";
-// import TimeseriesTable2 from "./TimeseriesTable2";
 
 const TimeseriesTableContainerBase = (
   {
@@ -112,7 +112,7 @@ const mapDispatchToProps = {
   fetchTimeseriesDetails: fetchTimeseriesDetailsAction,
   toggleCreateTimeseriesOverlay: toggleCreateTimeseriesOverlayAction,
   deleteTimeseries: deleteTimeseriesAction,
-  addTimeseries: timeseriesBrowserAddSeriesAction,
+  addTimeseries: fredBrowserAddSeriesAction,
 };
 
 const TimeseriesTableContainer = compose(

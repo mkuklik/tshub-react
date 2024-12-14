@@ -1,5 +1,5 @@
 import { select, put, takeEvery } from "redux-saga/effects";
-import { isNil, has, path } from "ramda";
+import { isNil, has } from "ramda";
 import { fredCategorySelector } from "../selectors/ui";
 import { fetchFredCategoryAction } from "../actions/fredActions";
 import { fetchCategorySeries } from "./fred";
@@ -7,10 +7,12 @@ import {
   fredBrowserSaveExpandedCategoryAction,
   fredBrowserSaveCollapsedCategoryAction,
   fredBrowserSaveSelectedCategoryAction,
+  FRED_BROWSER_ADD_SERIES,
 } from "../actions/uiActions";
-// import { workbookAddNewGraphTabAction } from '../../workbook/action/workbookActions';
+import { workbookAddNewGraphTabAction } from "../../workbook/action/workbookActions";
+import createGraph from "./graph.createGraph";
 import { reportErrorAction } from "../actions/errorActions";
-// import createGraph from './graph.createGraph';
+
 import { fetchFredCategory } from "./fred";
 import {
   FRED_BROWSER_COLLAPSE_CATEGORY,
@@ -71,8 +73,38 @@ function* selectCategory(message) {
   yield put(fredBrowserSaveSelectedCategoryAction(categoryId));
 }
 
+function* addFredSeries(message) {
+  const { seriesId } = message.payload;
+
+  // check if exists in the store
+  // if not fetch it from Fred
+
+  if (isNil(seriesId)) {
+    yield put(
+      reportErrorAction(
+        "Internal Error: addTimeseries: timeseires or collection is not specified"
+      )
+    );
+  }
+  let gid = yield select(currentGraphGidSelector);
+  if (isNil(gid)) {
+    gid = yield createGraph({ gid }, false);
+    yield put(workbookAddNewGraphTabAction(undefined, gid));
+  }
+  yield put(
+    addRefSeriesToGraphAction({
+      gid,
+      name: timeseries.name,
+      spaceId: collection.spaceId,
+      collId: collection.collId,
+      tsid: timeseries.tsid,
+    })
+  );
+}
+
 export default function* watchUIFredActions() {
   yield takeEvery(FRED_BROWSER_EXPAND_CATEGORY, expandCategory);
   yield takeEvery(FRED_BROWSER_COLLAPSE_CATEGORY, collapseCategory);
   yield takeEvery(FRED_BROWSER_SELECT_CATEGORY, selectCategory);
+  yield takeEvery(FRED_BROWSER_ADD_SERIES, addFredSeries);
 }

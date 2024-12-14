@@ -16,6 +16,9 @@
     "isolatedModules": false,
     "noEmit": false, // Changed to false to allow emitting output files
     "jsx": "react-jsx",
+    "typeRoots": [
+      "./node_modules/@types" // This is usually sufficient
+    ],
     "transpileOnly": false, // Changed to false for type checking during compilation
     "typeCheck": true // Changed to true to enable type checking
     // "noEmit": true,

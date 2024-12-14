@@ -1,23 +1,26 @@
-import ObjectID from 'bson-objectid';
+import ObjectID from "bson-objectid";
+import { IDType, IFreq } from "../types/Tcommon";
+import { Moment } from "moment";
+import { ISeries } from "../types/TSeries";
 
 // SERIES
 
-export const SERIES_EXPR_CREATE = 'SERIES_EXPR_CREATE';
-export const SERIES_REF_CREATE = 'SERIES_REF_CREATE';
-export const SERIES_DATA_CREATE = 'SERIES_DATA_CREATE';
-export const SERIES_UPDATE = 'SERIES_UPDATE';
-export const SERIES_RESOLVE = 'SERIES_RESOLVE';
-export const SERIES_DELETE = 'SERIES_DELETE';
+export const SERIES_EXPR_CREATE = "SERIES_EXPR_CREATE";
+export const SERIES_REF_CREATE = "SERIES_REF_CREATE";
+export const SERIES_DATA_CREATE = "SERIES_DATA_CREATE";
+export const SERIES_UPDATE = "SERIES_UPDATE";
+export const SERIES_RESOLVE = "SERIES_RESOLVE";
+export const SERIES_DELETE = "SERIES_DELETE";
 
-export const SERIES_SAVE_SERIES = 'SERIES_SAVE_SERIES';
-export const SERIES_SAVE_RESOLVED_SERIES = 'SERIES_SAVE_RESOLVED_SERIES';
-export const SERIES_SAVE_DELETE_SERIES = 'SERIES_SAVE_DELETE_SERIES';
-export const SERIES_SAVE_UPDATE = 'SERIES_SAVE_UPDATE';
-export const SERIES_SAVE_RESTORE_SERIES = 'SERIES_SAVE_RESTORE_SERIES';
+export const SERIES_SAVE_SERIES = "SERIES_SAVE_SERIES";
+export const SERIES_SAVE_RESOLVED_SERIES = "SERIES_SAVE_RESOLVED_SERIES";
+export const SERIES_SAVE_DELETE_SERIES = "SERIES_SAVE_DELETE_SERIES";
+export const SERIES_SAVE_UPDATE = "SERIES_SAVE_UPDATE";
+export const SERIES_SAVE_RESTORE_SERIES = "SERIES_SAVE_RESTORE_SERIES";
 
-export const SERIES_SIGNAL_UPDATED = 'SERIES_SIGNAL_UPDATED';
-export const SERIES_SIGNAL_DELETED = 'SERIES_SIGNAL_DELETED';
-export const SERIES_SIGNAL_RESOLVED = 'SERIES_SIGNAL_RESOLVED';
+export const SERIES_SIGNAL_UPDATED = "SERIES_SIGNAL_UPDATED";
+export const SERIES_SIGNAL_DELETED = "SERIES_SIGNAL_DELETED";
+export const SERIES_SIGNAL_RESOLVED = "SERIES_SIGNAL_RESOLVED";
 
 const objectIdGenerator = new ObjectID();
 
@@ -32,18 +35,24 @@ export interface ICreateExprSeriesAction {
   name: string;
 }
 
-export const createExprSeriesAction = (wsid: string, expr: string, name: string): ICreateExprSeriesAction => ({
+export const createExprSeriesAction = (
+  wsid: string,
+  expr: string,
+  name: string
+): ICreateExprSeriesAction => ({
   type: SERIES_EXPR_CREATE,
   wsid,
   expr,
   name,
 });
 
-export const createExprSeries = ({ expr, name }: { expr?: string, name?: string } = {}) => (dispatch: (action: ICreateExprSeriesAction) => void) => {
-  const wsid = objectIdGenerator.toHexString();
-  dispatch(createExprSeriesAction(wsid, expr || '', name || ''));
-  return wsid;
-};
+export const createExprSeries =
+  ({ expr, name }: { expr?: string; name?: string } = {}) =>
+  (dispatch: (action: ICreateExprSeriesAction) => void) => {
+    const wsid = objectIdGenerator.toHexString();
+    dispatch(createExprSeriesAction(wsid, expr || "", name || ""));
+    return wsid;
+  };
 
 export interface ICreateRefSeriesAction {
   type: typeof SERIES_REF_CREATE;
@@ -51,10 +60,16 @@ export interface ICreateRefSeriesAction {
   name: string;
   tsid: string;
   collId: string;
-  realtime: boolean;
+  realtime?: Moment;
 }
 
-export const createRefSeriesAction = (wsid: string, name: string, tsid: string, collId: string, realtime: boolean): ICreateRefSeriesAction => ({
+export const createRefSeriesAction = (
+  wsid: string,
+  name: string,
+  tsid: string,
+  collId: string,
+  realtime?: Moment
+): ICreateRefSeriesAction => ({
   type: SERIES_REF_CREATE,
   wsid,
   name,
@@ -63,27 +78,54 @@ export const createRefSeriesAction = (wsid: string, name: string, tsid: string, 
   realtime,
 });
 
-export const createRefSeries = ({
-  name, tsid, collId, realtime,
-}: { name?: string, tsid?: string, collId?: string, realtime?: boolean } = {}) => (dispatch: (action: ICreateRefSeriesAction) => void) => {
-  const wsid = objectIdGenerator.toHexString();
-  dispatch(createRefSeriesAction(wsid, name || '', tsid || '', collId || '', realtime || false));
-  return wsid;
-};
+export const createRefSeries =
+  ({
+    name,
+    tsid,
+    collId,
+    realtime,
+  }: {
+    name?: string;
+    tsid?: string;
+    collId?: string;
+    realtime?: Moment;
+  } = {}) =>
+  (dispatch: (action: ICreateRefSeriesAction) => void) => {
+    const wsid = objectIdGenerator.toHexString();
+    dispatch(
+      createRefSeriesAction(
+        wsid,
+        name || "",
+        tsid || "",
+        collId || "",
+        realtime
+      )
+    );
+    return wsid;
+  };
 
 export interface ICreateDataSeriesAction {
   type: typeof SERIES_DATA_CREATE;
   wsid: string;
   name: string;
-  freq: any; // Replace 'any' with the actual type of freq
+  freq: IFreq;
   fparam: any; // Replace 'any' with the actual type of fparam
-  dtype: any; // Replace 'any' with the actual type of dtype
+  dtype: IDType; // Replace 'any' with the actual type of dtype
   dparam: any; // Replace 'any' with the actual type of dparam
   units: any; // Replace 'any' with the actual type of units
   data: any; // Replace 'any' with the actual type of data
 }
 
-export const createDataSeriesAction = (wsid: string, name: string, freq: any, fparam: any, dtype: any, dparam: any, units: any, data: any): ICreateDataSeriesAction => ({
+export const createDataSeriesAction = (
+  wsid: string,
+  name: string,
+  freq: any,
+  fparam: any,
+  dtype: any,
+  dparam: any,
+  units: any,
+  data: any
+): ICreateDataSeriesAction => ({
   type: SERIES_DATA_CREATE,
   wsid,
   name,
@@ -95,13 +137,40 @@ export const createDataSeriesAction = (wsid: string, name: string, freq: any, fp
   data,
 });
 
-export const createDataSeries = ({
-  name, freq, fparam, dtype, dparam, units, data,
-}: { name?: string, freq?: any, fparam?: any, dtype?: any, dparam?: any, units?: any, data?: any } = {}) => (dispatch: (action: ICreateDataSeriesAction) => void) => {
-  const wsid = objectIdGenerator.toHexString();
-  dispatch(createDataSeriesAction(wsid, name || '', freq, fparam, dtype, dparam, units, data));
-  return wsid;
-};
+export const createDataSeries =
+  ({
+    name,
+    freq,
+    fparam,
+    dtype,
+    dparam,
+    units,
+    data,
+  }: {
+    name?: string;
+    freq?: any;
+    fparam?: any;
+    dtype?: any;
+    dparam?: any;
+    units?: any;
+    data?: any;
+  } = {}) =>
+  (dispatch: (action: ICreateDataSeriesAction) => void) => {
+    const wsid = objectIdGenerator.toHexString();
+    dispatch(
+      createDataSeriesAction(
+        wsid,
+        name || "",
+        freq,
+        fparam,
+        dtype,
+        dparam,
+        units,
+        data
+      )
+    );
+    return wsid;
+  };
 
 //
 //  UPDATE SERIES
@@ -113,7 +182,13 @@ export interface IUpdateSeriesAction {
   series: any; // Replace 'any' with the actual type of series
 }
 
-export const updateSeriesAction = ({ wsid, series }: { wsid: string, series: any }): IUpdateSeriesAction => ({
+export const updateSeriesAction = ({
+  wsid,
+  series,
+}: {
+  wsid: string;
+  series: ISeries;
+}): IUpdateSeriesAction => ({
   type: SERIES_UPDATE,
   wsid,
   series,
@@ -125,12 +200,15 @@ export const updateSeriesAction = ({ wsid, series }: { wsid: string, series: any
 
 export interface IResolveSeriesAction {
   type: typeof SERIES_RESOLVE;
-  payload: { wsid: string; realtime: boolean };
+  payload: { wsid: string; realtime: Moment };
 }
 
-export const resolveSeriesAction = ({ wsid, realtime }: { wsid?: string, realtime?: boolean } = {}): IResolveSeriesAction => ({
+export const resolveSeriesAction = ({
+  wsid,
+  realtime,
+}: { wsid: string; realtime?: Moment } = {}): IResolveSeriesAction => ({
   type: SERIES_RESOLVE,
-  payload: { wsid: wsid || '', realtime: realtime || false },
+  payload: { wsid, realtime: realtime },
 });
 
 //
@@ -142,9 +220,11 @@ export interface IDeleteSeriesAction {
   payload: { wsid: string };
 }
 
-export const deleteSeriesAction = ({ wsid }: { wsid?: string } = {}): IDeleteSeriesAction => ({
+export const deleteSeriesAction = ({
+  wsid,
+}: { wsid: string } = {}): IDeleteSeriesAction => ({
   type: SERIES_DELETE,
-  payload: { wsid: wsid || '' },
+  payload: { wsid },
 });
 
 //
@@ -153,12 +233,15 @@ export const deleteSeriesAction = ({ wsid }: { wsid?: string } = {}): IDeleteSer
 
 export interface ISaveSeriesAction {
   type: typeof SERIES_SAVE_SERIES;
-  payload: { wsid: string; series: any }; // Replace 'any' with the actual type of series
+  payload: { wsid: string; series: ISeries }; // Replace 'any' with the actual type of series
 }
 
-export const saveSeriesAction = ({ wsid, series }: { wsid?: string, series?: any } = {}): ISaveSeriesAction => ({
+export const saveSeriesAction = ({
+  wsid,
+  series,
+}: { wsid: string; series: ISeries } = {}): ISaveSeriesAction => ({
   type: SERIES_SAVE_SERIES,
-  payload: { wsid: wsid || '', series: series || {} },
+  payload: { wsid, series: series },
 });
 
 //
@@ -167,14 +250,17 @@ export const saveSeriesAction = ({ wsid, series }: { wsid?: string, series?: any
 
 export interface ISaveResolvedSeriesAction {
   type: typeof SERIES_SAVE_RESOLVED_SERIES;
-  payload: { wsid: string; series: any }; // Replace 'any' with the actual type of series
+  payload: { wsid: string; series: ISeries }; // Replace 'any' with the actual type of series
 }
 
-export const saveResolvedSeriesAction = ({ wsid, series }: { wsid?: string, series?: any } = {}): ISaveResolvedSeriesAction => ({
+export const saveResolvedSeriesAction = ({
+  wsid,
+  series,
+}: { wsid?: string; series?: ISeries } = {}): ISaveResolvedSeriesAction => ({
   // update properties of series in graph definition in the store
   type: SERIES_SAVE_RESOLVED_SERIES,
   payload: {
-    wsid: wsid || '',
+    wsid: wsid || "",
     series: series || {},
   },
 });
@@ -185,12 +271,15 @@ export const saveResolvedSeriesAction = ({ wsid, series }: { wsid?: string, seri
 
 export interface ISaveUpdateSeriesAction {
   type: typeof SERIES_SAVE_UPDATE;
-  payload: { wsid: string; series: any }; // Replace 'any' with the actual type of series
+  payload: { wsid: string; series: ISeries }; // Replace 'any' with the actual type of series
 }
 
-export const saveUpdateSeriesAction = ({ wsid, series }: { wsid?: string, series?: any } = {}): ISaveUpdateSeriesAction => ({
+export const saveUpdateSeriesAction = ({
+  wsid,
+  series,
+}: { wsid?: string; series?: ISeries } = {}): ISaveUpdateSeriesAction => ({
   type: SERIES_SAVE_UPDATE,
-  payload: { wsid: wsid || '', series: series || {} },
+  payload: { wsid: wsid || "", series: series || {} },
 });
 
 //
@@ -202,9 +291,11 @@ export interface ISaveDeleteSeriesAction {
   payload: { wsid: string };
 }
 
-export const saveDeleteSeriesAction = ({ wsid }: { wsid?: string } = {}): ISaveDeleteSeriesAction => ({
+export const saveDeleteSeriesAction = ({
+  wsid,
+}: { wsid: string } = {}): ISaveDeleteSeriesAction => ({
   type: SERIES_SAVE_DELETE_SERIES,
-  payload: { wsid: wsid || '' },
+  payload: { wsid },
 });
 
 export interface IRestoreSeriesStoreAction {
@@ -212,10 +303,11 @@ export interface IRestoreSeriesStoreAction {
   payload: any; // Replace 'any' with the actual type of payload
 }
 
-export const restoreSeriesStoreAction = (payload: any): IRestoreSeriesStoreAction => ({
+export const restoreSeriesStoreAction = (
+  payload: any
+): IRestoreSeriesStoreAction => ({
   type: SERIES_SAVE_RESTORE_SERIES,
   payload,
-
 });
 
 //      SIGNALS
@@ -225,9 +317,11 @@ export interface ISignalSeriesUpdatedAction {
   payload: { wsid: string };
 }
 
-export const signalSeriesUpdatedAction = ({ wsid }: { wsid?: string } = {}): ISignalSeriesUpdatedAction => ({
+export const signalSeriesUpdatedAction = ({
+  wsid,
+}: { wsid?: string } = {}): ISignalSeriesUpdatedAction => ({
   type: SERIES_SIGNAL_UPDATED,
-  payload: { wsid: wsid || '' },
+  payload: { wsid: wsid || "" },
 });
 
 export interface ISignalSeriesDeletedAction {
@@ -235,9 +329,11 @@ export interface ISignalSeriesDeletedAction {
   payload: { wsid: string };
 }
 
-export const signalSeriesDeletedAction = ({ wsid }: { wsid?: string } = {}): ISignalSeriesDeletedAction => ({
+export const signalSeriesDeletedAction = ({
+  wsid,
+}: { wsid?: string } = {}): ISignalSeriesDeletedAction => ({
   type: SERIES_SIGNAL_DELETED,
-  payload: { wsid: wsid || '' },
+  payload: { wsid: wsid || "" },
 });
 
 export interface ISignalSeriesResolvedAction {
@@ -245,9 +341,11 @@ export interface ISignalSeriesResolvedAction {
   payload: { wsid: string };
 }
 
-export const signalSeriesResolvedAction = ({ wsid }: { wsid?: string } = {}): ISignalSeriesResolvedAction => ({
+export const signalSeriesResolvedAction = ({
+  wsid,
+}: { wsid?: string } = {}): ISignalSeriesResolvedAction => ({
   type: SERIES_SIGNAL_RESOLVED,
-  payload: { wsid: wsid || '' },
+  payload: { wsid: wsid || "" },
 });
 
 // //
