@@ -51,6 +51,14 @@ openapi-generator generate -g javascript -i fred-schema.yaml -o .
 openapi-generator generate -g typescript -i fred/fred-schema.yaml -o ./src/fred_ts_client
 ```
 
+### ChronosDB client
+
+In the ChronosDB git folder, https://github.com/mkuklik/chronosdb, run
+
+```
+openapi-generator generate -g typescript -i openapi/openapi.yaml -o ../tshub-react/src/chronos_ts_client/ --generate-alias-as-model
+```
+
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
 If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
