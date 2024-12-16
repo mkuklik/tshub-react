@@ -53,7 +53,7 @@ class Evaluator {
     }
   }
 
-  getRefs(): RefsType {
+  getRefs(): IRefs {
     return this.refs;
   }
 
