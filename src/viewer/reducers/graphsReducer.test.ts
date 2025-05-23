@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import * as R from "ramda";
 import { now } from "moment";
-import graphsReducer from "./graphsReducer";
+import graphsReducer from "./graphsReducer.ts.old";
 import {
   GRAPH_SAVE_NEW_GRAPH,
   GRAPH_SAVE_GRAPH_OBJECT,

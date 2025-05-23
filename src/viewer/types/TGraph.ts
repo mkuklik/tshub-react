@@ -1,12 +1,13 @@
-import {
+import type {
   PartialPeriodsMethod,
   ToLowerFrequencyMethod,
   ToHigherFrequencyMethod,
   MissingValueMethod,
   GraphFrequencyMethod,
+  GraphStatus,
 } from "../sagas/graph.constants";
-import { SeriesKind } from "../sagas/series.constants";
-import { IFreq, IDType } from "./Tcommon";
+import type { SeriesKind } from "../sagas/series.constants";
+import type { IFreq, IDType } from "./Tcommon";
 
 export type KindType = keyof typeof SeriesKind;
 export type LineType = "line" | "column" | "area";
@@ -16,7 +17,7 @@ export type ToLowerFrequencyMethodType = keyof typeof ToLowerFrequencyMethod;
 export type ToHigherFrequencyMethodType = keyof typeof ToHigherFrequencyMethod;
 export type MissingValueMethodType = keyof typeof MissingValueMethod;
 
-interface ISeriesDefinitionType {
+export interface ISeriesDefinitionType {
   wsid: string;
   // kind: KindType;
   // name: string;
@@ -34,17 +35,17 @@ interface ISeriesDefinitionType {
   type?: LineType;
   visible?: boolean;
   dashStyle?:
-    | "Solid"
-    | "ShortDash"
-    | "ShortDot"
-    | "ShortDashDot"
-    | "ShortDashDotDot"
-    | "Dot"
-    | "Dash"
-    | "LongDash"
-    | "DashDot"
-    | "LongDashDot"
-    | "LongDashDotDot";
+  | "Solid"
+  | "ShortDash"
+  | "ShortDot"
+  | "ShortDashDot"
+  | "ShortDashDotDot"
+  | "Dot"
+  | "Dash"
+  | "LongDash"
+  | "DashDot"
+  | "LongDashDot"
+  | "LongDashDotDot";
   linecap: "butt" | "round" | "square";
   lineWidth: number;
   color?: string;
@@ -128,7 +129,7 @@ interface IYAxisType {
 
 type IYAxisArrayType = IYAxisType[];
 
-interface IGraphDefinitionType {
+export interface IGraphDefinitionType {
   theme?: string;
   freq?: IFreq;
   realtime?: Date;
@@ -173,7 +174,7 @@ export const GraphPropNames: (keyof IGraphDefinitionType)[] = [
   "yAxis",
 ];
 
-interface IRefType {
+export interface IRefType {
   tsName?: string;
   collName?: string;
   spaceName?: string;
@@ -191,7 +192,7 @@ interface IRealtimeType {
   [key: string]: Date;
 }
 
-interface IResolvedSeriesType {
+export type IResolvedSeriesType {
   wsid?: string;
   vid?: string;
   realtime: IRealtimeType;
@@ -205,21 +206,23 @@ interface IResolvedSeriesType {
   status?: string;
 }
 
-type ITransformedSeriesType = IResolvedSeriesType;
-
-interface IOutputType {
-  // Add properties if needed
+export type ITransformedSeriesType = {
+  [wsid: string]: IResolvedSeriesType;
 }
 
-interface IErrorType {
+export type IOutputType = any;
+
+export type IErrorType = {
   wsid?: string; // series it it is referring to
   message?: string;
   stage?: string;
 }
 
-interface IGraphUIType {
+export type IGraphUIType {
   selected: string[]; // selected series
-  navigator?: boolean;
+  navigator?: boolean;  // ????
+  chartRef?: any; // Replace 'any' with the actual type of chart ref
+  export?: any; // Replace 'any' with the actual type of export options
 }
 
 export const GraphUIPropNames: (keyof IGraphUIType)[] = [
@@ -227,13 +230,14 @@ export const GraphUIPropNames: (keyof IGraphUIType)[] = [
   "navigator",
 ];
 
-interface IGraphType {
+export type IGraphType = {
   definition: IGraphDefinitionType;
-  ui?: IGraphUIType;
   determinedFreq?: IFreq;
   transformedSeries?: ITransformedSeriesType;
   output?: IOutputType;
+  status: GraphStatus;
   errors?: IErrorType[];
+  ui?: IGraphUIType;
 }
 
 export default IGraphType;

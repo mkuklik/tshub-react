@@ -1,67 +1,39 @@
-import moment from 'moment';
+import { create_tsD, create_tsD2, compare } from './timeseries-test-utils';
 import { TS } from './timeseries';
+import moment from 'moment';
 import {
   unary_minus, binary_times, binary_divide, binary_plus, binary_minus, 
   ln, log, abs, max, min
 } from './timeseries-math-functions';
 import { start, lag } from './timeseries-utils-functions';
 
-export function create_tsD() {
-  const data = [
-    [moment('2000-01-01'), 4.1],
-    [moment('2000-01-02'), 2.3],
-    [moment('2000-01-03'), 3.5],
-    [moment('2000-01-04'), 4.6],
-    [moment('2000-01-05'), NaN],
-    [moment('2000-01-06'), 10.2],
-  ];
-  return new TS(data, 'D', {}, 'int64', {}, { txt: '$' }, {}); // data, freq, fparams, dtype, dparams, units, options
-}
+describe('TS', () => {
+  describe('basic', () => {
+    it('should create a TS object', () => {
+      const ts = create_tsD();
+      expect(ts).toBeInstanceOf(TS);
+      expect(ts.data.length).toBe(6);
+    });
 
-export function create_tsD2() {
-  const data = [
-    [moment('2000-01-04'), 3.5],
-    [moment('2000-01-05'), 1.4],
-    [moment('2000-01-06'), 4.2],
-    [moment('2000-01-07'), 2.1],
-    [moment('2000-01-08'), 3.9],
-    [moment('2000-01-09'), -2.2],
-  ];
-  return new TS(data, 'D', {}, 'int64', {}, { txt: '$' }, {}); // data, freq, fparams, dtype, dparams, units, options
-}
+    it('should handle NaN values', () => {
+      const ts = create_tsD();
+      expect(ts.value(ts.data[4][0])).toBeNaN();
+    });
 
-export const compare = (expected, output) => {
-  if (expected instanceof TS) {
-    for (var x of expected.data) {
-      if (isNaN(x[1])) {
-        expect(output.value(x[0])).toBeNaN();
-      }
-      else {
-        expect(output.value(x[0])).toBeCloseTo(x[1]);
-      }
-    };
-  } else {
-    if (isNaN(expected)) expect(output).toBeNaN();
-    else expect(expected).toBeCloseTo(output);
-  }
-}
+    it('should compare values correctly', () => {
+      const ts = create_tsD();
+      const ts2 = create_tsD2();
+      compare(ts, ts);
+      compare(ts2, ts2);
+    });
 
-// test('values', () => {
-//   const x = create_tsD();
-//   expect(x.values()).toStrictEqual([4.1, 2.3, 3.5, 4.6, 5.7, 10.2]);
-// });
-
-// test('index', () => {
-//   const x = create_tsD();
-//   expect(x.index()).toStrictEqual([
-//     moment("2000-01-01"),
-//     moment("2000-01-02"),
-//     moment("2000-01-03"),
-//     moment("2000-01-04"),
-//     moment("2000-01-05"),
-//     moment("2000-01-06"),
-//   ]);
-// });
+    it('should get values correctly', () => {
+      const ts = create_tsD();
+      const values = ts.values();
+      expect(values).toEqual([4.1, 2.3, 3.5, 4.6, Number.NaN, 10.2]);
+    });
+  });
+});
 
 /*
       unary_minus
@@ -446,7 +418,7 @@ test('ln ts', () => {
   const data = [
     [moment('2000-01-01'), 1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ];
 
   const x = new TS(data, 'Q', {}, 'float', {}, {}, {});
@@ -454,7 +426,7 @@ test('ln ts', () => {
   const expected = new TS([
     [moment('2000-01-01'), 0.0],
     [moment('2000-04-01'), 0.6931471805599453],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ], 'Q', {}, 'float');
 
   const output = ln(x);
@@ -480,7 +452,7 @@ test('log ts', () => {
   const data = [
     [moment('2000-01-01'), 1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ];
 
   const x = new TS(data, 'Q', {}, 'float', {}, {}, {});
@@ -488,7 +460,7 @@ test('log ts', () => {
   const expected = new TS([
     [moment('2000-01-01'), 0.0],
     [moment('2000-04-01'), 0.566401],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ], 'Q', {}, 'float', {}, {}, {});
 
   const output = log(x, 3.4);
@@ -519,7 +491,7 @@ test('abs ts', () => {
   const data = [
     [moment('2000-01-01'), -1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ];
 
   const x = new TS(data, 'Q', {}, 'float', {}, {}, {});
@@ -527,7 +499,7 @@ test('abs ts', () => {
   const expected = new TS([
     [moment('2000-01-01'), 1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ], 'Q', {}, 'float', {}, {}, {});
 
   const output = abs(x);
@@ -539,7 +511,7 @@ test('max ts with NaN', () => {
   const data = [
     [moment('2000-01-01'), -1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ];
   const x = new TS(data, 'Q', {}, 'float', {}, {}, {});
 
@@ -564,11 +536,11 @@ test('min ts with NaN', () => {
   const data = [
     [moment('2000-01-01'), -1.0],
     [moment('2000-04-01'), 2.0],
-    [moment('2000-07-01'), NaN]
+    [moment('2000-07-01'), Number.NaN]
   ];
   const x = new TS(data, 'Q', {}, 'float', {}, {}, {});
 
-  const expected = NaN;
+  const expected = Number.NaN;
   const output = min(x);
   expect(output).toBeNaN();
   

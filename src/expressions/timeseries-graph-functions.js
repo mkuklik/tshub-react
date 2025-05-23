@@ -85,11 +85,11 @@ function _groupBySame(data) {
 }
 const _first = (data) => {
   if (data.length === 0) return data; // TODO maybe throw error
-  else return data[0];
+  return data[0];
 }
 const _last = (data) => {
   if (data.length === 0) return undefined; // TODO maybe throw error
-  else return data[data.length - 1];
+  return data[data.length - 1];
 }
 const _avg = (data) => {
   if (data.length === 0) return data;  // is this right, this shouldn't happen !!!
@@ -97,15 +97,15 @@ const _avg = (data) => {
 }
 const _flow = (data) => {
   if (data.length === 0) return undefined; // TODO maybe throw error
-  else return [data[0][0], R.sum(R.map((x) => x[1], data))];
+  return [data[0][0], R.sum(R.map((x) => x[1], data))];
 }
 const _max = (data) => {
   if (data.length === 0) return undefined; // TODO maybe throw error
-  else return [data[0][0], R.reduce(R.max, -Infinity, R.map((x) => x[1], data))];
+  return [data[0][0], R.reduce(R.max, Number.NEGATIVE_INFINITY, R.map((x) => x[1], data))];
 }
 const _min = (data) => {
   if (data.length === 0) return undefined; // TODO maybe throw error
-  else return [data[0][0], R.reduce(R.min, Infinity, R.map((x) => x[1], data))];
+  return [data[0][0], R.reduce(R.min, Number.POSITIVE_INFINITY, R.map((x) => x[1], data))];
 }
 // TODO
 // const _pc = (data) => {
@@ -213,7 +213,7 @@ const _pc = (i, data, expandFunc, units) => {
 
 const _linear = (i, data, expandFunc, units) => {
   const period = expandFunc(data[i][0]);
-  const alpha = (i >= data.length - 1) ? NaN : (data[i + 1][1] - data[i][1]) / period.length;
+  const alpha = (i >= data.length - 1) ? Number.NaN : (data[i + 1][1] - data[i][1]) / period.length;
   const beta = data[i][1];
   return period.map((p, j) => [p, alpha * j + beta]);
 }
@@ -307,20 +307,21 @@ export function toHigherFrequency(ts, freq, method = 'auto') {
 }
 
 
-export function missingValues({ ts, method = 'auto' } = {}) {
+export function toHigherFrequency(ts, freq, method = 'auto') {
   /*
-    This enumeration determines the method for filling in any missing values. Missing values is when a value is supposed to be there but is missing, in pandas it is NaN. This is different from missing period, which means that series is not available for periods, because it is before series starts or after series end
-    Methods:
-    - none
-      Do not fill in missing values. They will remain NaN in the value vector.
-    - auto
-      Determine the method based on the series classification.
-    - previous
-      Use the previous non-missing value.
-    - zero
-      Use the value zero.
-    - linear
-      Do a linear interpolation between the previous and next non-missing values.
+   converting a series to a higher frequency
+   Methods
+    - auto		Determine the method based on the series classification.
+    - same		Use the same value for the whole period.
+      constant for all points in the period
+    - dist (Distribute)	Use the first value of the time period.
+       split x into equal parts, e.g. 100 over 30 days is 3.33333 per day
+    - pc (PercentageChange)	Distribute the percentage change over the period.
+      0.1 (10%) distributed over 30 days is 1.1^(1/30)-1.0 = 0.0031820580257142517 per day
+    - LinearInterpolation	Use a linear interpolation of the values from this to the next period.
+    - first (Pulse)	Use the value for the first value of the period.
+    - QuadraticDistribution	Use quadratic interpolation to distribute the value over the period.
+    - CubicInterpolation	Use a cubic interpolation of the values from this to the next period.
   */
 
   throw Error('not implemented');

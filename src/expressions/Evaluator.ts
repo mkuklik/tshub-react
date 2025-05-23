@@ -9,8 +9,8 @@ import * as mathfuncs from "./timeseries-math-functions";
 import * as mathinternal from "./timeseries-math-internal";
 import * as utilfuncs from "./timeseries-utils-functions";
 import * as statsfuncs from "./timeseries-stats-functions";
-import { Expression } from "estree";
-import { Moment } from "moment";
+import type { Expression } from "estree";
+import type { Moment } from "moment";
 
 export interface IRef {
   source?: string;

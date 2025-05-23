@@ -123,7 +123,7 @@ export const defaultGraphDefinition = ({ title, subtitle, legend } = {}) => ({
   },
 });
 
-export const defaultResolvedSeries = (wsid) => ({
+export const defaultResolvedSeries: import('../types/TSeries').IResolvedSeries = (wsid: string) =>  ({
   wsid,
   vid: undefined,
   realtime: undefined,

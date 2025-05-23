@@ -13,7 +13,7 @@ import fred, { IFredState } from "../../viewer/reducers/fredReducer";
 import timeseriesReducer, {
   ITimeseriesState,
 } from "../../viewer/reducers/timeseriesReducer";
-import graphs, { IGraphState } from "../../viewer/reducers/graphsReducer";
+import graphs, { IGraphState } from "../../viewer/reducers/graphsReducer.ts.old";
 import series, { ISeriesState } from "../../viewer/reducers/seriesReducer";
 import obs, { IObservationsState } from "../../viewer/reducers/obsReducer";
 import table, { ITableState } from "../../viewer/reducers/tableReducer";

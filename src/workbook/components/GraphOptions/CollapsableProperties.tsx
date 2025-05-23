@@ -1,14 +1,19 @@
 import React from 'react';
-import types from 'prop-types';
 import {
   Icon, Collapse, Elevation, Card,
 } from '@blueprintjs/core';
 import styled from 'styled-components';
 
+interface CollapsablePropertiesProps {
+  title: string;
+  startOpen?: boolean;
+  children: React.ReactNode;
+}
+
 const Header = styled.div`
   width: 100%;
   height: 30px;
-  padding 5px;
+  padding: 5px;
   cursor: pointer;
 `;
 
@@ -32,18 +37,23 @@ const Container = styled.div`
 }
 `;
 
-class CollapsableProperties extends React.Component {
-  constructor(props) {
+class CollapsableProperties extends React.Component<CollapsablePropertiesProps> {
+  state: {
+    isOpen: boolean;
+  };
+
+  constructor(props: CollapsablePropertiesProps) {
+    super(props);
     this.state = {
       isOpen: props.startOpen || false,
     };
   }
 
-  handleClick = () => {
+  handleClick = (): void => {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
-  render() {
+  render(): React.ReactElement {
     return (
       <div>
         <Container>
@@ -65,10 +75,6 @@ class CollapsableProperties extends React.Component {
 
 CollapsableProperties.defaultProps = {
   startOpen: false,
-};
-
-CollapsableProperties.propTypes = {
-  startOpen: types.bool,
 };
 
 export default CollapsableProperties;

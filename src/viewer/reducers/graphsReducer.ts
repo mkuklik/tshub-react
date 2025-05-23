@@ -1,1322 +1,519 @@
-import * as R from "ramda";
-import { isMoment } from "moment";
-import {
-  GRAPH_SAVE_NEW_GRAPH,
-  GRAPH_SAVE_GRAPH_OBJECT,
-  GRAPH_SAVE_APPEND_SERIES,
-  GRAPH_SAVE_REMOVE_SERIES,
-  GRAPH_SAVE_CLEAR_SERIES,
-  GRAPH_SAVE_REORDER_SERIES,
-  GRAPH_ERRORS_ADD,
-  GRAPH_ERRORS_CLEAR,
-  GRAPH_UPDATE_STATUS, // main process
-  GRAPH_SAVE_DETERMINED_FREQ,
-  GRAPH_SAVE_TRANSFORMED_SERIES,
-  GRAPH_SAVE_TRANSFORMED_SERIES_BULK,
-  GRAPH_SAVE_OUTPUT,
-  GRAPH_SAVE_GRAPH_PROPS,
-  GRAPH_SAVE_SERIES_PROPS,
-  GRAPH_SAVE_UI_PROPS,
-  GRAPH_SAVE_REPLACE_SERIES,
-  GRAPH_SAVE_SELECT_SERIES,
-  GRAPH_SAVE_DESELECT_SERIES,
-  GRAPH_SAVE_RESTORE_REDUCER,
-  GRAPH_SAVE_CHART_REF,
-  GRAPH_SAVE_EXPORT_OPTIONS,
-  GRAPH_SAVE_CURRENT_GID,
-  GRAPH_SAVE_DELETE_OBJECT,
-  IGraphCreateAction,
-  ICloneGraphAction,
-  IRedrawGraphAction,
-  IUpdateGraphAction,
-  IUpdateGraphPropsAction,
-  IUpdateSeriesPropsAction,
-  IUpdateGraphUIPropsAction,
-  IUpdateGraphOutputAction,
-  IUpdateGraphStatusAction,
-  IFocusOnGraphAction,
-  ISaveCurrentGraphIdAction,
-  IAddRefSeriesToGraphAction,
-  IAddNamedSeriesToGraphAction,
-  IAddExprSeriesToGraphAction,
-  IAddDataSeriesToGraphAction,
-  IAddSeriesToGraphAction,
-  IAddSelectedTimeseriesToGraphAction,
-  IAddNewSeriesToClearGraphAction,
-  IReorderSeriesAction,
-  IRemoveSeriesAction,
-  IAppendSeriesDefAction,
-  IRemoveSeriesDefAction,
-  IClearSeriesAction,
-  IClearSeriesDefAction,
-  ISelectSeriesAction,
-  IDeselectSeriesAction,
-  IUpdateGraphTitleAction,
-  IUpdateGraphRealtimeAction,
-  IUpdateRangeAction,
-  IApplyUnaryFunctionAction,
-  IApplyBinaryFunctionAction,
-  IApplyBinaryOperatorAction,
-  IUpdateSeriesExprAction,
-  ICloneSeriesAction,
-  IExportGraphAction,
-  IDeleteGraphObjectAction,
-  ISaveNewGraphAction,
-  ISaveGraphObjectAction,
-  ISaveGraphFreqAction,
-  ISaveTransformedSeriesAction,
-  ISaveTransformedSeriesBulkAction,
-  ISaveGeneratedGraphAction,
-  ISaveReorderSeriesAction,
-  ISaveGraphPropsAction,
-  ISaveSeriesPropsAction,
-  ISaveGraphUIPropsAction,
-  ISaveGraphExportOptionsAction,
-  ISaveReplaceSeriesAction,
-  ISaveSelectSeriesAction,
-  ISaveDeselectSeriesAction,
-  IRestoreGraphReducer,
-  IGraphSaveChartRefAction,
-  ISaveDeleteGraphObjectAction,
-  IAddGraphErrorsAction,
-  IClearGraphErrorsAction,
-} from "../actions/graphActions";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as R from 'ramda'; // Ramda is used for pick, mergeDeepRight
+import { isMoment, Moment } from 'moment'; // Assuming Moment is used for date/time
 
+// Assuming these paths and the types they export are correct based on the original file
 import {
   defaultGraph,
   defaultGraphDefinition,
   defaultResolvedSeries,
-} from "../sagas/graph.defaults";
+} from '../sagas/graph.defaults'; // Helper functions to create default graph structures
 import {
   GraphPropNames,
   SeriesPropNames,
   GraphUIPropNames,
-} from "../types/Graph";
-import { GraphStatus } from "../sagas/graph.constants";
+} from '../types/Graph'; // Arrays of valid property names for picking
+import { GraphStatus } from '../sagas/graph.constants'; // Enum for graph statuses
 
-export interface Series {
-  wsid: string;
-  // Add other properties of series here
-}
+// Ensure these types are correctly defined and imported from your project's type definitions
+// For example, '../types/TGraph' was mentioned in the original file.
+import type {
+  // IGraphType, // This would be the primary type for a graph object from your definitions
+  ISeriesDefinitionType, // Type for the 'definition' field, expected to include 'series: ISeriesItem[]'
+  ISeriesItem, // Type for an individual series item within definition.series (e.g., { wsid: string, ... })
+  IResolvedSeriesData,
+  IGraphType, // Type for the data structure in transformedSeries (e.g., { data: number[], ... })
+} from '../types/TGraph'; // Adjust path as necessary
 
-// export interface IGraphDefinition {
-//   series: Series[];
-//   freq: string;
-//   title?: string;
-//   subtitle?: string;
-//   legend?: string;
-//   // Add other properties of graph definition here
+// // --- START: More specific type definitions (these should ideally come from your central type files) ---
+
+// // Interface for graph export options
+// interface GraphExportOptions {
+//   format?: string;
+//   width?: number;
+//   height?: number;
+//   [key: string]: any; // Allows for other dynamic export properties
 // }
 
-export interface ITransformedSeries {
-  [wsid: string]: any; // Replace 'any' with the actual type of transformed series data
-}
+// // Interface for the UI state of a graph
+// interface GraphUIType {
+//   selected: string[]; // Array of selected series workspace IDs (wsid)
+//   chartRef?: any; // Reference to the chart instance (consider a more specific type, e.g., React.RefObject<SomeChartType>)
+//   export: GraphExportOptions; // Export options for the graph
+//   [key: string]: any; // Allows for other dynamic UI properties
+// }
 
-export interface IGraphObject {
-  definition: any;
-  transformedSeries: ITransformedSeries;
-  determinedFreq?: string;
-  output?: any; // Replace 'any' with the actual type of graph output
-  status: GraphStatus;
-  errors: any[]; // Replace 'any' with the actual type of errors
-  ui: {
-    selected: string[];
-    chartRef?: any; // Replace 'any' with the actual type of chart ref
-    export: any; // Replace 'any' with the actual type of export options
-  };
-}
+// // This interface represents the complete structure of a single graph object stored in the state.
+// // It should align with your project's main graph type (e.g., IGraphType).
+// interface FullGraphObject {
+//   definition: ISeriesDefinitionType & { // Extends your base definition type
+//     series: ISeriesItem[]; // Explicitly ensure 'series' array is part of the definition
+//     freq?: string;
+//     title?: string;
+//     subtitle?: string;
+//     legend?: string;
+//     realtime?: Moment | string | number; // Supports Moment objects or serialized time
+//     [key: string]: any; // For other dynamic properties on the definition
+//   };
+//   transformedSeries: { [wsid: string]: IResolvedSeriesData }; // Map of wsid to transformed series data
+//   determinedFreq?: string; // Automatically determined frequency for the graph
+//   output?: any; // Output data of the graph (replace 'any' with a specific type)
+//   status: GraphStatus; // Current status of the graph (e.g., LOADING, READY, ERROR)
+//   errors: any[]; // Array of errors related to the graph (replace 'any' with a specific error object type)
+//   ui: GraphUIType; // UI-specific state for the graph
+// }
 
+// Interface for the entire graph slice state
 export interface IGraphState {
-  currentGraphId?: string;
-  // theme?: any; // Replace 'any' with the actual type of theme
+  currentGraphId?: string; // ID of the currently active/focused graph
   objects: {
-    // definitions: IGraphDefinition;
-    [gid: string]: IGraphObject;
+    [gid: string]: IGraphType; // A map of graph IDs (gid) to their respective graph objects
   };
 }
+// --- END: More specific type definitions ---
 
-const reorder = (data: Series[], wsid: string, pos: number): Series[] => {
-  let res: Series[] = [];
-  let i = 0;
-  const item = data.find((x) => x.wsid === wsid);
-
-  if (!item) {
-    return data; // or throw an error if the series is not found
-  }
-
-  for (let p = 0; p < data.length; p += 1) {
-    if (pos === p) {
-      res = [...res, item];
-    } else if (data[i].wsid === wsid) {
-      i += 1; // skip
-      res = [...res, data[i]];
-      i += 1;
-    } else {
-      res = [...res, data[i]];
-      i += 1;
-    }
-  }
-  return res;
-};
-
+// Initial state for the graph slice
 const initialState: IGraphState = {
   currentGraphId: undefined,
-  // theme: undefined,
-  // errors: [],
-  objects: {
-    // gid -> GraphObject
-  },
+  objects: {}, // Starts with no graph objects
 };
 
-// Define the union type for all graph actions
-type IGraphAction =
-  | IGraphCreateAction
-  | ICloneGraphAction
-  | IRedrawGraphAction
-  | IUpdateGraphAction
-  | IUpdateGraphPropsAction
-  | IUpdateSeriesPropsAction
-  | IUpdateGraphUIPropsAction
-  | IUpdateGraphOutputAction
-  | IUpdateGraphStatusAction
-  | IFocusOnGraphAction
-  | ISaveCurrentGraphIdAction
-  | IAddRefSeriesToGraphAction
-  | IAddNamedSeriesToGraphAction
-  | IAddExprSeriesToGraphAction
-  | IAddDataSeriesToGraphAction
-  | IAddSeriesToGraphAction
-  | IAddSelectedTimeseriesToGraphAction
-  | IAddNewSeriesToClearGraphAction
-  | IReorderSeriesAction
-  | IRemoveSeriesAction
-  | IAppendSeriesDefAction
-  | IRemoveSeriesDefAction
-  | IClearSeriesAction
-  | IClearSeriesDefAction
-  | ISelectSeriesAction
-  | IDeselectSeriesAction
-  | IUpdateGraphTitleAction
-  | IUpdateGraphRealtimeAction
-  | IUpdateRangeAction
-  | IApplyUnaryFunctionAction
-  | IApplyBinaryFunctionAction
-  | IApplyBinaryOperatorAction
-  | IUpdateSeriesExprAction
-  | ICloneSeriesAction
-  | IExportGraphAction
-  | IDeleteGraphObjectAction
-  | ISaveNewGraphAction
-  | ISaveGraphObjectAction
-  | ISaveGraphFreqAction
-  | ISaveTransformedSeriesAction
-  | ISaveTransformedSeriesBulkAction
-  | ISaveGeneratedGraphAction
-  | ISaveReorderSeriesAction
-  | ISaveGraphPropsAction
-  | ISaveSeriesPropsAction
-  | ISaveGraphUIPropsAction
-  | ISaveGraphExportOptionsAction
-  | ISaveReplaceSeriesAction
-  | ISaveSelectSeriesAction
-  | ISaveDeselectSeriesAction
-  | IRestoreGraphReducer
-  | IGraphSaveChartRefAction
-  | ISaveDeleteGraphObjectAction
-  | IAddGraphErrorsAction
-  | IClearGraphErrorsAction;
+// Utility function for reordering items within a series array.
+// Returns a new array with the item moved.
+const reorderSeriesInArray = (
+  seriesArray: ISeriesItem[],
+  wsidToMove: string,
+  newIndex: number
+): ISeriesItem[] => {
+  const currentIndex = seriesArray.findIndex((s) => s.wsid === wsidToMove);
 
-const graphs = (state = initialState, action: IGraphAction): IGraphState => {
-  switch (action.type) {
-    case GRAPH_SAVE_NEW_GRAPH: {
-      const { gid, freq, title, subtitle, legend } = action.payload;
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: {
-            ...defaultGraph(),
-            definition: {
-              ...defaultGraphDefinition({ title, subtitle, legend }),
-              freq,
-            },
-          },
-        },
-      };
-    }
-    case GRAPH_SAVE_GRAPH_OBJECT: {
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [action.payload.gid]: action.payload.object,
-        },
-      };
-    }
-
-    case GRAPH_SAVE_CURRENT_GID: {
-      const { gid } = action.payload;
-      return {
-        ...state,
-        currentGraphId: gid,
-      };
-    }
-    case GRAPH_SAVE_APPEND_SERIES: {
-      const { gid, series } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_APPEND_SERIES: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-
-      // TODO check if series already in definition
-      const graph = {
-        ...old,
-        definition: {
-          ...old.definition,
-          series: [...old.definition.series, series],
-        },
-        transformedSeries: {
-          ...old.transformedSeries,
-          [series.wsid]: defaultResolvedSeries(series.wsid),
-        },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-
-    case GRAPH_SAVE_REMOVE_SERIES: {
-      const { gid, wsid } = action.payload;
-      // const old = state.objects[gid] || { series: [] };
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_REMOVE_SERIES: graph object [${gid}] not found`);
-        return state;
-      }
-      const series = state.objects[gid].definition.series.filter(
-        (x: any) => x.wsid !== wsid
-      );
-      const transformedSeries = R.omit(
-        [wsid],
-        state.objects[gid].transformedSeries
-      );
-      // .filter((x) => x.wsid !== wsid);
-
-      const graph = {
-        ...state.objects[gid],
-        definition: {
-          ...state.objects[gid].definition,
-          series,
-        },
-        transformedSeries,
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-
-    case GRAPH_SAVE_REPLACE_SERIES: {
-      // eslint-disable-next-line camelcase
-      const { gid, wsid, to_wsid } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_REPLACE_SERIES: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-
-      const graph = {
-        ...old,
-        definition: {
-          ...old.definition,
-          series: R.map(
-            (s) => (s.wsid === wsid ? { ...s, wsid: to_wsid } : s),
-            old.definition.series
-          ),
-        },
-        transformedSeries: {
-          ...R.filter((s) => s.wsid !== wsid, old.transformedSeries),
-          [to_wsid]: defaultResolvedSeries(to_wsid),
-        },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-
-    case GRAPH_SAVE_GRAPH_PROPS: {
-      const { gid, props } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_GRAPH_PROPS: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-      const tmp = R.pick(GraphPropNames, props);
-      // merge nested properties
-      const newdef = R.mergeDeepRight(old.definition, tmp);
-      // deep merge strips realtime off the Moment class. therefore we set realtime
-      // to undefined.
-      if (isMoment(props.realtime)) {
-        newdef.realtime = props.realtime;
-      }
-
-      const graph = {
-        ...old,
-        definition: newdef,
-        // {
-        //   ...old.definition,
-        //   ...tmp,
-        // },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_UI_PROPS: {
-      const { gid, props } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_SAVE_UI_PROPS: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      const tmp = R.pick(GraphUIPropNames, props);
-      const graph = {
-        ...old,
-        ui: {
-          ...old.ui,
-          ...tmp,
-        },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-
-    case GRAPH_SAVE_SERIES_PROPS: {
-      const { gid, wsid, props } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_UPDATE_SERIES: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      const series = old.definition.series.map(
-        (x: any) =>
-          x.wsid !== wsid
-            ? x
-            : R.mergeDeepRight(x, R.pick(SeriesPropNames, props))
-        // {
-        //   ...x,
-        //   ...R.pick(SeriesPropNames, props),
-        // }
-      );
-
-      const graph = {
-        ...old,
-        definition: {
-          ...old.definition,
-          series,
-        },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_DETERMINED_FREQ: {
-      const { gid, freq } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_DETERMINED_FREQ: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-      const graph = {
-        ...old,
-        determinedFreq: freq,
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_TRANSFORMED_SERIES: {
-      const { gid, wsid, data } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_TRANSFORMED_SERIES: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-      const graph = {
-        ...old,
-        transformedSeries: {
-          ...old.transformedSeries,
-          [wsid]: data,
-        },
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_TRANSFORMED_SERIES_BULK: {
-      const { gid, transformedSeries } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_TRANSFORMED_SERIES_BULK: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-      const graph = {
-        ...old,
-        transformedSeries: {
-          ...transformedSeries,
-        },
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_OUTPUT: {
-      const { gid, output } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_UPDATE_OUTPUT: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      const graph = {
-        ...old,
-        output,
-        status: GraphStatus.READY,
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_UPDATE_STATUS: {
-      const { gid, status } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_UPDATE_STATUS: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      const graph = {
-        ...old,
-        status,
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_REORDER_SERIES: {
-      const { gid, wsid, pos } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_REORDER_SERIES: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const old = state.objects[gid];
-      const series = reorder(old.definition.series, wsid, pos);
-
-      const graph = {
-        ...state.objects[gid],
-        definition: {
-          ...state.objects[gid].definition,
-          series,
-        },
-      };
-
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_CLEAR_SERIES: {
-      const { gid } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_CLEAR_SERIES: graph object [${gid}] not found`);
-        return state;
-      }
-      const graph = {
-        ...state.objects[gid],
-        definition: {
-          ...state.objects[gid].definition,
-          series: [],
-        },
-        transformedSeries: {},
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_SELECT_SERIES: {
-      const { gid, wsid, clear } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_SELECT_SERIES: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const graph = {
-        ...state.objects[gid],
-        ui: {
-          ...state.objects[gid].ui,
-          selected:
-            clear || false ? [wsid] : [...state.objects[gid].ui.selected, wsid],
-        },
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_DESELECT_SERIES: {
-      const { gid, wsid } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_DESELECT_SERIES: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const graph = {
-        ...state.objects[gid],
-        ui: {
-          ...state.objects[gid].ui,
-          selected:
-            R.filter((x) => x !== wsid, state.objects[gid].ui.selected) || [],
-        },
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_ERRORS_ADD: {
-      const { gid, errors } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_ADD_ERRORS: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: {
-            ...old,
-            errors: [...old.errors, ...errors],
-          },
-        },
-      };
-    }
-    case GRAPH_ERRORS_CLEAR: {
-      const { gid } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(`GRAPH_CLEAR_ERRORS: graph object [${gid}] not found`);
-        return state;
-      }
-      const old = state.objects[gid];
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: {
-            ...old,
-            errors: [],
-          },
-        },
-      };
-    }
-    case GRAPH_SAVE_DELETE_OBJECT:
-      return {
-        ...state,
-        objects: R.omit([action.payload.gid], state.objects),
-      };
-
-    case GRAPH_SAVE_RESTORE_REDUCER:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case GRAPH_SAVE_EXPORT_OPTIONS: {
-      const { gid, opts } = action.payload;
-      if (!R.has(gid, state.objects)) {
-        console.error(
-          `GRAPH_SAVE_EXPORT_OPTIONS: graph object [${gid}] not found`
-        );
-        return state;
-      }
-      const graph = {
-        ...state.objects[gid],
-        ui: {
-          ...state.objects[gid].ui,
-          export: {
-            ...state.objects[gid].ui.export,
-            ...opts,
-          },
-        },
-      };
-      return {
-        ...state,
-        objects: {
-          ...state.objects,
-          [gid]: graph,
-        },
-      };
-    }
-    case GRAPH_SAVE_CHART_REF: {
-      const tmp = R.path(["objects", action.payload.gid, "ui"], state) as {
-        chartRef?: any;
-      };
-      if (!R.isNil(tmp)) tmp.chartRef = action.payload.ref;
-      return state;
-    }
-
-    default:
-      return state;
+  if (currentIndex === -1) {
+    console.error(`reorderSeriesInArray: Series with wsid [${wsidToMove}] not found.`);
+    return seriesArray; // Return original array if item not found
   }
+
+  // Clamp newIndex to be within valid bounds for splicing
+  const clampedNewIndex = Math.max(0, Math.min(newIndex, seriesArray.length -1));
+
+
+  const arrayCopy = [...seriesArray]; // Create a mutable copy
+  const [itemToMove] = arrayCopy.splice(currentIndex, 1); // Remove item from its current position
+  arrayCopy.splice(clampedNewIndex, 0, itemToMove); // Insert item at the new position
+
+  return arrayCopy;
 };
 
-export default graphs;
+// Create the graph slice using Redux Toolkit's createSlice
+const graphSlice = createSlice({
+  name: 'graphs', // Name of the slice, used to prefix action types (e.g., 'graphs/saveNewGraph')
+  initialState,   // The initial state defined above
+  reducers: {
+    // Action to save a newly created graph object
+    saveNewGraph(
+      state,
+      action: PayloadAction<{
+        gid: string;
+        freq: string;
+        title?: string;
+        subtitle?: string;
+        legend?: string;
+      }>
+    ) {
+      const { gid, freq, title, subtitle, legend } = action.payload;
+      // Uses defaultGraph and defaultGraphDefinition helpers from sagas/graph.defaults
+      // Casts are used to align with the FullGraphObject type; ensure your defaults are compatible.
+      state.objects[gid] = {
+        ...(defaultGraph() as FullGraphObject), // Spread default graph properties
+        definition: {
+          ...(defaultGraphDefinition({ title, subtitle, legend }) as FullGraphObject['definition']), // Spread default definition
+          series: [], // Ensure series is initialized as an empty array for new graphs
+          freq,       // Set the frequency
+        },
+        // Ensure other parts of FullGraphObject like transformedSeries, ui, errors are initialized by defaultGraph()
+      };
+    },
 
-// import * as R from 'ramda';
-// import { isMoment } from 'moment';
-// import {
-//   GRAPH_SAVE_NEW_GRAPH,
-//   GRAPH_SAVE_GRAPH_OBJECT,
-//   GRAPH_SAVE_APPEND_SERIES,
-//   GRAPH_SAVE_REMOVE_SERIES,
-//   GRAPH_SAVE_CLEAR_SERIES,
-//   GRAPH_SAVE_REORDER_SERIES,
-//   GRAPH_ERRORS_ADD,
-//   GRAPH_ERRORS_CLEAR,
-//   GRAPH_UPDATE_STATUS, // main process
-//   GRAPH_SAVE_DETERMINED_FREQ,
-//   GRAPH_SAVE_TRANSFORMED_SERIES,
-//   GRAPH_SAVE_TRANSFORMED_SERIES_BULK,
-//   GRAPH_SAVE_OUTPUT,
-//   GRAPH_SAVE_GRAPH_PROPS,
-//   GRAPH_SAVE_SERIES_PROPS,
-//   GRAPH_SAVE_UI_PROPS,
-//   GRAPH_SAVE_REPLACE_SERIES,
-//   GRAPH_SAVE_SELECT_SERIES,
-//   GRAPH_SAVE_DESELECT_SERIES,
-//   GRAPH_SAVE_RESTORE_REDUCER,
-//   GRAPH_SAVE_CHART_REF,
-//   GRAPH_SAVE_EXPORT_OPTIONS,
-//   GRAPH_SAVE_CURRENT_GID,
-//   GRAPH_SAVE_DELETE_OBJECT,
-// } from '../actions/graphActions';
+    // Action to save an entire graph object, typically used when loading a graph
+    saveGraphObject(state, action: PayloadAction<{ gid: string; object: FullGraphObject }>) {
+      state.objects[action.payload.gid] = action.payload.object;
+    },
 
-// import {
-//   defaultGraph,
-//   defaultGraphDefinition,
-//   defaultResolvedSeries,
-// } from '../sagas/graph.defaults';
-// import { GraphPropNames, SeriesPropNames, GraphUIPropNames } from '../types/Graph';
-// import { GraphStatus } from '../sagas/graph.constants';
+    // Action to set the current graph ID
+    saveCurrentGid(state, action: PayloadAction<{ gid: string | undefined }>) {
+      state.currentGraphId = action.payload.gid;
+    },
 
-// const reorder = (data, wsid, pos) => {
-//   let res = [];
-//   let i = 0;
-//   const item = data.find((x) => x.wsid === wsid);
+    // Action to append a new series to an existing graph's definition
+    appendSeries(state, action: PayloadAction<{ gid: string; series: ISeriesItem }>) {
+      const { gid, series } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        // Check if the series (by wsid) already exists to prevent duplicates
+        if (!graph.definition.series.find(s => s.wsid === series.wsid)) {
+            graph.definition.series.push(series);
+            // Initialize transformed data for the new series
+            graph.transformedSeries[series.wsid] = defaultResolvedSeries(series.wsid) as IResolvedSeriesData;
+        } else {
+            console.warn(`appendSeries: Series [${series.wsid}] already exists in graph [${gid}]. Not appending.`);
+        }
+      } else {
+        console.error(`appendSeries: Graph object [${gid}] not found.`);
+      }
+    },
 
-//   for (let p = 0; p < data.length; p += 1) {
-//     if (pos === p) {
-//       res = [...res, item];
-//     } else if (data[i].wsid === wsid) {
-//       i += 1; // skip
-//       res = [...res, data[i]];
-//       i += 1;
-//     } else {
-//       res = [...res, data[i]];
-//       i += 1;
-//     }
-//   }
-//   return res;
-// };
+    // Action to remove a series from a graph's definition and transformed data
+    removeSeries(state, action: PayloadAction<{ gid: string; wsid: string }>) {
+      const { gid, wsid } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.definition.series = graph.definition.series.filter(
+          (s) => s.wsid !== wsid
+        );
+        delete graph.transformedSeries[wsid]; // Remove from transformed series map
+      } else {
+        console.error(`removeSeries: Graph object [${gid}] not found.`);
+      }
+    },
 
-// const initialState = {
-//   currentGraphId: undefined,
-//   theme: undefined,
-//   errors: [],
-//   objects: {
-//     // gid -> GraphObject
-//   },
-// };
+    // Action to replace a series's wsid (e.g., if its underlying source changes)
+    replaceSeries(
+      state,
+      action: PayloadAction<{ gid: string; wsid: string; to_wsid: string }>
+    ) {
+      const { gid, wsid, to_wsid } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        // Update wsid in the definition.series array
+        graph.definition.series = graph.definition.series.map((s) =>
+          s.wsid === wsid ? { ...s, wsid: to_wsid } : s
+        );
+        // Move transformed data to the new wsid and delete the old one
+        if (wsid in graph.transformedSeries) {
+          graph.transformedSeries[to_wsid] = graph.transformedSeries[wsid];
+          delete graph.transformedSeries[wsid];
+        } else {
+          // If old wsid wasn't in transformedSeries, initialize for the new one
+          graph.transformedSeries[to_wsid] = defaultResolvedSeries(to_wsid) as IResolvedSeriesData;
+        }
+        // Also update wsid if it's in the selected series UI state
+        if (graph.ui.selected.includes(wsid)) {
+            graph.ui.selected = graph.ui.selected.map(selectedId => selectedId === wsid ? to_wsid : selectedId);
+        }
+      } else {
+        console.error(`replaceSeries: Graph object [${gid}] not found.`);
+      }
+    },
 
-// const graphs = (state = initialState, action) => {
-//   switch (action.type) {
-//     case GRAPH_SAVE_NEW_GRAPH:
-//     {
-//       const {
-//         gid, freq, title, subtitle, legend,
-//       } = action.payload;
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: {
-//             ...defaultGraph(),
-//             definition: {
-//               ...defaultGraphDefinition({ title, subtitle, legend }),
-//               freq,
-//             },
-//           },
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_GRAPH_OBJECT:
-//     {
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [action.payload.gid]: action.payload.object,
-//         },
-//       };
-//     }
+    // Action to save/update properties of the graph's definition
+    saveGraphProps(
+      state,
+      action: PayloadAction<{ gid: string; props: Partial<FullGraphObject['definition']> }>
+    ) {
+      const { gid, props } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        // Use Ramda to pick only valid properties defined in GraphPropNames
+        const validProps = R.pick(GraphPropNames, props) as Partial<FullGraphObject['definition']>;
+        // Deep merge the valid properties into the existing definition
+        graph.definition = R.mergeDeepRight(graph.definition, validProps);
+        // Special handling for Moment.js objects if mergeDeepRight strips their prototype
+        if (props.realtime && isMoment(props.realtime)) {
+          graph.definition.realtime = props.realtime;
+        }
+      } else {
+        console.error(`saveGraphProps: Graph object [${gid}] not found.`);
+      }
+    },
 
-//     case GRAPH_SAVE_CURRENT_GID: {
-//       const { gid } = action.payload;
-//       return {
-//         ...state,
-//         currentGraphId: gid,
-//       };
-//     }
-//     case GRAPH_SAVE_APPEND_SERIES:
-//     {
-//       const { gid, series } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_APPEND_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
+    // Action to save/update UI-specific properties of a graph
+    saveUiProps(
+      state,
+      action: PayloadAction<{ gid: string; props: Partial<GraphUIType> }>
+    ) {
+      const { gid, props } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+         // Ensure the ui object exists before trying to merge into it
+        if (!graph.ui) {
+            graph.ui = { selected: [], export: {} } as GraphUIType; // Initialize if not present
+        }
+        // Pick only valid UI properties and merge them
+        const validProps = R.pick(GraphUIPropNames, props) as Partial<GraphUIType>;
+        graph.ui = R.mergeDeepRight(graph.ui, validProps) as GraphUIType;
+      } else {
+        console.error(`saveUiProps: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       // TODO check if series already in definition
-//       const graph = {
-//         ...old,
-//         definition: {
-//           ...old.definition,
-//           series: [...old.definition.series, series],
-//         },
-//         transformedSeries: {
-//           ...old.transformedSeries,
-//           [series.wsid]: defaultResolvedSeries(series.wsid),
-//         },
-//       };
+    // Action to save/update properties of a specific series within a graph
+    saveSeriesProps(
+      state,
+      action: PayloadAction<{ gid: string; wsid: string; props: Partial<ISeriesItem> }>
+    ) {
+      const { gid, wsid, props } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        const seriesIndex = graph.definition.series.findIndex((s) => s.wsid === wsid);
+        if (seriesIndex !== -1) {
+          // Pick only valid series properties and merge them
+          const validProps = R.pick(SeriesPropNames, props) as Partial<ISeriesItem>;
+          graph.definition.series[seriesIndex] = R.mergeDeepRight(
+            graph.definition.series[seriesIndex],
+            validProps
+          ) as ISeriesItem;
+        } else {
+          console.warn(`saveSeriesProps: Series [${wsid}] not found in graph [${gid}].`);
+        }
+      } else {
+        console.error(`saveSeriesProps: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
+    // Action to save the determined frequency of a graph
+    saveDeterminedFreq(state, action: PayloadAction<{ gid: string; freq: string }>) {
+      const { gid, freq } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.determinedFreq = freq;
+      } else {
+        console.error(`saveDeterminedFreq: Graph object [${gid}] not found.`);
+      }
+    },
 
-//     case GRAPH_SAVE_REMOVE_SERIES:
-//     {
-//       const { gid, wsid } = action.payload;
-//       // const old = state.objects[gid] || { series: [] };
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_REMOVE_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const series = state.objects[gid].definition.series.filter((x) => x.wsid !== wsid);
-//       const transformedSeries = R.omit([wsid], state.objects[gid].transformedSeries);
-//       // .filter((x) => x.wsid !== wsid);
+    // Action to save transformed data for a single series
+    saveTransformedSeries(
+      state,
+      action: PayloadAction<{ gid: string; wsid: string; data: IResolvedSeriesData }>
+    ) {
+      const { gid, wsid, data } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.transformedSeries[wsid] = data;
+      } else {
+        console.error(`saveTransformedSeries: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       const graph = {
-//         ...state.objects[gid],
-//         definition: {
-//           ...state.objects[gid].definition,
-//           series,
-//         },
-//         transformedSeries,
-//       };
+    // Action to save transformed data for multiple series in bulk
+    saveTransformedSeriesBulk(
+      state,
+      action: PayloadAction<{ gid: string; transformedSeries: { [wsid: string]: IResolvedSeriesData } }>
+    ) {
+      const { gid, transformedSeries } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        // Overwrites existing transformedSeries for the graph with the new bulk data
+        // or merges if you prefer: graph.transformedSeries = {...graph.transformedSeries, ...transformedSeries};
+        graph.transformedSeries = transformedSeries;
+      } else {
+        console.error(`saveTransformedSeriesBulk: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
+    // Action to save the output of a graph and set its status to READY
+    saveOutput(state, action: PayloadAction<{ gid: string; output: any }>) { // Replace 'any' with specific output type
+      const { gid, output } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.output = output;
+        graph.status = GraphStatus.READY;
+      } else {
+        console.error(`saveOutput: Graph object [${gid}] not found.`);
+      }
+    },
 
-//     case GRAPH_SAVE_REPLACE_SERIES:
-//     {
-//       // eslint-disable-next-line camelcase
-//       const { gid, wsid, to_wsid } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_REPLACE_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
+    // Action to update the status of a graph
+    updateStatus(state, action: PayloadAction<{ gid: string; status: GraphStatus }>) {
+      const { gid, status } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        console.log("updateStatus (RTK):", gid, status); // Kept original log for debugging
+        graph.status = status;
+      } else {
+        console.error(`updateStatus: Graph object [${gid}] not found (attempted status: ${status}).`);
+      }
+    },
 
-//       const graph = {
-//         ...old,
-//         definition: {
-//           ...old.definition,
-//           series: R.map((s) => (
-//             (s.wsid === wsid) ? { ...s, wsid: to_wsid } : s), old.definition.series),
-//         },
-//         transformedSeries: {
-//           ...R.filter((s) => (s.wsid !== wsid), old.transformedSeries),
-//           [to_wsid]: defaultResolvedSeries(to_wsid),
-//         },
-//       };
+    // Action to reorder a series within a graph's definition
+    saveReorderedSeries(
+      state,
+      action: PayloadAction<{ gid: string; wsid: string; pos: number }> // pos is the new index
+    ) {
+      const { gid, wsid, pos } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.definition.series = reorderSeriesInArray(graph.definition.series, wsid, pos);
+      } else {
+        console.error(`saveReorderedSeries: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
+    // Action to clear all series data from a graph (definition and transformed)
+    // Renamed from GRAPH_SAVE_CLEAR_SERIES for clarity
+    clearGraphSeriesData(state, action: PayloadAction<{ gid: string }>) {
+      const { gid } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.definition.series = [];
+        graph.transformedSeries = {};
+        // Optionally reset other related fields:
+        // graph.output = undefined;
+        // graph.determinedFreq = undefined;
+        // graph.status = GraphStatus.INITIAL; // Or an appropriate default status
+        // graph.ui.selected = [];
+      } else {
+        console.error(`clearGraphSeriesData: Graph object [${gid}] not found.`);
+      }
+    },
 
-//     case GRAPH_SAVE_GRAPH_PROPS: {
-//       const { gid, props } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_GRAPH_PROPS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const tmp = R.pick(GraphPropNames, props);
-//       // merge nested properties
-//       const newdef = R.mergeDeepRight(old.definition, tmp);
-//       // deep merge strips realtime off the Moment class. therefore we set realtime
-//       // to undefined.
-//       if (isMoment(props.realtime)) {
-//         newdef.realtime = props.realtime;
-//       }
+    // Action to select a series in a graph's UI
+    selectSeries(
+      state,
+      action: PayloadAction<{ gid: string; wsid: string; clearExisting?: boolean }> // clearExisting instead of clear
+    ) {
+      const { gid, wsid, clearExisting } = action.payload;
+      const graph = state.objects[gid];
+      if (graph && graph.ui) {
+        if (clearExisting) {
+          graph.ui.selected = [wsid];
+        } else {
+          // Add to selection if not already present
+          if (!graph.ui.selected.includes(wsid)) {
+            graph.ui.selected.push(wsid);
+          }
+        }
+      } else {
+        console.error(`selectSeries: Graph object [${gid}] or its UI not found.`);
+      }
+    },
 
-//       const graph = {
-//         ...old,
-//         definition: newdef,
-//         // {
-//         //   ...old.definition,
-//         //   ...tmp,
-//         // },
-//       };
+    // Action to deselect a series in a graph's UI
+    deselectSeries(state, action: PayloadAction<{ gid: string; wsid: string }>) {
+      const { gid, wsid } = action.payload;
+      const graph = state.objects[gid];
+      if (graph && graph.ui) {
+        graph.ui.selected = graph.ui.selected.filter((id) => id !== wsid);
+      } else {
+        console.error(`deselectSeries: Graph object [${gid}] or its UI not found.`);
+      }
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_UI_PROPS: {
-//       const { gid, props } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_UI_PROPS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const tmp = R.pick(GraphUIPropNames, props);
-//       const graph = {
-//         ...old,
-//         ui: {
-//           ...old.ui,
-//           ...tmp,
-//         },
-//       };
+    // Action to add errors to a graph's error list
+    addGraphErrors(state, action: PayloadAction<{ gid: string; errors: any[] }>) { // Replace 'any[]' with specific error type array
+      const { gid, errors } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        if (!graph.errors) graph.errors = []; // Ensure errors array exists
+        graph.errors.push(...errors);
+      } else {
+        console.error(`addGraphErrors: Graph object [${gid}] not found.`);
+      }
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
+    // Action to clear all errors from a graph
+    clearGraphErrors(state, action: PayloadAction<{ gid: string }>) {
+      const { gid } = action.payload;
+      const graph = state.objects[gid];
+      if (graph) {
+        graph.errors = [];
+      } else {
+        console.error(`clearGraphErrors: Graph object [${gid}] not found.`);
+      }
+    },
 
-//     case GRAPH_SAVE_SERIES_PROPS: {
-//       const { gid, wsid, props } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_UPDATE_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const series = old.definition.series.map((x) => ((x.wsid !== wsid)
-//         ? x
-//         : R.mergeDeepRight(x, R.pick(SeriesPropNames, props))
-//         // {
-//         //   ...x,
-//         //   ...R.pick(SeriesPropNames, props),
-//         // }
-//       ));
+    // Action to delete an entire graph object from the state
+    deleteGraphObject(state, action: PayloadAction<{ gid: string }>) {
+      const { gid } = action.payload;
+      if (gid in state.objects) {
+        delete state.objects[gid];
+        // If the deleted graph was the current one, clear currentGraphId
+        if (state.currentGraphId === gid) {
+          state.currentGraphId = undefined;
+        }
+      } else {
+         console.warn(`deleteGraphObject: Graph object [${gid}] was not found for deletion.`);
+      }
+    },
 
-//       const graph = {
-//         ...old,
-//         definition: {
-//           ...old.definition,
-//           series,
-//         },
-//       };
+    // Action to restore the entire graph slice state (e.g., from persisted state)
+    // Renamed from GRAPH_SAVE_RESTORE_REDUCER for clarity
+    restoreGraphsState(state, action: PayloadAction<IGraphState>) {
+      // This replaces the entire slice state. Use with caution.
+      // The structure of action.payload must exactly match IGraphState.
+      // Immer allows returning a new state directly for complete replacement.
+      return action.payload;
+    },
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_DETERMINED_FREQ:
-//     {
-//       const { gid, freq } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_DETERMINED_FREQ: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const graph = {
-//         ...old,
-//         determinedFreq: freq,
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_TRANSFORMED_SERIES:
-//     {
-//       const { gid, wsid, data } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_TRANSFORMED_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const graph = {
-//         ...old,
-//         transformedSeries: {
-//           ...old.transformedSeries,
-//           [wsid]: data,
-//         },
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_TRANSFORMED_SERIES_BULK:
-//     {
-//       const { gid, transformedSeries } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_TRANSFORMED_SERIES_BULK: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const graph = {
-//         ...old,
-//         transformedSeries: {
-//           ...transformedSeries,
-//         },
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_OUTPUT:
-//     {
-//       const { gid, output } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_UPDATE_OUTPUT: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const graph = {
-//         ...old,
-//         output,
-//         status: GraphStatus.READY,
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_UPDATE_STATUS:
-//     {
-//       const { gid, status } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_UPDATE_STATUS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const graph = {
-//         ...old,
-//         status,
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_REORDER_SERIES:
-//     {
-//       const { gid, wsid, pos } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_REORDER_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       const series = reorder(old.definition.series, wsid, pos);
+    // Action to save/update export options for a graph
+    saveGraphExportOptions(
+      state,
+      action: PayloadAction<{ gid: string; opts: Partial<GraphExportOptions> }>
+    ) {
+      const { gid, opts } = action.payload;
+      const graph = state.objects[gid];
+      if (graph && graph.ui) {
+        // Ensure ui.export object exists before merging
+        if (!graph.ui.export) {
+          graph.ui.export = {}; // Initialize if not present
+        }
+        graph.ui.export = { ...graph.ui.export, ...opts };
+      } else {
+        console.error(`saveGraphExportOptions: Graph object [${gid}] or its UI not found.`);
+      }
+    },
 
-//       const graph = {
-//         ...state.objects[gid],
-//         definition: {
-//           ...state.objects[gid].definition,
-//           series,
-//         },
-//       };
+    // Action to save a reference to the chart instance (e.g., for imperative API calls)
+    saveChartRef(state, action: PayloadAction<{ gid: string; ref: any }>) { // Replace 'any' with specific chart ref type
+      const { gid, ref } = action.payload;
+      const graph = state.objects[gid];
+      if (graph && graph.ui) {
+        graph.ui.chartRef = ref;
+      } else {
+        if (!graph) {
+          console.warn(`saveChartRef: Graph object [${gid}] not found. Chart ref not saved.`);
+        } else { // graph exists, but graph.ui might not be fully initialized
+          console.warn(`saveChartRef: UI object not found or incomplete for graph [${gid}]. Chart ref not saved to ui.chartRef.`);
+          // If graph.ui might not exist, you might want to initialize it here:
+          // if (!graph.ui) graph.ui = { selected: [], export: {} } as GraphUIType;
+          // graph.ui.chartRef = ref;
+        }
+      }
+    },
+  },
+  // extraReducers can be used to handle actions defined outside this slice,
+  // or for createAsyncThunk lifecycle actions. Not used in this direct refactor.
+  // extraReducers: (builder) => {
+  //   builder.addCase(...);
+  // }
+});
 
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_CLEAR_SERIES:
-//     {
-//       const { gid } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_CLEAR_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const graph = {
-//         ...state.objects[gid],
-//         definition: {
-//           ...state.objects[gid].definition,
-//           series: [],
-//         },
-//         transformedSeries: {},
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_SELECT_SERIES:
-//     {
-//       const { gid, wsid, clear } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_SELECT_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const graph = {
-//         ...state.objects[gid],
-//         ui: {
-//           ...state.objects[gid].ui,
-//           selected: (clear || false) ? [wsid] : [...state.objects[gid].ui.selected, wsid],
-//         },
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_DESELECT_SERIES:
-//     {
-//       const { gid, wsid } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_DESELECT_SERIES: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const graph = {
-//         ...state.objects[gid],
-//         ui: {
-//           ...state.objects[gid].ui,
-//           selected: R.filter((x) => x !== wsid, state.objects[gid].ui.selected) || [],
-//         },
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_ERRORS_ADD:
-//     {
-//       const { gid, errors } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_ADD_ERRORS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: {
-//             ...old,
-//             errors: [...old.errors, ...errors],
-//           },
-//         },
-//       };
-//     }
-//     case GRAPH_ERRORS_CLEAR:
-//     {
-//       const { gid } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_CLEAR_ERRORS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const old = state.objects[gid];
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: {
-//             ...old,
-//             errors: [],
-//           },
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_DELETE_OBJECT:
-//       return {
-//         ...state,
-//         objects: R.omit([action.payload.gid], state.objects),
-//       };
+// Export the auto-generated action creators from the slice
+export const {
+  saveNewGraph,
+  saveGraphObject,
+  saveCurrentGid,
+  appendSeries,
+  removeSeries,
+  replaceSeries,
+  saveGraphProps,
+  saveUiProps,
+  saveSeriesProps,
+  saveDeterminedFreq,
+  saveTransformedSeries,
+  saveTransformedSeriesBulk,
+  saveOutput,
+  updateStatus,
+  saveReorderedSeries,
+  clearGraphSeriesData, // Renamed from original for clarity
+  selectSeries,
+  deselectSeries,
+  addGraphErrors,
+  clearGraphErrors,
+  deleteGraphObject,
+  restoreGraphsState, // Renamed from original for clarity
+  saveGraphExportOptions,
+  saveChartRef,
+} = graphSlice.actions;
 
-//     case GRAPH_SAVE_RESTORE_REDUCER:
-//       return {
-//         ...state,
-//         ...action.payload,
-//       };
-//     case GRAPH_SAVE_EXPORT_OPTIONS:
-//     {
-//       const { gid, opts } = action.payload;
-//       if (!R.has(gid, state.objects)) {
-//         console.error(`GRAPH_SAVE_EXPORT_OPTIONS: graph object [${gid}] not found`);
-//         return state;
-//       }
-//       const graph = {
-//         ...state.objects[gid],
-//         ui: {
-//           ...state.objects[gid].ui,
-//           export: {
-//             ...state.objects[gid].ui.export,
-//             ...opts,
-//           },
-//         },
-//       };
-//       return {
-//         ...state,
-//         objects: {
-//           ...state.objects,
-//           [gid]: graph,
-//         },
-//       };
-//     }
-//     case GRAPH_SAVE_CHART_REF:
-//     {
-//       const tmp = R.path(['objects', action.payload.gid, 'ui'], state);
-//       if (!R.isNil(tmp)) tmp.chartRef = action.payload.ref;
-//       return state;
-//     }
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export default graphs;
+// Export the reducer function itself to be added to the root reducer
+export default graphSlice.reducer;

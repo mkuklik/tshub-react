@@ -1,13 +1,13 @@
 import { select, put } from "redux-saga/effects";
 import { seriesSelector } from "../selectors/series";
-import { SeriesKind } from "./series.constants";
+import { SeriesKind, TSeriesKind } from "./series.constants";
 import resolveExpr from "./series.resolveExpr";
-import {
+import type {
   saveResolvedSeriesAction,
   IResolveSeriesAction,
 } from "../actions/seriesActions";
 import { SeriesState } from "../../types"; // Import the SeriesState type or define it here
-import { IResolvedSeries, ISeries } from "../types/TSeries";
+import type { IResolvedSeries, ISeries } from "../types/TSeries";
 
 function* resolve(action: IResolveSeriesAction): IResolvedSeries | undefined {
   // Type the generator's return

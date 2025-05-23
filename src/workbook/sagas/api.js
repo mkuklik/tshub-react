@@ -19,6 +19,16 @@ import {
   RawUploadApi,
   // UserApi,
 } from "../../client";
+import {
+  createConfiguration as createChronosConfiguration,
+  RawSpaceApi as ChronosRawSpaceApi,
+  RawCollectionApi as ChronosRawCollectionApi,
+  RawAnnotationsApi as ChronosRawAnnotationsApi,
+  RawTimeSeriesApi as ChronosRawTimeSeriesApi,
+  RawTimeSeriesDataApi as ChronosRawTimeSeriesDataApi,
+  RawVintageApi as ChronosRawVintageApi,
+
+} from "../../chronos_ts_client";
 import { API_SET_PARAMETERS } from "../../viewer/actions/ActionTypes";
 import { saveApiParametersAction } from "../../viewer/actions/index";
 import WseriesApi from "../../analytics_client/api/WseriesApi";
@@ -31,6 +41,7 @@ import {
   CategoryApi as FredCategoryApi,
   SeriesApi as FredSeriesApi,
   createConfiguration as createFredConfiguration,
+  ServerConfiguration,
 } from "../../fred_ts_client";
 
 export function* setParameters({
@@ -96,6 +107,11 @@ export function* setParameters({
   // axios.defaults.withCredentials = true;
   // axios.defaults.crossDomain = true;
 
+  // const chronosConfig = createChronosConfiguration();
+  // const cronos_client = new ChronosApiClient();
+  // cronos_client.basePath = chronos_address.replace(/\/+$/, "");
+  // cronos_client.authentications.jwt.accessToken = jwt;
+
   // eslint - disable - next - line no - underscore - dangle
   window._chronosdb = {
     wid,
@@ -117,7 +133,10 @@ export function* setParameters({
   };
 
   // const fredClient = new FredApiClient();
-  const fredConfig = createFredConfiguration();
+  const fredConfig = createFredConfiguration({
+    // baseServer: new ServerConfiguration("https://api.stlouisfed.org", {}),
+    baseServer: new ServerConfiguration("http://localhost:8081/proxy", {}),
+  });
   // eslint-disable-next-line no-underscore-dangle
   window._fred = {
     // client: fredClient,

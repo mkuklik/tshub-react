@@ -28,8 +28,9 @@ import updateTable from './table.updateTable';
 
 
 function* update(action) {
-  const { gid, wsid } = action;
-  let { stage } = action;
+  console.log("graph.update", action);
+  const { gid, wsid } = action.payload;
+  let { stage } = action.payload;
   let status = GraphStatus.UPDATING;
 
   yield put(updateGraphStatusAction({ gid, status }));
@@ -123,6 +124,7 @@ function* update(action) {
 
   status = GraphStatus.READY;
 
+  console.log("graph.update end updateGraphStatusAction", gid, status);
   yield put(updateGraphStatusAction({ gid, status }));
 }
 

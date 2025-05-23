@@ -23,7 +23,7 @@ enum IDType {
   DISCRETE = "discrete",
 }
 
-export { SizeType, IFreq, IDType };
+export type { SizeType, IFreq, IDType, IError };
 
 // import types from 'prop-types';
 

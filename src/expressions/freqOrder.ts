@@ -1,4 +1,4 @@
-import { IFreq } from "../viewer/types/Tcommon";
+import type { IFreq } from "../viewer/types/Tcommon";
 
 // Create a type alias for the keys of the enum
 export type IFreqKeys = keyof typeof IFreq;

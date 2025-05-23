@@ -4,7 +4,7 @@ import evaluate from './evaluate';
 import { TS } from './timeseries';
 import * as ts from './timeseries';
 import * as mathfuncs from './timeseries-math-functions';
-import { create_tsD, create_tsD2 } from './timeseries.test';
+import { create_tsD, create_tsD2 } from './timeseries-test-utils';
 
 const expr1 = "$gdp + $ts_name.coll_name.space_name + $ts_name.coll_name({start: '2019-01-01', realtime: Date('2020-01-01')}) + $gdp({start: index($gdp).first})";
 

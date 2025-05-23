@@ -43,7 +43,7 @@ export function* addNamedSeries(action, doUpdate) {
 export function* addExprSeries(action, doUpdate) {
   let {
     gid, name, expr, realtime,
-  } = action;
+  } = action.payload;
 
   if (isNil(name)) name = expr;
   const wsid = yield createExprSeries({ expr, name, realtime });
@@ -54,7 +54,7 @@ export function* addExprSeries(action, doUpdate) {
 export function* addDataSeries(action, doUpdate) {
   let {
     gid, name, freq, fparam, dtype, dparam, units, data, realtime,
-  } = action;
+  } = action.payload;
 
   if (isNil(name)) name = 'unnamed';
   const wsid = yield createDataSeries({

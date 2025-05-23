@@ -40,6 +40,7 @@
     "@jest/globals": "^29.7.0",
     "@jest/transform": "^29.7.0",
     "@r-wasm/webr": "^0.2.0",
+    "@reduxjs/toolkit": "^2.7.0",
     "@sentry/react": "^8.40.0",
     "@tensorflow/tfjs": "^4.22.0",
     "@types/estree": "^1.0.6",

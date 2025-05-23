@@ -14,6 +14,28 @@ export interface IObservationData {
 
 export interface IObservationsState {
   [tsid: string]: {
+    // TO REVIEW
+    'tsid'?: string;
+    'collId'?: string;
+    /**
+    * time series unique name in a collection
+    */
+    'name'?: string;
+    /**
+    * number of observations
+    */
+    'nobs'?: number;
+    'index'?: Array<number>;
+    'values'?: Array<any>;
+    'status'?: Array<number | null> | null;
+    'indexFormat'?: RawIndexFormat;
+    'dtype'?: DType;
+    'dparams'?: any;
+    'itype'?: IType;
+    'freq'?: Frequency;
+    'fparams'?: any;
+    'vintage'?: RawSingleTimeSeriesDataVintage | null;
+
     [vid: string]: IObservationData;
   };
 }

@@ -1,17 +1,17 @@
 import { TS } from "../../expressions/timeseries";
 import { IErrorsState } from "../reducers/errorsReducer";
-import {
+import type {
   SeriesStatus,
   TSeriesKind,
   TSeriesStatus,
 } from "../sagas/series.constants";
-import { IFreq, IDType } from "./Tcommon";
-import { Moment } from "moment";
+import type { IFreq, IDType, IError } from "./Tcommon";
+import type { Moment } from "moment";
 // It's best to be more specific than 'object' if possible.
 // If you know the structure of 'realtime', replace 'any' with
 // the correct type.
 
-interface ISeries {
+export interface ISeries {
   wsid: string;
   kind: TSeriesKind;
   name: string;
@@ -72,5 +72,3 @@ export interface IResolvedSeries extends ISeries {
     kind: SeriesKind.data,
   };
   */
-
-export { ISeries };

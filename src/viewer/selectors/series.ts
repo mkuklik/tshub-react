@@ -1,19 +1,19 @@
 import { path } from "ramda";
 import { SeriesKind, TSeriesKind } from "../sagas/series.constants";
-import { IRootState } from "../../workbook/reducers/index";
-import { ISeriesState } from "../reducers/seriesReducer";
-import { ISeries, IResolvedSeries } from "../types/TSeries";
-import { IFreq } from "../types/Tcommon";
+import type { IRootState } from "../../workbook/reducers/index";
+import type { ISeriesState } from "../reducers/seriesReducer";
+import type { ISeries, IResolvedSeries } from "../types/TSeries";
+import type { IFreq } from "../types/Tcommon";
 
 export const seriesStoreSelector = (state: IRootState): ISeriesState =>
   state.series;
 
 export const seriesSelector =
   (wsid: string) =>
-  (state: IRootState): { [wsid: string]: ISeries } =>
+  (state: IRootState): ISeries =>
     state.series.definition[wsid];
 
-export const seriesDefListSelector = (state: IRootState): SeriesDefinition =>
+export const seriesDefListSelector = (state: IRootState):  { [wsid: string]: ISeries }  =>
   state.series.definition;
 
 export const resolvedSeriesListSelector = (

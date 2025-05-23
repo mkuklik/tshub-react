@@ -200,15 +200,15 @@ export const updateSeriesAction = ({
 
 export interface IResolveSeriesAction {
   type: typeof SERIES_RESOLVE;
-  payload: { wsid: string; realtime: Moment };
+  payload: { wsid: string; realtime?: Moment };
 }
 
 export const resolveSeriesAction = ({
   wsid,
   realtime,
-}: { wsid: string; realtime?: Moment } = {}): IResolveSeriesAction => ({
+}: { wsid: string; realtime?: Moment }): IResolveSeriesAction => ({
   type: SERIES_RESOLVE,
-  payload: { wsid, realtime: realtime },
+  payload: { wsid, realtime },
 });
 
 //
